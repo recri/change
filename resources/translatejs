@@ -1,0 +1,217 @@
+#!/usr/bin/tclsh
+# translate an xml format document into a tcl list
+# taken from http://wiki.tcl.tk/3919 by Richard Suchenwirth
+proc xml2list xml {
+    regsub -all {>\s*<} [string trim $xml " \n\t<>"] "\} \{" xml
+    set xml [string map {> "\} \{#text \{" < "\}\} \{"}  $xml]
+	
+    set res ""   ;# string to collect the result   
+    set stack {} ;# track open tags
+    set rest {}
+    
+    foreach item "{$xml}" {
+	switch -regexp -- $item {
+	    ^# {
+		append res "{[lrange $item 0 end]} " ; #text item
+	    }
+	    ^/ {
+		regexp {/(.+)} $item -> tagname ;# end tag
+		set expected [lindex $stack end]
+		if {$tagname!=$expected} {error "$item != $expected"}
+		set stack [lrange $stack 0 end-1]
+		append res "\}\} "
+	    }
+	    /$ { # singleton - start and end in one <> group
+		regexp {([^ ]+)( (.+))?/$} $item -> tagname - rest
+		set rest [lrange [string map {= " "} $rest] 0 end]
+		append res "{$tagname [list $rest] {}} "
+	    }
+	    ^!-- { # comment
+	    }
+	    default {
+		set tagname [lindex $item 0] ;# start tag
+		set rest [lrange [string map {= " "} $item] 1 end]
+		lappend stack $tagname
+		append res "\{$tagname [list $rest] \{"
+	    }
+	}
+	if {[llength $rest]%2} {error "att's not paired: $rest"}
+    }
+    if [llength $stack] {error "unresolved: $stack"}
+    string map {"\} \}" "\}\}"} [lindex $res 0]
+}
+proc read-file {file} {
+    set fp [open $file r]
+    set data [read $fp]
+    close $fp
+    set data
+}
+set changes [xml2list [string trim [read-file changes.xml]]]
+proc get-text {doc} {
+    set text {}
+    foreach item $doc {
+	foreach {tag attrs body} $item {
+	    switch -glob $tag {
+		?text {
+		    set lines $attrs
+		    set lines [regsub -all "\n" $lines " "]
+		    set lines [regsub -all "  +" $lines " "]
+		    append text " [string trim $lines]"
+		    continue
+		}
+		br {
+		    set text [string trim $text]\n
+		    continue
+		}
+		* {
+		    error "$tag in get-text"
+		}
+	    }
+	}
+    }
+    return [string trim $text]
+}
+proc get-text-and-tags {doc tags} {
+    set text {}
+    array set content {}
+    foreach item $doc {
+	foreach {tag attrs body} $item {
+	    switch -glob $tag {
+		?text {
+		    set lines $attrs
+		    set lines [regsub -all "\n" $lines " "]
+		    set lines [regsub -all "  +" $lines " "]
+		    append text " [string trim $lines]"
+		    continue
+		}
+		br {
+		    set text [string trim $text]\n
+		    continue
+		}
+		* {
+		    if {$tag in $tags} {
+			set content($tag) [get-text $body]
+			continue
+		    }
+		    error "$tag in get-text-and-tags $tags"
+		}
+	    }
+	}
+    }
+    set result [list [string trim $text]]
+    lappend result {*}[array get content]
+    return $result
+}
+proc get-line {n gov doc} {
+    return [list line-$n {*}[get-text-and-tags $doc {comment}] rules $gov]
+}
+
+proc traverse {indent doc} {
+    foreach {tag attrs body} $doc { 
+	switch $tag {
+	    changes {
+		set changes {}
+		foreach item $body { lappend changes [traverse "  $indent" $item] }
+		return $changes
+	    }
+	    change {
+		set change {}
+		foreach item $body { lappend change {*}[traverse "  $indent" $item] }
+		return $change
+	    }
+	    number -
+	    character -
+	    comment -
+	    lines {
+		# there is a #text body with the hexagram number
+		# there is a #text body with the character in utf-8
+		# there is a #text body, this is the comment on the change
+		# there is one #text in the body with the lines [6789]+
+		return [list $tag [get-text $body]]
+	    }
+	    name -
+	    above -
+	    below {
+		# there is a #text body with and possibly a comment
+		return [list $tag {*}[get-text-and-tags $body {comment interpretation}]]
+	    }
+	    image -
+	    judgment {
+		# there is a body with #text and br and possibly a comment
+		return [list $tag [get-text-and-tags $body {comment}]]
+	    }
+	    line {
+		# there is an n=? attribute,
+		# optionally a governing_ruler=? attribute
+		# there is a body with #text and br and possibly a comment
+		set myattrs(governing_ruler) false
+		array set myattrs $attrs
+		return [get-line $myattrs(n) $myattrs(governing_ruler) $body]
+	    }
+	    default {
+		error "$indent$tag $attrs"
+		foreach item $body {
+		    traverse "  $indent" $item
+		}
+	    }
+	}
+    }
+}
+
+set nchanges [traverse {} $changes]
+
+puts "var changes = \["
+foreach c $nchanges {
+    # puts --------\n$c\n--------
+    set pname {}
+    set nname {}
+    set lname {}
+    puts "  {"
+    foreach {name value} $c {
+	switch -glob $name {
+	    {interpretation} {
+		if {$pname in {name above below}} {
+		    # keep lookaside table of interpretations
+		    puts "    \"$pname-interpretation\" : \"$value\","
+		} else {
+		    error "unexpected predecessor of interpretation $pname"
+		}
+	    }
+	    {judgment} - {image} {
+		if {[llength $value] == 3 && [lindex $value 1] == "comment"} {
+		    set nname $name-comment
+		    set nvalue [lindex $value 2]
+		    set value [lindex $value 0]
+		    puts "    \"$name\" : \"$value\","
+		    puts "    \"$nname\" : \"$nvalue\","
+		} else {
+		    puts "    \"$name\" : \"$value\","
+		}
+	    }
+	    {line-?} {
+		set lname $name
+		puts "    \"$name\" : \"$value\","
+	    }
+	    {rules} {
+		if {$value eq "true"} {
+		    puts "    \"$lname-$name\" : \"$value\","
+		}
+	    }
+	    {comment} {
+		if {$pname ni {interpretation {}}} {
+		    puts "    \"$pname-$name\" : \"$value\","
+		} else {
+		    puts "    \"$name\" : \"$value\","
+		}
+	    }
+	    * {
+		puts "    \"$name\" : \"$value\","
+	    }
+	}
+	set pname $name
+	set pvalue $value
+    }
+    puts "  },"
+}
+puts "]"
+

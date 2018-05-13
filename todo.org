@@ -1,0 +1,37 @@
+* changes.elf.org
+** progessive web app of the I Ching
+** url a string of two digit octal numbers from 00 to 77 (0 to 63 decimal)
+   each two digit octal number corresponding to one of the 64 hexagrams
+** display the text of the I Ching for each hexagram
+   and the changing lines for each transition
+   and hot link the commentary, 
+*** The url splits into hexagrams
+    and the differences between adjacent hexagrams encode moving lines.
+    Hence split into a list of hexagrams and insert the moving lines
+    into the list.
+    The hexagrams become hexagram cards identified by octal numbers
+    from 0 to 77, and the xor of the adjacent hexagrams has ones for
+    moving lines and zeroes for stationary lines.
+    The moving lines become interpolated change lines identified by
+    the preceding hexagram and a power of two for the moving line.
+    There is the bonus moving line where all lines are moving.
+*** The hexagram property of the content card indexes a database
+    of content which may be the Wilhelm/Baynes text or something else.
+*** <change-hexagram content="[0-7][0-7]">
+*** <change-line content="[0-7][0-7]
+    So the content is simply a sequence of {hex, {line}*}* 
+** controls
+*** cast -> append a new hexagram to the url
+*** undo -> remove the last hexagram from the url
+*** redo -> restore the last hexagram to the url
+*** over -> start over
+** animation
+*** cast is two steps, 
+    the time between initiation and completion
+    seeds the random number generator 
+    which selects the lines of the cast
+*** or the cast requires a commit to select each line
+* rewrite the text without gender stereotypes
+  the better person, the dependent, ...
+  the dog owner and the dog
+  surface the original wilhem-baynes translation.
