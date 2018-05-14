@@ -97,7 +97,15 @@ MersenneTwister.prototype.init_genrand = function(s) {
       /* for >32 bit machines */
   }
 }
- 
+
+/* reseed with given seed or current time */
+MersenneTwister.prototype.reseed = function(seed) {
+  if (seed == undefined) {
+      seed = new Date().getTime(); // current time in milliseconds
+  } 
+  this.init_genrand(seed);
+}
+
 /* initialize by an array with array-length */
 /* init_key is the array for initializing keys */
 /* key_length is its length */

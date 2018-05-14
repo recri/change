@@ -19,7 +19,7 @@ import { UPDATE_PAGE, UPDATE_OFFLINE,
 	 CHANGE_SAVE, CHANGE_RESTORE, CHANGE_SETTINGS, CHANGE_ABOUT
        } from '../actions/app.js';
 
-import { Change } from '../components/change.js';
+import { Change } from '../code/change.js';
 
 const app = (state = {drawerOpened: false, change: ''}, action) => {
     switch (action.type) {
