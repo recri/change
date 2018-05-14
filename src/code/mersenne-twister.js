@@ -66,9 +66,6 @@
 */
 
 var MersenneTwister = function(seed) {
-  if (seed == undefined) {
-    seed = new Date().getTime();
-  } 
   /* Period parameters */  
   this.N = 624;
   this.M = 397;
@@ -79,7 +76,7 @@ var MersenneTwister = function(seed) {
   this.mt = new Array(this.N); /* the array for the state vector */
   this.mti=this.N+1; /* mti==N+1 means mt[N] is not initialized */
 
-  this.init_genrand(seed);
+  this.reseed(seed);
 }  
  
 /* initializes mt[N] with a seed */
