@@ -1,7 +1,7 @@
 {
-  "name": "My App",
-  "short_name": "My App",
-  "description": "My App description",
+  "name": "Change",
+  "short_name": "Change",
+  "description": "The Book of Change",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#3f51b5",

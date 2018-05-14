@@ -8,49 +8,45 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+/**
+There are too many of these, I think, or maybe not.
+Does each change of page view require an action?
+I cannot see where these are getting generated in the code.
+*/
 import { UPDATE_PAGE, UPDATE_OFFLINE,
          OPEN_SNACKBAR, CLOSE_SNACKBAR, UPDATE_DRAWER_STATE,
-	 CHANGE_CAST, CHANGE_RECAST, CHANGE_RESTART, CHANGE_SAVE, CHANGE_RESTORE,
-	 CHANGE_SETTINGS, CHANGE_ABOUT
+	 CHANGE_CAST, CHANGE_LINK, CHANGE_UNDO, CHANGE_CLEAR, CHANGE_UPDATE, 
+	 CHANGE_SAVE, CHANGE_RESTORE, CHANGE_SETTINGS, CHANGE_ABOUT
        } from '../actions/app.js';
 
-const change_extend = (change) => {
-    if (change.length() === 0) {
-	// create initial change
-    } else {
-	// extend current change
-    }
-}
+import { Change } from '../components/change.js';
 
-const app = (state = {drawerOpened: false}, action) => {
+const app = (state = {drawerOpened: false, change: ''}, action) => {
     switch (action.type) {
     case CHANGE_CAST:
 	return {
 	    ...state,
-	    change: change_extend(state.change)
+	    change: Change.cast(state.change)
 	};
-    case CHANGE_RECAST:
-	switch (state.change.length()) {
-	case 0:
-	    return {
-		...state,
-		change: change_extend(state.change)
-	    };
-	case 4:
-	    return {
-		...state,
-		change: change_extend('')
-	    };
-	default:
-	    return {
-		...state,
-		change: change_extend(state.change.slice(0, -2))
-	    };
-	}
-    case CHANGE_RESTART:
+    case CHANGE_LINK:
 	return {
 	    ...state,
-	    change: change_extend('')
+	    change: Change.link(state.change)
+	};
+    case CHANGE_UNDO:
+	return {
+	    ...state,
+	    change: Change.undo(state.change)
+	};
+    case CHANGE_CLEAR:
+	return {
+	    ...state,
+	    change: Change.clear(state.change)
+	};
+    case CHANGE_UPDATE:
+	return {
+	    ...state,
+	    change: Change.update(action.change)
 	};
     case CHANGE_SAVE:
 	return {
@@ -60,7 +56,7 @@ const app = (state = {drawerOpened: false}, action) => {
     case CHANGE_RESTORE:
 	return {
 	    ...state,
-	    saved: true
+	    restored: true
 	};
 	
     case UPDATE_PAGE:

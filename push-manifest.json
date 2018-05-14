@@ -1,24 +1,10 @@
 {
   "/": {
-    "src/components/my-app.js": {
+    "src/components/change-app.js": {
       "type": "script",
       "weight": 1
     },
-    "src/components/my-view1.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
-      "type": "script",
-      "weight": 1
-    }
-  },
-  "/view1": {
-    "src/components/my-app.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "src/components/my-view1.js": {
+    "src/components/change-view.js": {
       "type": "script",
       "weight": 1
     },
@@ -27,12 +13,12 @@
       "weight": 1
     }
   },
-  "/view2": {
-    "src/components/my-app.js": {
+  "/settings": {
+    "src/components/change-app.js": {
       "type": "script",
       "weight": 1
     },
-    "src/components/my-view2.js": {
+    "src/components/change-settings.js": {
       "type": "script",
       "weight": 1
     },
@@ -41,12 +27,12 @@
       "weight": 1
     }
   },
-  "/view3": {
-    "src/components/my-app.js": {
+  "/save": {
+    "src/components/change-app.js": {
       "type": "script",
       "weight": 1
     },
-    "src/components/my-view3.js": {
+    "src/components/change-settings.js": {
       "type": "script",
       "weight": 1
     },
@@ -54,5 +40,33 @@
       "type": "script",
       "weight": 1
     }
-  }
+  },
+  "/restore": {
+    "src/components/change-app.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "src/components/change-restore.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
+      "type": "script",
+      "weight": 1
+    }
+  },
+  "/about": {
+    "src/components/change-app.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "src/components/change-about.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
+      "type": "script",
+      "weight": 1
+    }
+  }    
 }

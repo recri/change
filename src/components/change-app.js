@@ -26,10 +26,11 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
-import { navigate, updateOffline, updateDrawerState, updateLayout } from '../actions/app.js';
+import { navigate, updateOffline, updateDrawerState, updateLayout,
+         changeCast, changeLink, changeUndo, changeClear } from '../actions/app.js';
 
 class ChangeApp extends connect(store)(LitElement) {
-  _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
+    _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline, _change}) {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -177,35 +178,37 @@ class ChangeApp extends connect(store)(LitElement) {
 
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
-        <a selected?="${_page === 'cast'}" href="/cast">Cast</a>
-        <a selected?="${_page === 'recast'}" href="/recast">Recast</a>
-        <a selected?="${_page === 'restart'}" href="/restart">Restart</a>
+        <a selected?="${_page === 'view'}" href="/view">View</a>
         <a selected?="${_page === 'save'}" href="/save">Save</a>
         <a selected?="${_page === 'restore'}" href="/restore">Restore</a>
         <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
-      </nav>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeCast())}">Cast</button>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Link</button>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeClear())}">Clear</button>
+     </nav>
     </app-header>
 
     <!-- Drawer content -->
     <app-drawer opened="${_drawerOpened}"
         on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
-        <a selected?="${_page === 'cast'}" href="/cast">Cast</a>
-        <a selected?="${_page === 'recast'}" href="/recast">Recast</a>
-        <a selected?="${_page === 'restart'}" href="/restart">Restart</a>
+        <a selected?="${_page === 'view'}" href="/view">View</a>
         <a selected?="${_page === 'save'}" href="/save">Save</a>
         <a selected?="${_page === 'restore'}" href="/restore">Restore</a>
         <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeCast())}">Cast</button>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Link</button>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeClear())}">Clear</button>
       </nav>
     </app-drawer>
 
     <!-- Main content -->
     <main class="main-content">
-      <change-cast class="page" active?="${_page === 'cast'}"></change-cast>
-      <change-recast class="page" active?="${_page === 'recast'}"></change-recast>
-      <change-restart class="page" active?="${_page === 'restart'}"></change-restart>
+      <change-view class="page" active?="${_page === 'view'}" change="${_change}"></change-view>
       <change-save class="page" active?="${_page === 'save'}"></change-save>
       <change-restore class="page" active?="${_page === 'restore'}"></change-restore>
       <change-settings class="page" active?="${_page === 'settings'}"></change-settings>
@@ -228,7 +231,8 @@ class ChangeApp extends connect(store)(LitElement) {
       _page: String,
       _drawerOpened: Boolean,
       _snackbarOpened: Boolean,
-      _offline: Boolean
+      _offline: Boolean,
+      _change: String
     }
   }
 
@@ -262,6 +266,7 @@ class ChangeApp extends connect(store)(LitElement) {
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;
     this._drawerOpened = state.app.drawerOpened;
+    this._change = state.app.change;
   }
 }
 
