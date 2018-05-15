@@ -105,28 +105,14 @@ export const updateDrawerState = (opened) => (dispatch, getState) => {
   }
 }
 
-export const changeCast = () => (dispatch) => {
-    dispatch({ type: CHANGE_CAST });
-    // dispatch(updatePage('view'));
+export const changeCasting = (t,c) => (dispatch) => {
+    dispatch({ type: t, change: c});
     dispatch(updateDrawerState(false));
 }
-export const changeLink = () => (dispatch) => {
-    dispatch({ type: CHANGE_LINK });
-    // dispatch(updatePage('view'));
-    dispatch(updateDrawerState(false));
-}
-export const changeUndo = () => (dispatch) => {
-    dispatch({ type: CHANGE_UNDO });
-    // dispatch(updatePage('view'));
-    dispatch(updateDrawerState(false));
-}
-export const changeClear = () => (dispatch) => {
-    dispatch({ type: CHANGE_CLEAR });
-    // dispatch(updatePage('view'));
-    dispatch(updateDrawerState(false));
-}
-export const changeUpdate = (str) => (dispatch) => {
-    dispatch({ type: CHANGE_UPDATE, change: str });
-    // dispatch(updatePage('view'));
-    // dispatch(updateDrawerState(false));
-}
+
+export const changeCast = () => (dispatch) => dispatch(changeCasting(CHANGE_CAST));
+export const changeLink = () => (dispatch) => dispatch(changeCasting(CHANGE_LINK));
+export const changeUndo = () => (dispatch) => dispatch(changeCasting(CHANGE_UNDO));
+export const changeClear = () => (dispatch) => dispatch(changeCasting(CHANGE_CLEAR));
+export const changeUpdate = (str) => (dispatch) => dispatch(changeCasting(CHANGE_UPDATE, str));
+
