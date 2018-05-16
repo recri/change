@@ -1,8 +1,11 @@
 <changes>
   <change>
     <number>1</number>
+    <lines>777777</lines>
     <character>乾</character>
+    <hexagram>䷀</hexagram>
     <name>Ch'ien<interpretation>The Creative</interpretation></name>
+    <pinyin>qián</pinyin>
     <above>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></above>
     <below>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></below>
     <comment>
@@ -222,12 +225,14 @@ their heads are hidden. This means that mildness in action joined to strength
 of decision brings good fortune.
       </comment>
     </line>
-    <lines>777777</lines>
   </change>
   <change>
     <number>2</number>
+    <lines>888888</lines>
     <character>坤</character>
+    <hexagram>䷁</hexagram>
     <name>K'un<interpretation>The Receptive</interpretation></name>
+    <pinyin>kūn</pinyin>
     <above>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></above>
     <below>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></below>
     <comment>
@@ -429,12 +434,14 @@ gains the power of enduring. There is indeed no advance, but neither is there
 retrogression.
       </comment>
     </line>
-    <lines>888888</lines>
   </change>
   <change>
     <number>3</number>
+    <lines>788878</lines>
     <character>屯</character>
+    <hexagram>䷂</hexagram>
     <name>Chun<interpretation>Difficulty at the Beginning</interpretation></name>
+    <pinyin>zhūn</pinyin>
     <above>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></above>
     <below>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></below>
     <comment>
@@ -585,12 +592,14 @@ struggle. Such resignation is the saddest of all things. Therefore Confucius
 says of this line: "Bloody tears flow: one should not persist in this."
       </comment>
     </line>
-    <lines>788878</lines>
   </change>
   <change>
     <number>4</number>
+    <lines>878887</lines>
     <character>蒙</character>
+    <hexagram>䷂</hexagram>
     <name>Mêng<interpretation>Youthful Folly</interpretation></name>
+    <pinyin>méng</pinyin>
     <above>KêN<interpretation>KEEPING STILL, MOUNTAIN </interpretation></above>
     <below>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></below>
     <comment>
@@ -736,12 +745,14 @@ Governmental interference should always be merely preventive and should
 have as its sole aim the establishment of public security and peace.
       </comment>
     </line>
-    <lines>878887</lines>
   </change>
   <change>
     <number>5</number>
+    <lines>777878</lines>
     <character>需</character>
+    <hexagram>䷄</hexagram>
     <name>Hsü<interpretation>Waiting (Nourishment)</interpretation></name>
+    <pinyin>xū</pinyin>
     <above>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></above>
     <below>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></below>
     <comment>
@@ -878,12 +889,14 @@ ultimately escapes the danger, and all goes well. Even happy turns of fortune
 often come in a form that at first seems strange to us.
       </comment>
     </line>
-    <lines>777878</lines>
   </change>
   <change>
     <number>6</number>
+    <lines>878777</lines>
     <character>訟</character>
+    <hexagram>䷅</hexagram>
     <name>Sung<interpretation>Conflict</interpretation></name>
+    <pinyin>sòng</pinyin>
     <above>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></above>
     <below>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></below>
     <comment>
@@ -1020,12 +1033,14 @@ triumphed. He is granted a decoration, but his happiness does not last.  He is
 attacked again and again, and the result is conflict without end.
       </comment>
     </line>
-    <lines>878777</lines>
   </change>
   <change>
     <number>7</number>
+    <lines>878888</lines>
     <character>師</character>
+    <hexagram>䷆</hexagram>
     <name>Shih<interpretation>The Army</interpretation></name>
+    <pinyin>shī</pinyin>
     <above>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></above>
     <below>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></below>
     <comment>
@@ -1167,12 +1182,14 @@ money, but they should not be awarded lands or the privileges of rulers, lest
 power be abused.
       </comment>
     </line>
-    <lines>878888</lines>
   </change>
   <change>
     <number>8</number>
+    <lines>888878</lines>
     <character>比</character>
+    <hexagram>䷇</hexagram>
     <name>Pi<interpretation>Holding Together [union]</interpretation></name>
+    <pinyin>bǐ</pinyin>
     <above>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></above>
     <below>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></below>
     <comment>
@@ -1327,12 +1344,14 @@ hesitating to give complete and full devotion, we shall regret the error when
 it is too late.
       </comment>
     </line>
-    <lines>888878</lines>
   </change>
   <change>
     <number>9</number>
+    <lines>777877</lines>
     <character>小畜</character>
+    <hexagram>䷈</hexagram>
     <name>Hsiao Ch'u<interpretation>The Taming Power of the Small</interpretation></name>
+    <pinyin>xiǎo chù</pinyin>
     <above>SUN<interpretation>THE GENTLE, WIND</interpretation></above>
     <below>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></below>
     <comment>
@@ -1468,12 +1487,14 @@ been achieved. To advance any further, before the appropriate time has
 come, would lead to misfortune.
       </comment>
     </line>
-    <lines>777877</lines>
   </change>
   <change>
     <number>10</number>
+    <lines>778777</lines>
     <character>履</character>
+    <hexagram>䷉</hexagram>
     <name>Lü<interpretation>Treading [conduct]</interpretation></name>
+    <pinyin>lǚ</pinyin>
     <above>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></above>
     <below>TUI<interpretation>THE JOYOUS, LAKE</interpretation></below>
     <comment>
@@ -1610,12 +1631,14 @@ consequences of his actions, by the fruit of his labors, that a man can judge
 what he is to expect.
       </comment>
     </line>
-    <lines>778777</lines>
   </change>
   <change>
     <number>11</number>
+    <lines>777888</lines>
     <character>泰</character>
+    <hexagram>䷊</hexagram>
     <name>T'ai<interpretation>Peace</interpretation></name>
+    <pinyin>tài</pinyin>
     <above>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></above>
     <below>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></below>
     <comment>
@@ -1767,12 +1790,14 @@ persevere in trying to resist the evil in the usual way, our collapse would only
 be more complete, and humiliation would be the result.
       </comment>
     </line>
-    <lines>777888</lines>
   </change>
   <change>
     <number>12</number>
+    <lines>888777</lines>
     <character>否</character>
+    <hexagram>䷋</hexagram>
     <name>P'i<interpretation>Standstill [Stagnation]</interpretation></name>
+    <pinyin>pǐ</pinyin>
     <above>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></above>
     <below>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></below>
     <comment>
@@ -1909,12 +1934,14 @@ in order to end it. This shows the creative attitude that man must take if the
 world is to be put in order.
       </comment>
     </line>
-    <lines>888777</lines>
   </change>
   <change>
     <number>13</number>
+    <lines>787777</lines>
     <character>同人</character>
+    <hexagram>䷌</hexagram>
     <name>T'ung Jên<interpretation>Fellowship with Men</interpretation></name>
+    <pinyin>tóng rén</pinyin>
     <above>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></above>
     <below>LI<interpretation>THE CLINGING, FLAME</interpretation></below>
     <comment>
@@ -2047,12 +2074,14 @@ mankind has not yet been attained, but we need not reproach ourselves. We
 join the community without separate aims of our own.
       </comment>
     </line>
-    <lines>787777</lines>
   </change>
   <change>
     <number>14</number>
+    <lines>777787</lines>
     <character>大有</character>
+    <hexagram>䷍</hexagram>
     <name>Ta Yu<interpretation>Possession in Great Measure</interpretation></name>
+    <pinyin>dà yǒu</pinyin>
     <above>LI<interpretation>THE CLINGING, FLAME</interpretation></above>
     <below>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></below>
     <comment>
@@ -2171,12 +2200,14 @@ furthermore reveres the worthy, is blessed by heaven. He has good fortune,
 and there is nothing that would not further.
       </comment>
     </line>
-    <lines>777787</lines>
   </change>
   <change>
     <number>15</number>
+    <lines>887888</lines>
     <character>謙</character>
+    <hexagram>䷎</hexagram>
     <name>Ch'ien<interpretation>Modesty</interpretation></name>
+    <pinyin>qiān</pinyin>
     <above>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></above>
     <below>KEN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></below>
     <comment>
@@ -2315,12 +2346,14 @@ circle. Only through having the courage to marshal one's armies against
 oneself, will something forceful really be achieved.
       </comment>
     </line>
-    <lines>887888</lines>
   </change>
   <change>
     <number>16</number>
+    <lines>888788</lines>
     <character>豫</character>
+    <hexagram>䷏</hexagram>
     <name>Yü<interpretation>Enthusiasm</interpretation></name>
+    <pinyin>yù</pinyin>
     <above>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></above>
     <below>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></below>
     <comment>
@@ -2487,12 +2520,14 @@ freed of error. A sober awakening from false enthusiasm is quite possible and
 very favorable.
       </comment>
     </line>
-    <lines>888788</lines>
   </change>
   <change>
     <number>17</number>
+    <lines>788778</lines>
     <character>隨</character>
+    <hexagram>䷐</hexagram>
     <name>Sui<interpretation>Following</interpretation></name>
+    <pinyin>suí</pinyin>
     <above>TUI<interpretation>THE JOYOUS, LAKE</interpretation></above>
     <below>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></below>
     <comment>
@@ -2628,12 +2663,14 @@ place in the royal family's temple of ancestors on the Western Mountain. In
 this way they were regarded as sharing in the destiny of the ruling family.
       </comment>
     </line>
-    <lines>788778</lines>
   </change>
   <change>
     <number>18</number>
+    <lines>877887</lines>
     <character>蠱</character>
+    <hexagram>䷑</hexagram>
     <name>Ku<interpretation>Work on what has been spoiled [ Decay ]</interpretation></name>
+    <pinyin>gǔ</pinyin>
     <above>Kên<interpretation>KEEPING STILL, MOUNTAIN</interpretation></above>
     <below>Sun<interpretation>THE GENTLE, WIND</interpretation></below>
     <comment>
@@ -2758,12 +2795,14 @@ distant from the turmoil of daily life, he creates incomparable human values
 for the future.
       </comment>
     </line>
-    <lines>877887</lines>
   </change>
   <change>
     <number>19</number>
+    <lines>778888</lines>
     <character>臨</character>
+    <hexagram>䷒</hexagram>
     <name>Lin<interpretation>Approach</interpretation></name>
+    <pinyin>lín</pinyin>
     <above>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></above>
     <below>TUI<interpretation>THE JOYOUS, LAKE</interpretation></below>
     <comment>
@@ -2891,12 +2930,14 @@ good fortune for the men whom he teaches and helps. And for him this great
 hearted humbling of himself is blameless.
       </comment>
     </line>
-    <lines>778888</lines>
   </change>
   <change>
     <number>20</number>
+    <lines>888877</lines>
     <character>觀</character>
+    <hexagram>䷓</hexagram>
     <name>Kuan<interpretation>Contemplation (View)</interpretation></name>
+    <pinyin>guān</pinyin>
     <above>SUN<interpretation>THE GENTLE, WIND</interpretation></above>
     <below>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></below>
     <comment>
@@ -3045,12 +3086,14 @@ Liberated from his ego, he contemplates the laws of life and so realizes that
 knowing how to become free of blame is the highest good.
       </comment>
     </line>
-    <lines>888877</lines>
   </change>
   <change>
     <number>21</number>
+    <lines>788787</lines>
     <character>噬嗑</character>
+    <hexagram>䷔</hexagram>
     <name>Shih Ho<interpretation>Biting Through</interpretation></name>
+    <pinyin>shì kè</pinyin>
     <above>LI<interpretation>THE CLINGING, FIRE</interpretation></above>
     <below>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></below>
     <comment>
@@ -3187,12 +3230,14 @@ punishment is the wooden cangue, and his ears disappear under it-that is to
 say, he is deaf to warnings. This obstinacy leads to misfortune.
       </comment>
     </line>
-    <lines>788787</lines>
   </change>
   <change>
     <number>22</number>
+    <lines>787887</lines>
     <character>賁</character>
+    <hexagram>䷕</hexagram>
     <name>Pi<interpretation>Grace</interpretation></name>
+    <pinyin>bì</pinyin>
     <above>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></above>
     <below>LI<interpretation>THE CLINGING, FIRE</interpretation></below>
     <comment>
@@ -3309,12 +3354,14 @@ consists not in exterior ornamentation of the substance, but in the simple
 fitness of its form.
       </comment>
     </line>
-    <lines>787887</lines>
   </change>
   <change>
     <number>23</number>
+    <lines>888887</lines>
     <character>剝</character>
+    <hexagram>䷖</hexagram>
     <name>Po<interpretation>Splitting Apart</interpretation></name>
+    <pinyin>bō</pinyin>
     <above>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></above>
     <below>K'UN<interpretation> THE RECEPTIVE, EARTH</interpretation></below>
     <comment>
@@ -3444,12 +3491,14 @@ alone. The inferior man himself fares best when held under control by a
 superior man.
       </comment>
     </line>
-    <lines>888887</lines>
   </change>
   <change>
     <number>24</number>
+    <lines>788888</lines>
     <character>復</character>
+    <hexagram>䷗</hexagram>
     <name>Fu<interpretation>Return (The Turning Point)</interpretation></name>
+    <pinyin>fù</pinyin>
     <above>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></above>
     <below>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></below>
     <comment>
@@ -3581,12 +3630,14 @@ What is pictured here is blind obstinacy and the judgment that is visited
 upon it.
       </comment>
     </line>
-    <lines>788888</lines>
   </change>
   <change>
     <number>25</number>
+    <lines>788777</lines>
     <character>無妄</character>
+    <hexagram>䷘</hexagram>
     <name>Wu Wang<interpretation>Innocence (The Unexpected)</interpretation></name>
+    <pinyin>wú wàng</pinyin>
     <above>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></above>
     <below>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></below>
     <comment>
@@ -3702,12 +3753,14 @@ thoughtlessly and tries to push ahead in opposition to fate, success will not be
 achieved.
       </comment>
     </line>
-    <lines>788777</lines>
   </change>
   <change>
     <number>26</number>
+    <lines>777887</lines>
     <character>大畜</character>
+    <hexagram>䷙</hexagram>
     <name>Ta Ch'u<interpretation>The Taming Power of the Great</interpretation></name>
+    <pinyin>dà chù</pinyin>
     <above>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></above>
     <below>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></below>
     <comment>
@@ -3837,12 +3890,14 @@ forces its way out and achieves great success. This refers to a man who is
 honored by the ruler and whose principles now prevail and shape the world.
       </comment>
     </line>
-    <lines>777887</lines>
   </change>
   <change>
     <number>27</number>
+    <lines>788887</lines>
     <character>頤</character>
+    <hexagram>䷚</hexagram>
     <name>I<interpretation>Corners of the Mouth (Providing Nourishment)</interpretation></name>
+    <pinyin>yí</pinyin>
     <above>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></above>
     <below>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></below>
     <comment>
@@ -3986,12 +4041,14 @@ the great water. These undertakings bring general happiness for him and for
 all others.
       </comment>
     </line>
-    <lines>788887</lines>
   </change>
   <change>
     <number>28</number>
+    <lines>877778</lines>
     <character>大過</character>
+    <hexagram>䷛</hexagram>
     <name>Ta Kuo<interpretation>Preponderance of the Great</interpretation></name>
+    <pinyin>dà guò</pinyin>
     <above>TUI<interpretation>THE JOYOUS, LAKE</interpretation></above>
     <below>SUN<interpretation>THE GENTLE, WIND, WOOD</interpretation></below>
     <comment>
@@ -4120,12 +4177,14 @@ and the right may prevail. There are things that are more important than
 life.
       </comment>
     </line>
-    <lines>877778</lines>
   </change>
   <change>
     <number>29</number>
+    <lines>878878</lines>
     <character>坎</character>
+    <hexagram>䷜</hexagram>
     <name>K'an<interpretation>The Abysmal (Water)</interpretation></name>
+    <pinyin>kǎn</pinyin>
     <above>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></above>
     <below>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></below>
     <comment>
@@ -4267,12 +4326,14 @@ irremediably entangled in his sins has no prospect of escape. He is like a
 criminal who sits shackled behind thorn hedged prison walls.
       </comment>
     </line>
-    <lines>878878</lines>
   </change>
   <change>
     <number>30</number>
+    <lines>787787</lines>
     <character>離</character>
+    <hexagram>䷝</hexagram>
     <name>Li<interpretation>The Clinging, Fire</interpretation></name>
+    <pinyin>lí</pinyin>
     <above>LI<interpretation>THE CLINGING, FIRE</interpretation></above>
     <below>LI<interpretation>THE CLINGING, FIRE</interpretation></below>
     <comment>
@@ -4402,12 +4463,14 @@ For asceticism that is too strict, like sentences of undue severity, fails in it
 purpose.
       </comment>
     </line>
-    <lines>787787</lines>
   </change>
   <change>
     <number>31</number>
+    <lines>887778</lines>
     <character>咸</character>
+    <hexagram>䷞</hexagram>
     <name>Hsien<interpretation>Influence (Wooing)</interpretation></name>
+    <pinyin>xián</pinyin>
     <above>TUI<interpretation>THE JOYOUS, LAKE</interpretation></above>
     <below>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></below>
     <comment>
@@ -4546,12 +4609,14 @@ must necessarily remain insignificant. Hence no indication is added
 regarding good or bad fortune.
       </comment>
     </line>
-    <lines>887778</lines>
   </change>
   <change>
     <number>32</number>
+    <lines>877788</lines>
     <character>恆</character>
+    <hexagram>䷟</hexagram>
     <name>Hêng<interpretation>Duration</interpretation></name>
+    <pinyin>héng</pinyin>
     <above>CHEN<interpretation>THE AROUSING, THUNDER</interpretation></above>
     <below>SUN<interpretation>THE GENTLE, WIND</interpretation></below>
     <comment>
@@ -4676,12 +4741,14 @@ inner composure. Restlessness not only prevents all thoroughness but actually
 becomes a danger if it is dominant in places of authority.
       </comment>
     </line>
-    <lines>877788</lines>
   </change>
   <change>
     <number>33</number>
+    <lines>887777</lines>
     <character>遯</character>
+    <hexagram>䷠</hexagram>
     <name>TUN<interpretation>Retreat</interpretation></name>
+    <pinyin>dùn</pinyin>
     <above>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></above>
     <below>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></below>
     <comment>
@@ -4805,12 +4872,14 @@ right without further thought. Such a clear path ahead always leads to the
 good.
       </comment>
     </line>
-    <lines>887777</lines>
   </change>
   <change>
     <number>34</number>
+    <lines>777788</lines>
     <character>大壯</character>
+    <hexagram>䷡</hexagram>
     <name>Ta Chuang<interpretation>The Power of the Great </interpretation></name>
+    <pinyin>dà zhuàng</pinyin>
     <above>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></above>
     <below>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></below>
     <comment>
@@ -4929,12 +4998,14 @@ compose ourselves and decide not to continue, everything will right itself in
 time.
       </comment>
     </line>
-    <lines>777788</lines>
   </change>
   <change>
     <number>35</number>
+    <lines>888787</lines>
     <character>晉</character>
+    <hexagram>䷢</hexagram>
     <name>Chin<interpretation>Progress</interpretation></name>
+    <pinyin>jìn</pinyin>
     <above>LI<interpretation>THE CLINGING, FIRE</interpretation></above>
     <below>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></below>
     <comment>
@@ -5060,12 +5131,14 @@ toward persons with whom there is no close connection, will lead to
 humiliation.
       </comment>
     </line>
-    <lines>888787</lines>
   </change>
   <change>
     <number>36</number>
+    <lines>787888</lines>
     <character>明夷</character>
+    <hexagram>䷣</hexagram>
     <name>Ming I<interpretation>Darkening of the light</interpretation></name>
+    <pinyin>míng yí</pinyin>
     <above>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></above>
     <below>LI<interpretation>THE CLINGING, FIRE</interpretation></below>
     <comment>
@@ -5193,12 +5266,14 @@ the very moment when it has wholly overcome the good, and thus
 consumed the energy to which it owed its duration.
       </comment>
     </line>
-    <lines>787888</lines>
   </change>
   <change>
     <number>37</number>
+    <lines>787877</lines>
     <character>家人</character>
+    <hexagram>䷤</hexagram>
     <name>Chia Jên<interpretation>The Family [The Clan]</interpretation></name>
+    <pinyin>jiā rén</pinyin>
     <above>SUN<interpretation>THE GENTLE, WIND</interpretation></above>
     <below>LI<interpretation>THE CLINGING, FIRE</interpretation></below>
     <comment>
@@ -5352,12 +5427,14 @@ impressively through the force of inner truth, all goes well with the family.
 In a ruling position one must of his own accord assume responsibility.
       </comment>
     </line>
-    <lines>787877</lines>
   </change>
   <change>
     <number>38</number>
+    <lines>778787</lines>
     <character>睽</character>
+    <hexagram>䷥</hexagram>
     <name>K'uei<interpretation>Opposition</interpretation></name>
+    <pinyin>kuí</pinyin>
     <above>LI<interpretation>THE CLINGING, FLAME</interpretation></above>
     <below>TUI<interpretation>THE JOYOUS, LAKE</interpretation></below>
     <comment>
@@ -5496,12 +5573,14 @@ relieves the sultriness preceding a thunderstorm. All goes well, for just when
 opposition reaches its climax it changes over to its antithesis.
       </comment>
     </line>
-    <lines>778787</lines>
   </change>
   <change>
     <number>39</number>
+    <lines>887878</lines>
     <character>蹇</character>
+    <hexagram>䷦</hexagram>
     <name>Chien<interpretation>Obstruction</interpretation></name>
+    <pinyin>jiǎn</pinyin>
     <above>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></above>
     <below>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></below>
     <comment>
@@ -5628,12 +5707,14 @@ good fortune. And it is favorable to see the great man in alliance with whom
 one can achieve the work of rescue.
       </comment>
     </line>
-    <lines>887878</lines>
   </change>
   <change>
     <number>40</number>
+    <lines>878788</lines>
     <character>解</character>
+    <hexagram>䷧</hexagram>
     <name>Hsieh<interpretation>Deliverance</interpretation></name>
+    <pinyin>xiè</pinyin>
     <above>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></above>
     <below>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></below>
     <comment>
@@ -5771,12 +5852,14 @@ Therefore all he has to do is to go forth, and he takes his quarry. This is how 
 man fares who acts after he has made ready the means.
       </comment>
     </line>
-    <lines>878788</lines>
   </change>
   <change>
     <number>41</number>
+    <lines>778887</lines>
     <character>損</character>
+    <hexagram>䷨</hexagram>
     <name>Sun<interpretation>Decrease</interpretation></name>
+    <pinyin>sǔn</pinyin>
     <above>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></above>
     <below>TUI<interpretation>THE JOYOUS, LAKE</interpretation></below>
     <comment>
@@ -5914,12 +5997,14 @@ accomplishes is not a limited private advantage; it is a public good and
 available to everyone.
       </comment>
     </line>
-    <lines>778887</lines>
   </change>
   <change>
     <number>42</number>
+    <lines>788877</lines>
     <character>益</character>
+    <hexagram>䷩</hexagram>
     <name>I<interpretation>Increase</interpretation></name>
+    <pinyin>yì</pinyin>
     <above>SUN<interpretation>THE GENTLE, WIND</interpretation></above>
     <below>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></below>
     <comment>
@@ -6060,12 +6145,14 @@ asks for something without having fist established relations, it will not be
 given to him. If no one is with him, those who would harm him draw near.
       </comment>
     </line>
-    <lines>788877</lines>
   </change>
   <change>
     <number>43</number>
+    <lines>777778</lines>
     <character>夬</character>
+    <hexagram>䷪</hexagram>
     <name>Kuai<interpretation>Break-through (Resoluteness)</interpretation></name>
+    <pinyin>guài</pinyin>
     <above>TUI<interpretation>THE JOYOUS, LAKE</interpretation></above>
     <below>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></below>
     <comment>
@@ -6228,12 +6315,14 @@ work with thoroughness. If out of carelessness anything were to be
 overlooked, new evil would arise from it.
       </comment>
     </line>
-    <lines>777778</lines>
   </change>
   <change>
     <number>44</number>
+    <lines>877777</lines>
     <character>姤</character>
+    <hexagram>䷫</hexagram>
     <name>Kou<interpretation>Coming to Meet</interpretation></name>
+    <pinyin>gòu</pinyin>
     <above>CH'IEN<interpretation>THE CREATIVE, HEAVEN</interpretation></above>
     <below>SUN<interpretation>THE GENTLE, WIND</interpretation></below>
     <comment>
@@ -6369,12 +6458,14 @@ not greatly matter. They know how to bear the dislike of the masses with
 composure.
       </comment>
     </line>
-    <lines>877777</lines>
   </change>
   <change>
     <number>45</number>
+    <lines>888778</lines>
     <character>萃</character>
+    <hexagram>䷬</hexagram>
     <name>Ts'ui<interpretation>Gathering Together [Massing]</interpretation></name>
+    <pinyin>cuì</pinyin>
     <above>TUI<interpretation>THE JOYOUS, LAKE</interpretation></above>
     <below>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></below>
     <comment>
@@ -6515,12 +6606,14 @@ senses, so that the alliance that has been sought and so painfully missed is
 after all achieved.
       </comment>
     </line>
-    <lines>888778</lines>
   </change>
   <change>
     <number>46</number>
+    <lines>877888</lines>
     <character>升</character>
+    <hexagram>䷭</hexagram>
     <name>Shêng<interpretation>Pushing Upward</interpretation></name>
+    <pinyin>shēng</pinyin>
     <above>K'UN<interpretation>THE RECEPTIVE, EARTH</interpretation></above>
     <below>SUN<interpretation>THE GENTLE, WIND, WOOD</interpretation></below>
     <comment>
@@ -6641,12 +6734,14 @@ remain so. Only thus does one become free of blind impulse, which is always
 harmful.
       </comment>
     </line>
-    <lines>877888</lines>
   </change>
   <change>
     <number>47</number>
+    <lines>878778</lines>
     <character>困</character>
+    <hexagram>䷮</hexagram>
     <name>K'un<interpretation>Oppression (Exhaustion)</interpretation></name>
+    <pinyin>kùn</pinyin>
     <above>TUI<interpretation>THE JOYOUS, LAKE</interpretation></above>
     <below>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></below>
     <comment>
@@ -6789,12 +6884,14 @@ move. But as soon as he grasps the situation, changes this mental attitude,
 and makes a firm decision, he masters the oppression.
       </comment>
     </line>
-    <lines>878778</lines>
   </change>
   <change>
     <number>48</number>
+    <lines>877878</lines>
     <character>井</character>
+    <hexagram>䷯</hexagram>
     <name>Ching<interpretation>The Well</interpretation></name>
+    <pinyin>jǐng</pinyin>
     <above>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></above>
     <below>SUN<interpretation>THE GENTLE, WIND, WOOD</interpretation></below>
     <comment>
@@ -6939,12 +7036,14 @@ inexhaustible; the more that people draw from him, the greater his wealth
 becomes.
       </comment>
     </line>
-    <lines>877878</lines>
   </change>
   <change>
     <number>49</number>
+    <lines>787778</lines>
     <character>革</character>
+    <hexagram>䷰</hexagram>
     <name>Ko<interpretation>Revolution (Molting)</interpretation></name>
+    <pinyin>gé</pinyin>
     <above>TUI<interpretation>THE JOYOUS, LAKE</interpretation></above>
     <below>LI<interpretation>THE CLINGING, FIRE</interpretation></below>
     <comment>
@@ -7083,12 +7182,14 @@ the attainment of clarified, secure conditions ensuring a general stabilization
 on the basis of what is possible at the moment.
       </comment>
     </line>
-    <lines>787778</lines>
   </change>
   <change>
     <number>50</number>
+    <lines>877787</lines>
     <character>鼎</character>
+    <hexagram>䷱</hexagram>
     <name>Ting<interpretation>The Caldron</interpretation></name>
+    <pinyin>dǐng</pinyin>
     <above>LI<interpretation>THE CLINGING, FIRE</interpretation></above>
     <below>SUN<interpretation>THE GENTLE, WIND, WOOD</interpretation></below>
     <comment>
@@ -7247,12 +7348,14 @@ dispenses great good fortune, and becomes pleasing to men, wherefore all
 goes well.
       </comment>
     </line>
-    <lines>877787</lines>
   </change>
   <change>
     <number>51</number>
+    <lines>788788</lines>
     <character>震</character>
+    <hexagram>䷲</hexagram>
     <name>Chên<interpretation>The Arousing (Shock, Thunder)</interpretation></name>
+    <pinyin>zhèn</pinyin>
     <above>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></above>
     <below>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></below>
     <comment>
@@ -7382,12 +7485,14 @@ will in their excitement certainly be displeased with him. However, he must
 not take this into account.
       </comment>
     </line>
-    <lines>788788</lines>
   </change>
   <change>
     <number>52</number>
+    <lines>887887</lines>
     <character>艮</character>
+    <hexagram>䷳</hexagram>
     <name>Kên<interpretation>Keeping Still, Mountain</interpretation></name>
+    <pinyin>gèn</pinyin>
     <above>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></above>
     <below>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></below>
     <comment>
@@ -7526,12 +7631,14 @@ but one has also a general resignation in regard to life as a whole, and this
 confers peace and good fortune in relation to every individual matter.
       </comment>
     </line>
-    <lines>887887</lines>
   </change>
   <change>
     <number>53</number>
+    <lines>887877</lines>
     <character>漸</character>
+    <hexagram>䷴</hexagram>
     <name>Chien<interpretation>Development (Gradual Progress)</interpretation></name>
+    <pinyin>jiàn</pinyin>
     <above>SUN<interpretation>THE GENTLE, WIND, WOOD</interpretation></above>
     <below>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></below>
     <comment>
@@ -7685,12 +7792,14 @@ who has perfected himself is a bright light for the people of earth, who look
 up to him as an example.
       </comment>
     </line>
-    <lines>887877</lines>
   </change>
   <change>
     <number>54</number>
+    <lines>778788</lines>
     <character>歸妹</character>
+    <hexagram>䷵</hexagram>
     <name>Kuei Mei<interpretation>The Marrying Maiden</interpretation></name>
+    <pinyin>guī mèi</pinyin>
     <above>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></above>
     <below>TUI<interpretation>THE JOYOUS, LAKE</interpretation></below>
     <comment>
@@ -7842,12 +7951,14 @@ preserve the forms. This impious, irreverent attitude bodes no good for a
 marriage.
       </comment>
     </line>
-    <lines>778788</lines>
   </change>
   <change>
     <number>55</number>
+    <lines>787788</lines>
     <character>豐</character>
+    <hexagram>䷶</hexagram>
     <name>Fêng<interpretation>Abundance [Fullness]</interpretation></name>
+    <pinyin>fēng</pinyin>
     <above>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></above>
     <below>LI<interpretation>THE CLINGING, FIRE</interpretation></below>
     <comment>
@@ -7977,12 +8088,14 @@ dwelling. He wishes at all odds to be master in his house, which so alienates
 his family that in the end he finds himself completely isolated.
       </comment>
     </line>
-    <lines>787788</lines>
   </change>
   <change>
     <number>56</number>
+    <lines>887787</lines>
     <character>旅</character>
+    <hexagram>䷷</hexagram>
     <name>Lü<interpretation>The Wanderer</interpretation></name>
+    <pinyin>lǚ</pinyin>
     <above>LI<interpretation>THE CLINGING, FIRE</interpretation></above>
     <below>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></below>
     <comment>
@@ -8109,12 +8222,14 @@ cause to weep and lament. For if through carelessness a man loses his cow-
 i.e., his modesty and adaptability-evil will result.
       </comment>
     </line>
-    <lines>887787</lines>
   </change>
   <change>
     <number>57</number>
+    <lines>877877</lines>
     <character>巽</character>
+    <hexagram>䷸</hexagram>
     <name>Sun<interpretation>The Gentle (The Penetrating, Wind)</interpretation></name>
+    <pinyin>xùn</pinyin>
     <above>SUN<interpretation>THE GENTLE, WIND, WOOD</interpretation></above>
     <below>SUN<interpretation>THE GENTLE, WIND, WOOD</interpretation></below>
     <comment>
@@ -8249,12 +8364,14 @@ combat them decisively. In this case any attempt to penetrate into the
 personal domain of darkness would only bring harm.
       </comment>
     </line>
-    <lines>877877</lines>
   </change>
   <change>
     <number>58</number>
+    <lines>778778</lines>
     <character>兌</character>
+    <hexagram>䷹</hexagram>
     <name>Tui<interpretation>The Joyous, Lake</interpretation></name>
+    <pinyin>duì</pinyin>
     <above>TUI<interpretation>THE JOYOUS, LAKE</interpretation></above>
     <below>TUI<interpretation>THE JOYOUS, LAKE</interpretation></below>
     <comment>
@@ -8373,12 +8490,14 @@ misfortune. He has given up direction of his own life, and what becomes of
 him depends upon chance and external influences.
       </comment>
     </line>
-    <lines>778778</lines>
   </change>
   <change>
     <number>59</number>
+    <lines>878877</lines>
     <character>渙</character>
+    <hexagram>䷺</hexagram>
     <name>Huan<interpretation>Dispersion [Dissolution]</interpretation></name>
+    <pinyin>huàn</pinyin>
     <above>SUN<interpretation>THE GENTLE, WIND</interpretation></above>
     <below>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></below>
     <comment>
@@ -8515,12 +8634,14 @@ to keep at a distance from an existing danger, or to find a way out of a danger
 that is already upon them. In this way he does what is right.
       </comment>
     </line>
-    <lines>878877</lines>
   </change>
   <change>
     <number>60</number>
+    <lines>778878</lines>
     <character>節</character>
+    <hexagram>䷻</hexagram>
     <name>Chieh<interpretation>Limitation</interpretation></name>
+    <pinyin>jié</pinyin>
     <above>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></above>
     <below>TUI<interpretation>THE JOYOUS, LAKE</interpretation></below>
     <comment>
@@ -8659,12 +8780,14 @@ ruthlessness toward oneself is the only means of saving one's soul, which
 otherwise would succumb to irresolution and temptation.
       </comment>
     </line>
-    <lines>778878</lines>
   </change>
   <change>
     <number>61</number>
+    <lines>778877</lines>
     <character>中孚</character>
+    <hexagram>䷼</hexagram>
     <name>Chung Fu<interpretation>Inner Truth </interpretation></name>
+    <pinyin>zhōng fú</pinyin>
     <above>SUN<interpretation>THE GENTLE, WIND</interpretation></above>
     <below>TUI<interpretation>THE JOYOUS, LAKE</interpretation></below>
     <comment>
@@ -8835,12 +8958,14 @@ just crows. A man may count on mere words to awaken faith. This may
 succeed now and then, but if persisted in, it will have bad consequences.
       </comment>
     </line>
-    <lines>778877</lines>
   </change>
   <change>
     <number>62</number>
+    <lines>887788</lines>
     <character>小過</character>
+    <hexagram>䷽</hexagram>
     <name>Hsiao Kuo<interpretation>Preponderance of the Small</interpretation></name>
+    <pinyin>xiǎo guò</pinyin>
     <above>CHêN<interpretation>THE AROUSING, THUNDER</interpretation></above>
     <below>KêN<interpretation>KEEPING STILL, MOUNTAIN</interpretation></below>
     <comment>
@@ -9005,12 +9130,14 @@ halt, but restlessly seeks to press on and on, draws upon himself misfortune
 at the hands of gods and men, because he deviates from the order of nature.
       </comment>
     </line>
-    <lines>887788</lines>
   </change>
   <change>
     <number>63</number>
+    <lines>787878</lines>
     <character>既濟</character>
+    <hexagram>䷾</hexagram>
     <name>Chi Chi<interpretation>After Completion</interpretation></name>
+    <pinyin>jì jì</pinyin>
     <above>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></above>
     <below>LI<interpretation>THE CLINGING, FIRE</interpretation></below>
     <comment>
@@ -9176,12 +9303,14 @@ only to danger, and unless one finally resolves to go forward without
 pausing, one falls a victim to this danger.
       </comment>
     </line>
-    <lines>787878</lines>
   </change>
   <change>
     <number>64</number>
+    <lines>878787</lines>
     <character>未濟</character>
+    <hexagram>䷿</hexagram>
     <name>Wei Chi<interpretation>Before Completion</interpretation></name>
+    <pinyin>wèi jì</pinyin>
     <above>LI<interpretation>THE CLINGING, FLAME</interpretation></above>
     <below>K'AN<interpretation>THE ABYSMAL, WATER</interpretation></below>
     <comment>
@@ -9317,6 +9446,5 @@ a man gets drunk, he forfeits the favorableness of the situation through his
 intemperance.
       </comment>
     </line>
-    <lines>878787</lines>
   </change>
 </changes>

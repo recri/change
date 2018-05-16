@@ -129,6 +129,7 @@ export class Change {
     static clear(str) { return ''; }
 }
 
+
 // a one or two digit number should fetch the hexagram with that number
 // a four or eight digit number should specify a line distribution
 //     yarrow = 1573, coin = 1331, uniform = 1111    

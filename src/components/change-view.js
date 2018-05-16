@@ -12,6 +12,9 @@ import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
+import { Change } from '../code/change.js';
+import { Changes } from '../code/changes.js';
+
 export class ChangeView extends PageViewElement {
   static get properties() {
     return {

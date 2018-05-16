@@ -1,6 +1,8 @@
 #!/usr/bin/tclsh
-# translate an xml format document into a tcl list
+# translate an xml format document into a json list
 # taken from http://wiki.tcl.tk/3919 by Richard Suchenwirth
+
+set omit {comment}
 proc xml2list xml {
     regsub -all {>\s*<} [string trim $xml " \n\t<>"] "\} \{" xml
     set xml [string map {> "\} \{#text \{" < "\}\} \{"}  $xml]
@@ -56,6 +58,7 @@ proc get-text {doc} {
 		    set lines $attrs
 		    set lines [regsub -all "\n" $lines " "]
 		    set lines [regsub -all "  +" $lines " "]
+		    set lines [regsub -all \" $lines {\&quot;}]
 		    append text " [string trim $lines]"
 		    continue
 		}
@@ -81,6 +84,7 @@ proc get-text-and-tags {doc tags} {
 		    set lines $attrs
 		    set lines [regsub -all "\n" $lines " "]
 		    set lines [regsub -all "  +" $lines " "]
+		    set lines [regsub -all \" $lines {\&quot;}]
 		    append text " [string trim $lines]"
 		    continue
 		}
@@ -122,11 +126,15 @@ proc traverse {indent doc} {
 	    number -
 	    character -
 	    comment -
-	    lines {
+	    lines -
+	    hexagram -
+	    pinyin {
 		# there is a #text body with the hexagram number
 		# there is a #text body with the character in utf-8
 		# there is a #text body, this is the comment on the change
 		# there is one #text in the body with the lines [6789]+
+		# there is one #text in the body with the unicode hexagram in utf-8
+		# there is one #text item with the pinyin transliteration
 		return [list $tag [get-text $body]]
 	    }
 	    name -
@@ -158,9 +166,31 @@ proc traverse {indent doc} {
     }
 }
 
-set nchanges [traverse {} $changes]
+proc keep-comments {} {
+    global omit
+    return [expr {{comment} ni $omit}]
+}
+proc is-comment {tag} {
+    return [expr {[string first comment $tag] >= 0}]
+}
 
-puts "var changes = \["
+set nchanges [traverse {} $changes]
+set index 0
+set lmap {}
+set bmap {}
+set omap {}
+
+proc toBits {lines} {
+    set b 0
+    foreach l [split $lines {}] {
+	if {$l == 7} { set l 1 } elseif {$l == 8} { set l 0 } else { error "bad digit $l in $lines" }
+	set b [expr {$b*2 + $l}]
+    }
+    return $b
+}
+
+puts "export class Changes {"
+puts "static get changes() { return \["
 foreach c $nchanges {
     # puts --------\n$c\n--------
     set pname {}
@@ -182,15 +212,17 @@ foreach c $nchanges {
 		    set nname $name-comment
 		    set nvalue [lindex $value 2]
 		    set value [lindex $value 0]
-		    puts "    \"$name\" : \"$value\","
-		    puts "    \"$nname\" : \"$nvalue\","
+		    puts "    \"$name\" : \`$value\`,"
+		    if {[keep-comments]} {
+			puts "    \"$nname\" : \"$nvalue\","
+		    }
 		} else {
-		    puts "    \"$name\" : \"$value\","
+		    puts "    \"$name\" : \`$value\`,"
 		}
 	    }
 	    {line-?} {
 		set lname $name
-		puts "    \"$name\" : \"$value\","
+		puts "    \"$name\" : \`$value\`,"
 	    }
 	    {rules} {
 		if {$value eq "true"} {
@@ -198,14 +230,31 @@ foreach c $nchanges {
 		}
 	    }
 	    {comment} {
-		if {$pname ni {interpretation {}}} {
-		    puts "    \"$pname-$name\" : \"$value\","
+		if {[keep-comments]} {
+		    if {$pname ni {interpretation {}}} {
+			puts "    \"$pname-$name\" : \"$value\","
+		    } else {
+			puts "    \"$name\" : \"$value\","
+		    }
+		}
+	    }
+	    
+	    {lines} {
+		lappend lmap "\"$value\":\"$index\""
+		set bits [toBits $value]
+		lappend bmap "\"$bits\":\"$index\""
+		set octs [format {%02o} $bits]
+		lappend omap "\"$octs\":\"$index\""
+		incr index 
+	    }
+	    * {
+		if {[is-comment $name]} {
+		    if {[keep-comments]} {
+			puts "    \"$name\" : \"$value\","
+		    }
 		} else {
 		    puts "    \"$name\" : \"$value\","
 		}
-	    }
-	    * {
-		puts "    \"$name\" : \"$value\","
 	    }
 	}
 	set pname $name
@@ -214,4 +263,10 @@ foreach c $nchanges {
     puts "  },"
 }
 puts "]"
-
+puts "}"
+puts "static get lines() { return {[join $lmap ,]} }"
+puts "static get bits() { return {[join $bmap ,]} }"
+puts "static get octs() { return {[join $omap ,]} }"
+puts "static linesToBits(lines) { return parseInt(lines.split('').map(l => l === '7' ? '1' : '0').join(''), 2) }"
+puts "static bitsToLines(bits) { return bits.toString(2).split('').map(b => b === '1' ? '7' : '8').join('') }"
+puts "}"
