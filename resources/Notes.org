@@ -1,4 +1,5 @@
 * Finding little typos all over the place.
 ** Curiously, the name of the hexagram is ALL CAPS
    in every Judgment, except for 31. Influence (Wooing)
-   where it is normal case.
+   where it is normal case.  I'm changing that in my
+   text to match all the other uses.
