@@ -44,6 +44,7 @@ export class ChangeView extends PageViewElement {
 	const renderHex = (hex) => {
 	    return html`
 		<div class="hexagram" title="${getNameInterpretation(hex)}">
+		${getHexagram(hex)} ${getNameInterpretation(hex)}
 		<div class="judgment" title="Judgment">${getJudgment(hex)}</div>
 		<div class="image" title="Image">${getImage(hex)}</div>
 		</div>
@@ -53,26 +54,26 @@ export class ChangeView extends PageViewElement {
 	    const lines = link.split('')
 	    const allMoving = lines.every(isMovingLine);
 	    const isLast = linkIndex === links.length-1
+	    const start = renderHex(Change.backward(link));
+	    const finis = isLast ? renderHex(Change.forward(link)) : html``;
+	    const bonus = allMoving && getLine(link,7) !== undefined ?
+		  html`<div class="line">${getLine(link, lineIndex+1)}</div>` :
+		  html``;
 	    const renderLine = (line, lineIndex, lines) => {
 		return isMovingLine(line) ?
 		    // ${line} in the ${lineIndex+1} place.<br/>
 		    html`<div class="line">${getLine(link, lineIndex+1)}</div>` :
 		    html``;
 	    }
-	    var rendered = [];
-	    rendered.push(html`${renderHex(Change.backward(link))}`);
-	    rendered.push(html`<div class="lines" title="Moving Lines">`);
-	    rendered.push(html`${lines.map(renderLine)}`);
-	    if (allMoving && getLine(link,7) !== undefined) {
-		// look for possible bonus line reading
-		rendered.push(html`<div class="line">${getLine(link, lineIndex+1)}</div>`);
-	    }
-	    rendered.push(html`</div>`);
-	    if (isLast) {
-		// last link in chain, render result hexagram
-		rendered.push(html`${renderHex(Change.forward(link))}`);
-	    }
-	    return html`${rendered}`;
+	    return html`
+		${start}
+		<div class="lines" title="Moving Lines">
+		${getHexagram(Change.backward(link))} -> ${getHexagram(Change.forward(link))}
+		${lines.map(renderLine)}
+		${bonus}
+		</div>
+		${finis}
+		`;
 	}
 	if (change === '') {
 	    return html``;
@@ -81,7 +82,7 @@ export class ChangeView extends PageViewElement {
 	    return html`
 		${SharedStyles}
 		<style>
-		  div { outline-style: solid; outline-width: 1px; padding: 4px }
+		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px }
 		</style>
 		<section>
 		  ${links.map(renderLink)}
