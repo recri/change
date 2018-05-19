@@ -71,7 +71,7 @@ class ChangeApp extends connect(store)(LitElement) {
 
       [main-title] {
         font-family: 'Pacifico';
-        text-transform: lowercase;
+	/* text-transform: lowercase; */
         font-size: 30px;
         /* In the narrow layout, the toolbar is offset by the width of the
         drawer button, and the text looks not centered. Add a padding to
@@ -183,10 +183,9 @@ class ChangeApp extends connect(store)(LitElement) {
         <a selected?="${_page === 'restore'}" href="/restore">Restore</a>
         <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeCast())}">Cast</button>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Link</button>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeClear())}">Clear</button>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Cast</button>
+        <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
+        <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeClear())}">Clear</button>
      </nav>
     </app-header>
 
@@ -199,10 +198,9 @@ class ChangeApp extends connect(store)(LitElement) {
         <a selected?="${_page === 'restore'}" href="/restore">Restore</a>
         <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeCast())}">Cast</button>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Link</button>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeClear())}">Clear</button>
+        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Cast</button>
+        <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
+        <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeClear())}">Clear</button>
       </nav>
     </app-drawer>
 
