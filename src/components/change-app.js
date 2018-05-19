@@ -179,9 +179,6 @@ class ChangeApp extends connect(store)(LitElement) {
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
         <a selected?="${_page === 'view'}" href="/view">View</a>
-        <a selected?="${_page === 'save'}" href="/save">Save</a>
-        <a selected?="${_page === 'restore'}" href="/restore">Restore</a>
-        <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
         <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Cast</button>
         <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
@@ -194,9 +191,6 @@ class ChangeApp extends connect(store)(LitElement) {
         on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
         <a selected?="${_page === 'view'}" href="/view">View</a>
-        <a selected?="${_page === 'save'}" href="/save">Save</a>
-        <a selected?="${_page === 'restore'}" href="/restore">Restore</a>
-        <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
         <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Cast</button>
         <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>

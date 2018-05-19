@@ -24,56 +24,69 @@ export class ChangeView extends PageViewElement {
     }
 
     _render({change}) {
-	const breakAtNewlines = (str) => str.split('\n').map((x) => html`${x}<br/>\n`);
-	const getChange = (hex,value) => Changes.changes[Changes.lines[Change.backward(hex)]][value];
+	const breakAtNewlines = (str, skipFirst) => skipFirst ?
+	      str.split('\n').slice(1).map((x) => html`${x}<br/>\n`) :
+	      str.split('\n').map((x) => html`${x}<br/>\n`);
+	const getChange = (hex,value) => Changes.changes[Changes.lines[hex]][value];
 	const getNumber = (hex) => getChange(hex,"number");
-	const getCharacter = (hex) => getChange(hex,"character");
+	// const getCharacter = (hex) => getChange(hex,"character");
 	const getHexagram = (hex) => getChange(hex,"hexagram");
-	const getName = (hex) => getChange(hex,"name");
+	// const getName = (hex) => getChange(hex,"name");
 	const getNameInterpretation = (hex) => getChange(hex,"name-interpretation");
-	const getPinyin = (hex) => getChange(hex,"pinyin");
-	const getAbove = (hex) => getChange(hex,"above");
-	const getAboveInterpretation = (hex) => getChange(hex,"above-interpretation");
-	const getBelow = (hex) => getChange(hex,"below");
-	const getBelowInterpretation = (hex) => getChange(hex,"below-interpretation");
-	const getJudgment = (hex) => breakAtNewlines(getChange(hex,"judgment"));
-	const getImage = (hex) => breakAtNewlines(getChange(hex,"image"));
-	const getLine = (hex,line) => breakAtNewlines(getChange(hex,`line-${line}`));
+	// const getPinyin = (hex) => getChange(hex,"pinyin");
+	// const getAbove = (hex) => getChange(hex,"above");
+	// const getAboveInterpretation = (hex) => getChange(hex,"above-interpretation");
+	// const getBelow = (hex) => getChange(hex,"below");
+	// const getBelowInterpretation = (hex) => getChange(hex,"below-interpretation");
+	const getJudgment = (hex) => breakAtNewlines(getChange(hex,"judgment"), false);
+	const getImage = (hex) => breakAtNewlines(getChange(hex,"image"), false);
+	const getLine = (hex,line) => breakAtNewlines(getChange(hex,`line-${line}`), true);
+	const getLineOrdinal = (hex,line) => getChange(hex,`line-${line}`).split('\n')[0];
 	
 	const isMovingLine = (line) => (line === '6' || line === '9');
+	const isStationaryLine = (line) => (line === '7' || line === '8');
 	const renderHex = (hex) => {
 	    return html`
 		<div class="hexagram" title="${getNameInterpretation(hex)}">
-		${getHexagram(hex)} ${getNameInterpretation(hex)}
+		<h1>${getHexagram(hex)}</h1>
 		<div class="judgment" title="Judgment">${getJudgment(hex)}</div>
 		<div class="image" title="Image">${getImage(hex)}</div>
 		</div>
 	    `;
 	}
 	const renderLink = (link, linkIndex, links) => {
+	    const hex = Change.backward(link);
+	    const finisHex = Change.forward(link);
 	    const lines = link.split('')
 	    const allMoving = lines.every(isMovingLine);
+	    const allStationary = lines.every(isStationaryLine)
 	    const isLast = linkIndex === links.length-1
-	    const start = renderHex(Change.backward(link));
-	    const finis = isLast ? renderHex(Change.forward(link)) : html``;
-	    const bonus = allMoving && getLine(link,7) !== undefined ?
-		  html`<div class="line">${getLine(link, lineIndex+1)}</div>` :
+	    const start = renderHex(hex);
+	    const finis = isLast ? renderHex(finisHex) : html``;
+	    const startName = getNameInterpretation(hex);
+	    const finisName = getNameInterpretation(finisHex);
+	    const bonus = allMoving && getLine(hex,7) !== undefined ?
+		  html`<div class="line">${getLine(hex, lineIndex+1)}</div>` :
 		  html``;
-	    const renderLine = (line, lineIndex, lines) => {
+	    const renderLine = (line, lineIndex) => {
 		return isMovingLine(line) ?
 		    // ${line} in the ${lineIndex+1} place.<br/>
-		    html`<div class="line">${getLine(link, lineIndex+1)}</div>` :
+		    html`<div class="line" title="${getLineOrdinal(hex, lineIndex+1)}">${getLine(hex, lineIndex+1)}</div>` :
 		    html``;
 	    }
+	    const moving = ! allStationary ? 
+		  html`<div class="lines" title="${startName} -> ${finisName}">
+			<h1>${getHexagram(hex)} -> ${getHexagram(finisHex)}</h1>
+			${lines.map(renderLine)}
+			${bonus}
+			</div>` :
+		  html``;
+	
+
 	    return html`
 		${start}
-		<div class="lines" title="Moving Lines">
-		${getHexagram(Change.backward(link))} -> ${getHexagram(Change.forward(link))}
-		${lines.map(renderLine)}
-		${bonus}
-		</div>
-		${finis}
-		`;
+		${moving}
+		${finis}`;
 	}
 	if (change === '') {
 	    return html``;
