@@ -70,7 +70,6 @@ class ChangeApp extends connect(store)(LitElement) {
       }
 
       [main-title] {
-        font-family: 'Pacifico';
 	/* text-transform: lowercase; */
         font-size: 30px;
         /* In the narrow layout, the toolbar is offset by the width of the
@@ -126,6 +125,14 @@ class ChangeApp extends connect(store)(LitElement) {
         color: var(--app-drawer-selected-color);
       }
 
+      .drawer-list > button {
+        display: block;
+        text-decoration: none;
+        color: var(--app-drawer-text-color);
+        line-height: 40px;
+        padding: 0 24px;
+      }
+
       .main-content {
         padding-top: 64px;
         min-height: 100vh;
@@ -144,6 +151,9 @@ class ChangeApp extends connect(store)(LitElement) {
         background: var(--app-drawer-background-color);
         color: var(--app-drawer-text-color);
         text-align: center;
+      }
+      footer > p > a {
+        color: var(--app-drawer-text-color);
       }
 
       /* Wide layout: when the viewport width is bigger than 460px, layout
@@ -209,7 +219,12 @@ class ChangeApp extends connect(store)(LitElement) {
     </main>
 
     <footer>
-      <p>Made with &lt;3 by the Polymer team.</p>
+      <p>
+	Made with &lt;3 using the Polymer team's
+	  <a href="https://github.com/Polymer/pwa-starter-kit/blob/master/README.md">
+	    PWA Starter Kit
+	  </a>.
+      </p>
     </footer>
 
     <snack-bar active?="${_snackbarOpened}">

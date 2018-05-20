@@ -45,16 +45,23 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch) => {
     switch(page) {
     case 'view':
+	await import('../components/change-view.js');
+	break;
     case 'save':
+	await import('../components/change-save.js');
+	break;
     case 'restore':
+	await import('../components/change-restore.js');
+	break;
     case 'settings':
+	await import('../components/change-settings.js');
+	break;
     case 'about':
-	await import('../components/change-'+page+'.js');
+	await import('../components/change-about.js');
 	break;
 
     default:
-	page = 'view404';
-	await import('../components/change-'+page+'.js');
+	await import('../components/change-view404.js');
 	break;
     }
 

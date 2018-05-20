@@ -48,7 +48,7 @@ export class ChangeView extends PageViewElement {
 	const renderHex = (hex) => {
 	    return html`
 		<div class="hexagram" title="${getNameInterpretation(hex)}">
-		<h1>${getHexagram(hex)}</h1>
+		${getHexagram(hex)}
 		<div class="judgment" title="Judgment">${getJudgment(hex)}</div>
 		<div class="image" title="Image">${getImage(hex)}</div>
 		</div>
@@ -76,7 +76,7 @@ export class ChangeView extends PageViewElement {
 	    }
 	    const moving = ! allStationary ? 
 		  html`<div class="lines" title="${startName} -> ${finisName}">
-			<h1>${getHexagram(hex)} -> ${getHexagram(finisHex)}</h1>
+			${getHexagram(hex)} -> ${getHexagram(finisHex)}
 			${lines.map(renderLine)}
 			${bonus}
 			</div>` :
