@@ -35,3 +35,20 @@
   the better person, the dependent, ...
   the dog owner and the dog
   surface the original wilhem-baynes translation.
+* try running the chinese through google translate?
+* Todo list as of May 23
+[ ] Move the menu to the side bar
+[ ] Style those buttons
+[ ] Incorporate mersenne-twister.js
+[ ] Use time of cast button press as random seed
+[ ] Optionally add commentary
+[ ] Optionally add other translations
+[ ] Catch "addtodesktop" event and handle
+[ ] Change distributions in settings
+[ ] Change cast protocol in settings
+[ ] Draw hexagrams, including moving lines
+	initial hexagram is static
+	moving lines hexagram is moving
+	final hexagram is static
+[ ] Move about and settings into dialogs
+[ ] Style those dialogs
