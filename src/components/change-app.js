@@ -30,7 +30,7 @@ import { navigate, updateOffline, updateDrawerState, updateLayout,
          changeCast, changeLink, changeUndo, changeClear } from '../actions/app.js';
 
 class ChangeApp extends connect(store)(LitElement) {
-    _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline, _change}) {
+    _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline, _wideLayout, _change}) {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -58,7 +58,7 @@ class ChangeApp extends connect(store)(LitElement) {
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
+	right: 0;
         text-align: center;
         background-color: var(--app-header-background-color);
         color: var(--app-header-text-color);
@@ -72,27 +72,7 @@ class ChangeApp extends connect(store)(LitElement) {
       [main-title] {
 	/* text-transform: lowercase; */
         font-size: 30px;
-        /* In the narrow layout, the toolbar is offset by the width of the
-        drawer button, and the text looks not centered. Add a padding to
-        match that button */
-        padding-right: 44px;
-      }
-
-      .toolbar-list {
-        display: none;
-      }
-
-      .toolbar-list > a {
-        display: inline-block;
-        color: var(--app-header-text-color);
-        text-decoration: none;
-        line-height: 30px;
-        padding: 4px 24px;
-      }
-
-      .toolbar-list > a[selected] {
-        color: var(--app-header-selected-color);
-        border-bottom: 4px solid var(--app-header-selected-color);
+        margin-right: 44px;
       }
 
       .menu-btn {
@@ -129,6 +109,7 @@ class ChangeApp extends connect(store)(LitElement) {
         display: block;
         text-decoration: none;
         color: var(--app-drawer-text-color);
+	background-color: transparent;
         line-height: 40px;
         padding: 0 24px;
       }
@@ -156,25 +137,20 @@ class ChangeApp extends connect(store)(LitElement) {
         color: var(--app-drawer-text-color);
       }
 
-      /* Wide layout: when the viewport width is bigger than 460px, layout
-      changes to a wide layout. */
-      @media (min-width: 460px) {
-        .toolbar-list {
-          display: block;
-        }
+     /* Wide layout */
+     @media (min-width: 768px) {
+       app-header,
+       .main-content,
+       footer {
+         margin-left: var(--app-drawer-width);
+      }
 
         .menu-btn {
           display: none;
         }
 
-        .main-content {
-          padding-top: 107px;
-        }
-
-        /* The drawer button isn't shown in the wide layout, so we don't
-        need to offset the title */
         [main-title] {
-          padding-right: 0px;
+          margin-right: 0;
         }
       }
     </style>
@@ -186,18 +162,10 @@ class ChangeApp extends connect(store)(LitElement) {
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
-      <!-- This gets hidden on a small screen-->
-      <nav class="toolbar-list">
-        <a selected?="${_page === 'view'}" href="/view">View</a>
-        <a selected?="${_page === 'about'}" href="/about">About</a>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Cast</button>
-        <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
-        <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeClear())}">Clear</button>
-     </nav>
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer opened="${_drawerOpened}"
+    <app-drawer opened="${_drawerOpened}" persistent="${_wideLayout}"
         on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
         <a selected?="${_page === 'view'}" href="/view">View</a>
@@ -239,6 +207,7 @@ class ChangeApp extends connect(store)(LitElement) {
       _drawerOpened: Boolean,
       _snackbarOpened: Boolean,
       _offline: Boolean,
+      _wideLayout: Boolean,
       _change: String
     }
   }
@@ -253,7 +222,7 @@ class ChangeApp extends connect(store)(LitElement) {
   _firstRendered() {
     installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
-    installMediaQueryWatcher(`(min-width: 460px)`,
+    installMediaQueryWatcher(`(min-width: 768px)`,
         (matches) => store.dispatch(updateLayout(matches)));
   }
 
@@ -273,6 +242,7 @@ class ChangeApp extends connect(store)(LitElement) {
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;
     this._drawerOpened = state.app.drawerOpened;
+    this._wideLayout = state.app.wideLayout;
     this._change = state.app.change;
   }
 }

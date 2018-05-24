@@ -37,7 +37,8 @@
   surface the original wilhem-baynes translation.
 * try running the chinese through google translate?
 * Todo list as of May 23
-[ ] Move the menu to the side bar
+[x] Move the menu to the side bar
+[ ] Put the buttons at the foot of the View page
 [ ] Style those buttons
 [ ] Incorporate mersenne-twister.js
 [ ] Use time of cast button press as random seed

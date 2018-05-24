@@ -13,7 +13,7 @@ There are too many of these, I think, or maybe not.
 Does each change of page view require an action?
 I cannot see where these are getting generated in the code.
 */
-import { UPDATE_PAGE, UPDATE_OFFLINE,
+import { UPDATE_PAGE, UPDATE_OFFLINE, UPDATE_WIDE_LAYOUT,
          OPEN_SNACKBAR, CLOSE_SNACKBAR, UPDATE_DRAWER_STATE,
 	 CHANGE_CAST, CHANGE_LINK, CHANGE_UNDO, CHANGE_CLEAR, CHANGE_UPDATE, 
 	 CHANGE_SAVE, CHANGE_RESTORE, CHANGE_SETTINGS, CHANGE_ABOUT
@@ -64,6 +64,11 @@ const app = (state = {drawerOpened: false, change: ''}, action) => {
 	return {
             ...state,
             page: action.page
+	};
+    case UPDATE_WIDE_LAYOUT:
+	return {
+            ...state,
+            wideLayout: action.wideLayout
 	};
     case UPDATE_OFFLINE:
 	return {
