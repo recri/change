@@ -117,19 +117,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	this.change = change;
 	this.iching = iching;
 	this.dist = dist;
-
-	// console.log(`_stateChanged(${change}, ${iching}, ${dist})`);
-	// if (window.location.pathname !== `/${change}`) {
-	// console.log(`location ${window.location.pathname} does not match /${change}`);
-	// window.location.pathname = `/${change}`
-	// }
     }
     _shouldRender(props, changedProps, prevProps) {
-	// console.log(`_shouldRender() called, Object.keys(changedProps) ${Object.keys(changedProps)}`);
-	// if (changedProps.hasOwnProperty('change') && window.location.pathname !== `/${props.change}`) {
-	//   console.log('change has changed and does not match window.location.pathname')
-	//   return true
-	// }
 	return true
     }
 }

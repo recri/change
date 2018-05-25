@@ -39,14 +39,22 @@ const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'ya
 	return state;
     case CHANGE_LINK:
 	random.srandom(Date.now());
-	window.location.pathname = `/${iching.link(state.change)}`
-	return state;
+	return {
+	    ...state,
+	    change: iching.link(state.change)
+	};
     case CHANGE_UNDO:
-	window.location.pathname = `/${iching.undo(state.change)}`
-	return state;
+	if (window.location.pathname.length > 1) window.location.pathname = ''
+	return {
+	    ...state,
+	    change: iching.undo(state.change)
+	};
     case CHANGE_CLEAR:
-	window.location.pathname = `/`
-	return state;
+	if (window.location.pathname.length > 1) window.location.pathname = ''
+	return {
+	    ...state,
+	    change: iching.clear(state.change)
+	};
     case CHANGE_UPDATE:
 	return {
 	    ...state,
