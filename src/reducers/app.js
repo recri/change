@@ -27,38 +27,26 @@ import { Random } from '../code/random.js';
 const random = new Random();
 const iching = new Change(random);
 
-import('../code/changes.js').then((mod) => {
-    console.log("import changes got mod");
-    iching.setText(mod.Changes);
-    console.log("import changes called iching.setText(mod.Changes)")
-    // console.log(`import changes.js completed with ${mod}`);
-    // console.log(mod);
-});
+import('../code/changes.js').then((mod) => iching.setText(mod.Changes));
 
 const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'yarrow'}, action) => {
     switch (action.type) {
+	// funnel changes through the window.location, 
+	// so the browser hosted version can save bookmarks
     case CHANGE_CAST:
 	random.srandom(Date.now());
-	return {
-	    ...state,
-	    change: iching.cast(state.change)
-	};
+	window.location.pathname = `/${iching.cast(state.change)}`
+	return state;
     case CHANGE_LINK:
 	random.srandom(Date.now());
-	return {
-	    ...state,
-	    change: iching.link(state.change)
-	};
+	window.location.pathname = `/${iching.link(state.change)}`
+	return state;
     case CHANGE_UNDO:
-	return {
-	    ...state,
-	    change: iching.undo(state.change)
-	};
+	window.location.pathname = `/${iching.undo(state.change)}`
+	return state;
     case CHANGE_CLEAR:
-	return {
-	    ...state,
-	    change: iching.clear(state.change)
-	};
+	window.location.pathname = `/`
+	return state;
     case CHANGE_UPDATE:
 	return {
 	    ...state,

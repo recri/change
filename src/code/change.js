@@ -1,4 +1,5 @@
 // import { Changes } from '../code/changes.js';
+import { html, svg } from 'lit-html/lib/lit-extended.js';
 
 export class Change {
 
@@ -109,8 +110,64 @@ export class Change {
 
     // clear the change
     clear(str) { return ''; }
-}
 
+    // set the change
+    update(str) {
+	return (/^([6789]{6})(,[6789]{6})*$/.test(str)) ? str : '';
+    }
+    
+    //
+    // draw a hexagram with moving line marks
+    // set width and height on the svg element to alter display size 
+    //
+    // suppose we make lines and the gaps between the same width, 
+    // and use that width as the margin, too.  Then we want height
+    // to be a multiple of 13, and a multiple that is odd so that 
+    // the midline of the horizontal strokes is integral, too.
+    //
+    kua(lines) {
+	const width = 128
+	const height = 128
+	const margin = 10
+	const x0 = margin, x1 = (width-margin)
+	const gap = (x1-x0)/10
+	const r = gap*7/10
+	const mid = x0+(x1-x0)/2
+	const yi = (i) => height-(i*2)*margin-margin-margin/2
+	const sw = 3
+	const draw = (l, y) => { // , x0, x1, sw
+	    // const gap = (x1-x0)/10;
+	    // const r = gap*7/10;
+	    // const mid = x0+(x1-x0)/2;
+	    const line = (cl,x1,y1,x2,y2,sw) =>
+		  svg`<line class$="${cl}" x1$="${x1}" y1$="${y1}" x2$="${x2}" y2$="${y2}"></line>`;
+	    const circle = (cl,cx,cy,r,sw) =>
+		  svg`<circle class$="${cl}" cx$="${cx}" cy$="${cy}" r$="${r}" fill="none"></circle>`;
+	    
+	    // 6 old yin, broken line, x at the midpoint
+	    // 7 young yang, solid line
+	    // 8 young yin, broken line
+	    // 9 old yang, solid line, circle at the midpoint
+	    let ret = ''
+	    switch (l) {
+	    case '6': 
+		return svg`${line("kua-line", x0, y, mid-gap, y)}${line("kua-line", mid+gap, y, x1, y)}
+			${line("kua-mark", mid-r, y-r, mid+r, y+r)}${line("kua-mark", mid-r, y+r, mid+r, y-r)}`;
+	    case '8':
+		return svg`${line("kua-line", x0, y, mid-gap, y)}${line("kua-line", mid+gap, y, x1, y)}`;
+	    case '9': 
+		return svg`${line("kua-line", x0, y, x1, y)}
+			${circle("kua-mark", mid,y,r)}`;
+	    case '7':
+		return svg`${line("kua-line", x0, y, x1, y)}`;
+	    }
+	}
+	return html`
+<svg class="kua" viewBox="0 0 128 128">
+  ${lines.split('').map((l,i) => draw(l, yi(i)))}
+</svg>`
+    }
+}
 /*
 function displayChanges(id, str) {
   alert("display changes id='"+id+"' and str='"+str+"'");

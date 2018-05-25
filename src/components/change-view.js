@@ -37,7 +37,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	const getCommentary = (hex,value) => this.iching.getCommentary(hex, value);
 	const getNumber = (hex) => getText(hex,"number");
 	// const getCharacter = (hex) => getText(hex,"character");
-	const getHexagram = (hex) => getText(hex,"hexagram");
+	// const getHexagram = (hex) => getText(hex,"hexagram");
+	const getHexagram = (hex) => iching.kua(hex);
 	// const getName = (hex) => getText(hex,"name");
 	const getNameInterpretation = (hex) => getText(hex,"name-interpretation");
 	// const getPinyin = (hex) => getText(hex,"pinyin");
@@ -63,8 +64,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	}
 
 	const renderLink = (link, linkIndex, links) => {
-	    const hex = this.iching.backward(link);
-	    const finisHex = this.iching.forward(link);
+	    const hex = iching.backward(link);
+	    const finisHex = iching.forward(link);
 	    const lines = link.split('')
 	    const allMoving = lines.every(isMovingLine);
 	    const allStationary = lines.every(isStationaryLine)
@@ -74,7 +75,7 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	    const startName = getNameInterpretation(hex);
 	    const finisName = getNameInterpretation(finisHex);
 	    const bonus = allMoving && getLine(hex,7) !== undefined ?
-		  html`<div class="line">${getLine(hex, lineIndex+1)}</div>` :
+		  html`<div class="line" title="${getLineOrdinal(hex, 7)}">${getLine(hex, 7)}</div>` :
 		  html``;
 	    const renderLine = (line, lineIndex) => {
 		return isMovingLine(line) ?
@@ -82,18 +83,15 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		    html`<div class="line" title="${getLineOrdinal(hex, lineIndex+1)}">${getLine(hex, lineIndex+1)}</div>` :
 		    html``;
 	    }
-	    const moving = ! allStationary ? 
+	    const moving =
 		  html`<div class="lines" title="${startName} -> ${finisName}">
-			${getHexagram(hex)} -> ${getHexagram(finisHex)}
+			${getHexagram(link)}
 			${lines.map(renderLine)}
 			${bonus}
-			</div>` :
-		  html``;
-	
-
+			</div>`;
 	    return html`
 		${start}
-		${moving}
+		${ ! allStationary ? moving : ''}
 		${finis}`;
 	}
 	if (change === '') {
@@ -104,6 +102,9 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		${SharedStyles}
 		<style>
 		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px }
+		  svg.kua { width: 24px; height: 24px; }
+		  svg.kua .kua-line { stroke-width: 2; stroke: black; }
+		  svg.kua .kua-mark { stroke-width: 2; stroke: black; }
 		</style>
 		<section>
 		  ${links.map(renderLink)}
@@ -112,11 +113,25 @@ export class ChangeView extends connect(store)(PageViewElement) {
     }
 
     _stateChanged(state) {
-	this.change = state.app.change;
-	this.iching = state.app.iching;
-	this.dist = state.app.dist;
-    }
+	const {change, iching, dist} = state.app;
+	this.change = change;
+	this.iching = iching;
+	this.dist = dist;
 
+	// console.log(`_stateChanged(${change}, ${iching}, ${dist})`);
+	// if (window.location.pathname !== `/${change}`) {
+	// console.log(`location ${window.location.pathname} does not match /${change}`);
+	// window.location.pathname = `/${change}`
+	// }
+    }
+    _shouldRender(props, changedProps, prevProps) {
+	// console.log(`_shouldRender() called, Object.keys(changedProps) ${Object.keys(changedProps)}`);
+	// if (changedProps.hasOwnProperty('change') && window.location.pathname !== `/${props.change}`) {
+	//   console.log('change has changed and does not match window.location.pathname')
+	//   return true
+	// }
+	return true
+    }
 }
 
 window.customElements.define('change-view', ChangeView);
