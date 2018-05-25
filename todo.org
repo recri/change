@@ -53,3 +53,7 @@
 	final hexagram is static
 [ ] Move about and settings into dialogs
 [ ] Style those dialogs
+[ ] Pick a hexagram as the app icon
+[x] asynchronously load text, used
+	import("../code/changes.js").then((mod) => iching.setText(mod))
+

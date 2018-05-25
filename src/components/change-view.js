@@ -33,21 +33,22 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	const breakAtNewlines = (str, skipFirst) => skipFirst ?
 	      str.split('\n').slice(1).map((x) => html`${x}<br/>\n`) :
 	      str.split('\n').map((x) => html`${x}<br/>\n`);
-	const getChange = (hex,value) => this.iching.getChange(hex, value);
-	const getNumber = (hex) => getChange(hex,"number");
-	// const getCharacter = (hex) => getChange(hex,"character");
-	const getHexagram = (hex) => getChange(hex,"hexagram");
-	// const getName = (hex) => getChange(hex,"name");
-	const getNameInterpretation = (hex) => getChange(hex,"name-interpretation");
-	// const getPinyin = (hex) => getChange(hex,"pinyin");
-	// const getAbove = (hex) => getChange(hex,"above");
-	// const getAboveInterpretation = (hex) => getChange(hex,"above-interpretation");
-	// const getBelow = (hex) => getChange(hex,"below");
-	// const getBelowInterpretation = (hex) => getChange(hex,"below-interpretation");
-	const getJudgment = (hex) => breakAtNewlines(getChange(hex,"judgment"), false);
-	const getImage = (hex) => breakAtNewlines(getChange(hex,"image"), false);
-	const getLine = (hex,line) => breakAtNewlines(getChange(hex,`line-${line}`), true);
-	const getLineOrdinal = (hex,line) => getChange(hex,`line-${line}`).split('\n')[0];
+	const getText = (hex,value) => this.iching.getText(hex, value);
+	const getCommentary = (hex,value) => this.iching.getCommentary(hex, value);
+	const getNumber = (hex) => getText(hex,"number");
+	// const getCharacter = (hex) => getText(hex,"character");
+	const getHexagram = (hex) => getText(hex,"hexagram");
+	// const getName = (hex) => getText(hex,"name");
+	const getNameInterpretation = (hex) => getText(hex,"name-interpretation");
+	// const getPinyin = (hex) => getText(hex,"pinyin");
+	// const getAbove = (hex) => getText(hex,"above");
+	// const getAboveInterpretation = (hex) => getText(hex,"above-interpretation");
+	// const getBelow = (hex) => getText(hex,"below");
+	// const getBelowInterpretation = (hex) => getText(hex,"below-interpretation");
+	const getJudgment = (hex) => breakAtNewlines(getText(hex,"judgment"), false);
+	const getImage = (hex) => breakAtNewlines(getText(hex,"image"), false);
+	const getLine = (hex,line) => breakAtNewlines(getText(hex,`line-${line}`), true);
+	const getLineOrdinal = (hex,line) => getText(hex,`line-${line}`).split('\n')[0];
 	
 	const isMovingLine = (line) => (line === '6' || line === '9');
 	const isStationaryLine = (line) => (line === '7' || line === '8');

@@ -20,12 +20,20 @@ import { UPDATE_PAGE, UPDATE_OFFLINE, UPDATE_WIDE_LAYOUT,
 	 CHANGE_DIST
        } from '../actions/app.js';
 
-import { Changes } from '../code/changes.js';
+// import { Changes } from '../code/changes.js';
 import { Change } from '../code/change.js';
 import { Random } from '../code/random.js';
 
 const random = new Random();
-const iching = new Change(random, Changes);
+const iching = new Change(random);
+
+import('../code/changes.js').then((mod) => {
+    console.log("import changes got mod");
+    iching.setText(mod.Changes);
+    console.log("import changes called iching.setText(mod.Changes)")
+    // console.log(`import changes.js completed with ${mod}`);
+    // console.log(mod);
+});
 
 const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'yarrow'}, action) => {
     switch (action.type) {

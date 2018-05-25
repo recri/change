@@ -2,16 +2,30 @@
 
 export class Change {
 
-    constructor(random, changes) {
+    constructor(random) {
 	this.random = random;
 	this.dist = 'yarrow';
-	this.changes = changes;
+	this.text = undefined;
+	this.commentary = undefined;
     }
     
-    getChange(hex, value) {
-	return this.changes.changes[this.changes.lines[hex]][value]
+    setText(text) { this.text = text; }
+    setCommentary(commentary) { this.commentary = commentary; }
+    
+    getText(hex, value) {
+	if (this.text)
+	    return this.text.changes[this.text.lines[hex]][value]
+	// can I await the arrival?
+	return '';
     }
 
+    getCommentary(hex, value) {
+	if (this.text && this.commentary)
+	    return this.commentary.changes[this.text.lines[hex]][value]
+	// can I await the arrival? maybe not coming
+	return '';
+    }
+    
     set dist(value) {
 	this._distName = value;
 	switch (value) {
