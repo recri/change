@@ -1,63 +1,44 @@
+// import { Changes } from '../code/changes.js';
+
 export class Change {
-    // get the text object for the specified hexagram
-    // need the database
-    static getChange(str) {
+
+    constructor(random, changes) {
+	this.random = random;
+	this.dist = 'yarrow';
+	this.changes = changes;
+    }
+    
+    getChange(hex, value) {
+	return this.changes.changes[this.changes.lines[hex]][value]
     }
 
-    //
-    // chose one character from a string at random
-    //
-    static chooseRandomCharacterFromString(str) { return str.charAt(Math.floor(Math.random()*str.length)); }
-
-    //
-    // make n choices of characters from a string
-    //
-    static chooseRandomCharactersFromString(n, str) {
-	var result = '';
-	for (var i = 0; i < n; i +=1 )
-	    result += Change.chooseRandomCharacterFromString(str);
-	return result;
+    set dist(value) {
+	this._distName = value;
+	switch (value) {
+	case 'yarrow': this._dist = this.distYarrow; break;
+	case 'coins': this._dist = this.distCoins; break;
+	case 'uniform': this._dist = this.distUniform; break;
+	default: 
+	    if (/^[0-9][0-9][0-9][0-9]$/.test(value))
+		this._dist = value;
+	    else
+		this._dist = Math.floor(random.random()*1000).toString()
+	    break;
+	}
+	this._hist = this.random.hist_for_dist(this._dist, '6789');
+	this._yinHist = this._hist.slice(0).replace(/[79]/g, '')
+	this._yangHist = this._hist.slice(0).replace(/[68]/g, '')
     }
 
-    //
-    // make a histogram from distribution counts
-    //
-    static hist_for_dist(dist,bins) {
-	if (dist.length != bins.length)
-	    throw "hist_for_dist: dist and bins have different lengths";
-	dist = String(dist).split('');
-	bins = String(bins).split('');
-	var hist = '';
-	for (var i = 0; i < dist.length; i += 1)
-	    for (var j = 0; j < dist[i]; j += 1)
-		hist += bins[i];
-	return hist;
-    }
+    get dist() { return this.distName; }
 
     // make a line from a distribution
-    static getLines(dist) { return Change.chooseRandomCharactersFromString(6, Change.hist_for_dist(dist, '6789')); }
+    getLines() { return this.random.choosen(this._hist, 6); }
 
     // age an existing hexagram into a new hexagram
     // using yin and yang transition probabilities
-    static nextLines(str, dist) {
-	var yin = Change.hist_for_dist(dist, '6789').replace(/[79]/g,'');
-	var yang = Change.hist_for_dist(dist, '6789').replace(/[68]/g,'');
-	var result = '';
-	for (var i = 0; i < str.length; i += 1) {
-	    switch (str.charAt(i)) {
-	    case '6':   // old yin and
-	    case '7':   // young yang are yang
-		result += Change.chooseRandomCharacterFromString(yang);
-		continue; // become young or old yang
-	    case '8':   // young yin and
-	    case '9':   // old yang are yin
-		result += Change.chooseRandomCharacterFromString(yin);
-		continue; // become young or old yin
-	    default:
-		throw "Change.nextLines: input line is not 6,7,8, or 9: "+str;
-	    }
-	}
-	return result;
+    nextLines(str) {
+	return str.split('').map((c) => this.random.choose(c === '6' || c === '7' ? this._yangHist : this._yinHist)).join('')
     }
 
     // choose or age a hexagram using the yarrow stalk oracle
@@ -66,9 +47,7 @@ export class Change {
     //	* 8 = young yin:  7 in 16 (0.4375)
     //	* 9 = old yang:   3 in 16 (0.1875)
     // or as a 4 digit dist: 1573
-    static distYarrow() { return '1573'; }
-    static getYarrow() { return Change.getLines(Change.distYarrow()); }
-    static nextYarrow(str) { return Change.nextLines(str, Change.distYarrow()); }
+    get distYarrow() { return '1573'; }
 
     // choose a hexagram using the coin oracle
     //	* 6 = old yin:    1 in 8 (0.125)
@@ -76,9 +55,7 @@ export class Change {
     //	* 8 = young yin:  3 in 8 (0.375)
     //	* 9 = old yang:   1 in 8 (0.125)
     // or as a 4 digit dist: 1331
-    static distCoin() { return '1331'; }
-    static getCoin() { return Change.getLines(Change.distCoin()); }
-    static nextCoin(str) { return Change.nextLines(str, Change.distCoin()); }
+    get distCoin() { return '1331'; }
 
     // choose a hexagram uniformly
     //	* 6 = old yin:    1 in 4 (0.25)
@@ -86,58 +63,39 @@ export class Change {
     //	* 8 = young yin:  1 in 4 (0.25)
     //	* 9 = old yang:   1 in 4 (0.25)
     // or as a 4 digit dist: 1111
-    static distUniform() { return '1111'; }
-    static getUniform() { return Change.getLines(6,Change.distUniform()); }
-    static nextUniform(str) { return Change.nextLines(str, Change.distUniform()); }
+    get distUniform() { return '1111'; }
 
     //
     // translate an oracle backward
     // ie, retract the old lines into new lines
     //
-    static backward(str) { return String(str).replace(/6/g, '8').replace(/9/g, '7'); }
+    backward(str) { return String(str).replace(/6/g, '8').replace(/9/g, '7'); }
 
     //
     // translate an oracle forward
     // ie, change the old lines into their
     // young opposites.
     //
-    static forward(str) { return String(str).replace(/6/g, '7').replace(/9/g, '8'); }
-    
-    // translate a [6789]+ hexagram to an octal string
-    static toOctal(str) {
-    }
-
-    // translate an octal string to [6789]+ hexagrams
-    static fromOctal(str) {
-    }
+    forward(str) { return String(str).replace(/6/g, '7').replace(/9/g, '8'); }
     
     // get the last hexagram from a change for a link
-    static tail(str) { return str.slice(-6); }
+    tail(str) { return str.slice(-6); }
 
     // get all but the last hexagram from a change
-    static head(str) { return str.length <= 6 ? '' : str.slice(0,-7); }
-    // cast a hexagram, link onto previous 
-    static cast(str) { return str.length === 0 ? Change.getYarrow() : str+';'+Change.getYarrow(); }
+    head(str) { return str.length <= 6 ? '' : str.slice(0,-7); }
 
-    // link a hexagram onto the existing change
-    static link(str) { return str.length === 0 ? Change.getYarrow() : str+','+Change.nextYarrow(Change.tail(str)); }
+    // cast a new change, append onto previous 
+    cast(str) { return str.length === 0 ? this.getLines() : str+';'+this.getLines(); }
+
+    // link a new change onto the existing change
+    link(str) { return str.length === 0 ? this.getLines() : str+','+this.nextLines(this.tail(str)); }
 
     // undo the last cast or link
-    static undo(str) { return Change.head(str); }
+    undo(str) { return this.head(str); }
 
     // clear the change
-    static clear(str) { return ''; }
+    clear(str) { return ''; }
 }
-
-
-// a one or two digit number should fetch the hexagram with that number
-// a four or eight digit number should specify a line distribution
-//     yarrow = 1573, coin = 1331, uniform = 1111    
-// a six digit number chosen from [6789], the lines
-/* function Change(str) {} */
-//
-// append a hexagram to a display div
-//
 
 /*
 function displayChanges(id, str) {

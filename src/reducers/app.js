@@ -16,38 +16,50 @@ I cannot see where these are getting generated in the code.
 import { UPDATE_PAGE, UPDATE_OFFLINE, UPDATE_WIDE_LAYOUT,
          OPEN_SNACKBAR, CLOSE_SNACKBAR, UPDATE_DRAWER_STATE,
 	 CHANGE_CAST, CHANGE_LINK, CHANGE_UNDO, CHANGE_CLEAR, CHANGE_UPDATE, 
-	 CHANGE_SAVE, CHANGE_RESTORE, CHANGE_SETTINGS, CHANGE_ABOUT
+	 CHANGE_SAVE, CHANGE_RESTORE, CHANGE_SETTINGS, CHANGE_ABOUT,
+	 CHANGE_DIST
        } from '../actions/app.js';
 
-import { Change } from '../code/change.js';
 import { Changes } from '../code/changes.js';
+import { Change } from '../code/change.js';
+import { Random } from '../code/random.js';
 
-const app = (state = {drawerOpened: false, change: ''}, action) => {
+const random = new Random();
+const iching = new Change(random, Changes);
+
+const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'yarrow'}, action) => {
     switch (action.type) {
     case CHANGE_CAST:
+	random.srandom(Date.now());
 	return {
 	    ...state,
-	    change: Change.cast(state.change)
+	    change: iching.cast(state.change)
 	};
     case CHANGE_LINK:
+	random.srandom(Date.now());
 	return {
 	    ...state,
-	    change: Change.link(state.change)
+	    change: iching.link(state.change)
 	};
     case CHANGE_UNDO:
 	return {
 	    ...state,
-	    change: Change.undo(state.change)
+	    change: iching.undo(state.change)
 	};
     case CHANGE_CLEAR:
 	return {
 	    ...state,
-	    change: Change.clear(state.change)
+	    change: iching.clear(state.change)
 	};
     case CHANGE_UPDATE:
 	return {
 	    ...state,
-	    change: Change.update(action.change)
+	    change: iching.update(action.change)
+	};
+    case CHANGE_DIST:
+	return {
+	    ...state,
+	    dist: iching.setDist(action.change)
 	};
     case CHANGE_SAVE:
 	return {

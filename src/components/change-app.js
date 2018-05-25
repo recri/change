@@ -26,8 +26,10 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
+
 import { navigate, updateOffline, updateDrawerState, updateLayout,
-         changeCast, changeLink, changeUndo, changeClear } from '../actions/app.js';
+         changeCast, changeLink, changeUndo, changeClear, changeUpdate,
+         changeDist } from '../actions/app.js';
 
 class ChangeApp extends connect(store)(LitElement) {
     _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline, _wideLayout, _change}) {
@@ -178,7 +180,7 @@ class ChangeApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <main class="main-content">
-      <change-view class="page" active?="${_page === 'view'}" change="${_change}"></change-view>
+      <change-view class="page" active?="${_page === 'view'}"></change-view>
       <change-save class="page" active?="${_page === 'save'}"></change-save>
       <change-restore class="page" active?="${_page === 'restore'}"></change-restore>
       <change-settings class="page" active?="${_page === 'settings'}"></change-settings>
@@ -188,10 +190,8 @@ class ChangeApp extends connect(store)(LitElement) {
 
     <footer>
       <p>
-	Made with &lt;3 using the Polymer team's
-	  <a href="https://github.com/Polymer/pwa-starter-kit/blob/master/README.md">
-	    PWA Starter Kit
-	  </a>.
+	Made with &lt;3 using the 
+	<a href="https://github.com/Polymer/pwa-starter-kit/blob/master/README.md">PWA Starter Kit</a>.
       </p>
     </footer>
 

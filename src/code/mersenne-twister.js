@@ -65,7 +65,7 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-var MersenneTwister = function(seed) {
+export const MersenneTwister = function(seed) {
   /* Period parameters */  
   this.N = 624;
   this.M = 397;

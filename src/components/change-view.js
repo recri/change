@@ -12,22 +12,28 @@ import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
-import { Change } from '../code/change.js';
-import { Changes } from '../code/changes.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { store } from '../store.js';
 
-export class ChangeView extends PageViewElement {
+export class ChangeView extends connect(store)(PageViewElement) {
     static get properties() {
 	return {
 	    change: String,
-	    index: Number
+	    // index: Number,
+	    iching: Object,
+	    dist: String
 	}
     }
 
-    _render({change}) {
+    constructor() {
+	super();
+    }
+    
+    _render({change, iching, dist}) {
 	const breakAtNewlines = (str, skipFirst) => skipFirst ?
 	      str.split('\n').slice(1).map((x) => html`${x}<br/>\n`) :
 	      str.split('\n').map((x) => html`${x}<br/>\n`);
-	const getChange = (hex,value) => Changes.changes[Changes.lines[hex]][value];
+	const getChange = (hex,value) => this.iching.getChange(hex, value);
 	const getNumber = (hex) => getChange(hex,"number");
 	// const getCharacter = (hex) => getChange(hex,"character");
 	const getHexagram = (hex) => getChange(hex,"hexagram");
@@ -54,9 +60,10 @@ export class ChangeView extends PageViewElement {
 		</div>
 	    `;
 	}
+
 	const renderLink = (link, linkIndex, links) => {
-	    const hex = Change.backward(link);
-	    const finisHex = Change.forward(link);
+	    const hex = this.iching.backward(link);
+	    const finisHex = this.iching.forward(link);
 	    const lines = link.split('')
 	    const allMoving = lines.every(isMovingLine);
 	    const allStationary = lines.every(isStationaryLine)
@@ -102,6 +109,13 @@ export class ChangeView extends PageViewElement {
 		</section>`;
 	}
     }
+
+    _stateChanged(state) {
+	this.change = state.app.change;
+	this.iching = state.app.iching;
+	this.dist = state.app.dist;
+    }
+
 }
 
 window.customElements.define('change-view', ChangeView);
