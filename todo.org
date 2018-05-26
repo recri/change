@@ -47,13 +47,22 @@
 [ ] Catch "addtodesktop" event and handle
 [ ] Change distributions in settings
 [ ] Change cast protocol in settings
-[ ] Draw hexagrams, including moving lines
+[x] Draw hexagrams, including moving lines
 	initial hexagram is static
 	moving lines hexagram is moving
 	final hexagram is static
+[ ] Hexagrams need styling,
+	-x- is hard to see,
+	lines are too faint,
+	try using 1/13th as line stroke, interline spacing, and margins,
+	then shift space to margins and spacing from line strokes,
+	then tune the marker strokes
 [ ] Move about and settings into dialogs
 [ ] Style those dialogs
 [ ] Pick a hexagram as the app icon
 [x] asynchronously load text, used
 	import("../code/changes.js").then((mod) => iching.setText(mod))
-
+	back the change out, ruined the load time
+[x] accept list of changes in url, eg ([6789]{6})(,[6789]{6})*
+	and display the specfied change or changes
+	but do not put all casts into location
