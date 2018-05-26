@@ -106,8 +106,8 @@ proc get-text-and-tags {doc tags} {
     lappend result {*}[array get content]
     return $result
 }
-proc get-line {n gov doc} {
-    return [list line-$n {*}[get-text-and-tags $doc {comment}] rules $gov]
+proc get-line {n gov con doc} {
+    return [list line-$n {*}[get-text-and-tags $doc {comment}] governing-ruler $gov constituting-ruler $con]
 }
 
 proc traverse {indent doc} {
@@ -151,10 +151,12 @@ proc traverse {indent doc} {
 	    line {
 		# there is an n=? attribute,
 		# optionally a governing_ruler=? attribute
+		# optionally a constituting_ruler=? attribute
 		# there is a body with #text and br and possibly a comment
 		set myattrs(governing_ruler) false
+		set myattrs(constituting_ruler) false
 		array set myattrs $attrs
-		return [get-line $myattrs(n) $myattrs(governing_ruler) $body]
+		return [get-line $myattrs(n) $myattrs(governing_ruler) $myattrs(constituting_ruler) $body]
 	    }
 	    default {
 		error "$indent$tag $attrs"
@@ -224,7 +226,12 @@ foreach c $nchanges {
 		set lname $name
 		puts "    \"$name\" : \`$value\`,"
 	    }
-	    {rules} {
+	    {constituting-ruler} {
+		if {$value eq "true"} {
+		    puts "    \"$lname-$name\" : \"$value\","
+		}
+	    }
+	    {governing-ruler} {
 		if {$value eq "true"} {
 		    puts "    \"$lname-$name\" : \"$value\","
 		}

@@ -14,10 +14,17 @@ export class Change {
     setCommentary(commentary) { this.commentary = commentary; }
     
     getText(hex, value) {
-	if (this.text)
-	    return this.text.changes[this.text.lines[hex]][value]
-	// can I await the arrival?
-	return '';
+	return this.text ?
+	    this.text.changes[this.text.lines[hex]][value] :
+	    '';
+    }
+
+    getBoolean(hex, value) {
+	if (this.text) {
+	    const entry = this.text.changes[this.text.lines[hex]]
+	    return entry.hasOwnProperty(value) && entry[value]
+	}
+	return false;
     }
 
     getCommentary(hex, value) {

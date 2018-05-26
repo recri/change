@@ -1,0 +1,10 @@
+<svg class="kua" viewBox="0 0 390 390" stroke="black">
+  <line class="kua-line" x1="32" y1="345" x2="358" y2="345" stroke-width="26"></line>
+  <line class="kua-line" x1="32" y1="285" x2="358" y2="285" stroke-width="26"></line>
+  <line class="kua-line" x1="32" y1="225" x2="135" y2="225" stroke-width="26"></line>
+  <line class="kua-line" x1="255" y1="225" x2="358" y2="225" stroke-width="26"></line>
+  <line class="kua-line" x1="32" y1="165" x2="135" y2="165" stroke-width="26"></line>
+  <line class="kua-line" x1="255" y1="165" x2="358" y2="165" stroke-width="26"></line>
+  <line class="kua-line" x1="32" y1="105" x2="358" y2="105" stroke-width="26"></line>
+  <line class="kua-line" x1="32" y1="45" x2="358" y2="45" stroke-width="26"></line>
+</svg>

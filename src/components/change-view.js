@@ -34,6 +34,7 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	      str.split('\n').slice(1).map((x) => html`${x}<br/>\n`) :
 	      str.split('\n').map((x) => html`${x}<br/>\n`);
 	const getText = (hex,value) => this.iching.getText(hex, value);
+	const getBoolean = (hex,value) => this.iching.getBoolean(hex, value);
 	const getCommentary = (hex,value) => this.iching.getCommentary(hex, value);
 	const getNumber = (hex) => getText(hex,"number");
 	// const getCharacter = (hex) => getText(hex,"character");
@@ -50,6 +51,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	const getImage = (hex) => breakAtNewlines(getText(hex,"image"), false);
 	const getLine = (hex,line) => breakAtNewlines(getText(hex,`line-${line}`), true);
 	const getLineOrdinal = (hex,line) => getText(hex,`line-${line}`).split('\n')[0];
+	const getLineGoverning = (hex,line) => getBoolean(hex, `line-${line}-governing-ruler`)
+	const getLineConstituting = (hex,line) => getBoolean(hex, `line-${line}-constituting-ruler`)
 	
 	const isMovingLine = (line) => (line === '6' || line === '9');
 	const isStationaryLine = (line) => (line === '7' || line === '8');
