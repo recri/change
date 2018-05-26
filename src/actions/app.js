@@ -14,6 +14,7 @@ export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+export const INSTALL_PROMPT = 'INSTALL_PROMPT'
 
 export const CHANGE_CAST = 'CHANGE_CAST';
 export const CHANGE_LINK = 'CHANGE_LINK';
@@ -118,6 +119,13 @@ export const updateDrawerState = (opened) => (dispatch, getState) => {
       opened
     });
   }
+}
+
+export const installPrompt = (e) => (dispatch) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Show the prompt
+    e.prompt();
 }
 
 export const changeCasting = (t,c) => (dispatch) => {

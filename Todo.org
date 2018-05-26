@@ -44,14 +44,22 @@
 [x] Use time of cast button press as random seed
 [ ] Optionally add commentary
 [ ] Optionally add other translations
-[ ] Catch "addtodesktop" event and handle
+[x] Catch "addtodesktop" event and handle
+  minimal is
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Show the prompt
+    deferredPrompt.prompt();
+  });
+  also can save e for later display.
 [ ] Change distributions in settings
 [ ] Change cast protocol in settings
 [x] Draw hexagrams, including moving lines
 	initial hexagram is static
 	moving lines hexagram is moving
 	final hexagram is static
-[ ] Hexagrams need styling,
+[x] Hexagrams need styling,
 	-x- is hard to see,
 	lines are too faint,
 	try using 1/13th as line stroke, interline spacing, and margins,
@@ -59,7 +67,8 @@
 	then tune the marker strokes
 [ ] Move about and settings into dialogs
 [ ] Style those dialogs
-[ ] Pick a hexagram as the app icon
+[x] Pick a hexagram as the app icon
+	Inner truth. Pigs and fishes.
 [x] asynchronously load text, used
 	import("../code/changes.js").then((mod) => iching.setText(mod))
 	back the change out, ruined the load time

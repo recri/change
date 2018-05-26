@@ -103,8 +103,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		<style>
 		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px }
 		  svg.kua { width: 24px; height: 24px; }
-		  svg.kua .kua-line { stroke-width: 2; stroke: black; }
-		  svg.kua .kua-mark { stroke-width: 2; stroke: black; }
+		  svg.kua .kua-line { stroke: black; }
+		  svg.kua .kua-mark { stroke: black; }
 		</style>
 		<section>
 		  ${links.map(renderLink)}

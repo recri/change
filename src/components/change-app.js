@@ -16,7 +16,7 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 
-import { menuIcon } from './my-icons.js';
+import { menuIcon } from './change-icons.js';
 import './snack-bar.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -27,7 +27,7 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
 
-import { navigate, updateOffline, updateDrawerState, updateLayout,
+import { navigate, updateOffline, updateDrawerState, updateLayout, installPrompt,
          changeCast, changeLink, changeUndo, changeClear, changeUpdate,
          changeDist } from '../actions/app.js';
 
@@ -190,8 +190,7 @@ class ChangeApp extends connect(store)(LitElement) {
 
     <footer>
       <p>
-	Made with &lt;3 using the 
-	<a href="https://github.com/Polymer/pwa-starter-kit/blob/master/README.md">PWA Starter Kit</a>.
+	Inner Truth.  Pigs and fishes.
       </p>
     </footer>
 
@@ -217,6 +216,8 @@ class ChangeApp extends connect(store)(LitElement) {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
     setPassiveTouchGestures(true);
+    // prepare for install to home screen event
+    window.addEventListener('beforeinstallprompt', (e) => installPrompt(e))          
   }
 
   _firstRendered() {
