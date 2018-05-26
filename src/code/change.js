@@ -3,10 +3,10 @@ import { html, svg } from 'lit-html/lib/lit-extended.js';
 
 export class Change {
 
-    constructor(random) {
+    constructor(random, text) {
 	this.random = random;
 	this.dist = 'yarrow';
-	this.text = undefined;
+	this.text = text;
 	this.commentary = undefined;
     }
     

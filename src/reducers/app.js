@@ -21,13 +21,11 @@ import { UPDATE_PAGE, UPDATE_OFFLINE, UPDATE_WIDE_LAYOUT,
        } from '../actions/app.js';
 
 // import { Changes } from '../code/changes.js';
-import { Change } from '../code/change.js';
 import { Random } from '../code/random.js';
-
 const random = new Random();
-const iching = new Change(random);
-
-import('../code/changes.js').then((mod) => iching.setText(mod.Changes));
+import { Changes } from '../code/changes.js';
+import { Change } from '../code/change.js';
+const iching = new Change(random, Changes);
 
 const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'yarrow'}, action) => {
     switch (action.type) {
