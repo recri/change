@@ -1,4 +1,6 @@
 #!/bin/sh
+# enable compression of files
+# enable caching of files for an hour
 for f in build/es?-bundled; do
     cat > $f/.htaccess <<EOF
 <IfModule mod_deflate.c>
@@ -31,5 +33,9 @@ for f in build/es?-bundled; do
   BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
   Header append Vary User-Agent
 </IfModule>
+# 1 hour
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "max-age=3600, public"
+</FilesMatch>
 EOF
 done
