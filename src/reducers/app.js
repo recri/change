@@ -17,7 +17,7 @@ import { UPDATE_PAGE, UPDATE_OFFLINE, UPDATE_WIDE_LAYOUT,
          OPEN_SNACKBAR, CLOSE_SNACKBAR, UPDATE_DRAWER_STATE,
 	 CHANGE_CAST, CHANGE_LINK, CHANGE_UNDO, CHANGE_CLEAR, CHANGE_UPDATE, 
 	 CHANGE_SAVE, CHANGE_RESTORE, CHANGE_SETTINGS, CHANGE_ABOUT,
-	 CHANGE_DIST
+	 CHANGE_DIST, CHANGE_TAP, CHANGE_DOWN, CHANGE_UP
        } from '../actions/app.js';
 
 // import { Changes } from '../code/changes.js';
@@ -74,6 +74,16 @@ const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'ya
 	    restored: true
 	};
 	
+    case CHANGE_TAP:
+	console.log('CHANGE_TAP '+Object.keys(action.change))
+	return state;
+    case CHANGE_DOWN:
+	console.log('CHANGE_DOWN '+action.change)
+	return state;
+    case CHANGE_UP:
+	console.log('CHANGE_UP '+action.change)
+	return state;
+
     case UPDATE_PAGE:
 	return {
             ...state,

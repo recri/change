@@ -23,6 +23,10 @@ export const CHANGE_CLEAR = 'CHANGE_CLEAR';
 export const CHANGE_UPDATE = 'CHANGE_UPDATE';
 export const CHANGE_DIST = 'CHANGE_DIST';
 
+export const CHANGE_TAP = 'CHANGE_TAP';
+export const CHANGE_DOWN = 'CHANGE_DOWN';
+export const CHANGE_UP = 'CHANGE_UP';
+
 export const CHANGE_SAVE = 'CHANGE_SAVE';
 export const CHANGE_RESTORE = 'CHANGE_RESTORE';
 export const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
@@ -138,5 +142,8 @@ export const changeLink = () => (dispatch) => dispatch(changeCasting(CHANGE_LINK
 export const changeUndo = () => (dispatch) => dispatch(changeCasting(CHANGE_UNDO));
 export const changeClear = () => (dispatch) => dispatch(changeCasting(CHANGE_CLEAR));
 export const changeUpdate = (str) => (dispatch) => dispatch(changeCasting(CHANGE_UPDATE, str));
-export const changeDist = (dist) => (dispatch) => dispatch(changeCasting(CHANGE_DIST, dist))
-
+export const changeSettings = (dist) => (dispatch) => dispatch(changeCasting(CHANGE_SETTINGS, dist));
+export const changeDist = (dist) => (dispatch) => dispatch(changeCasting(CHANGE_DIST, dist));
+export const changeTap = (e) => (dispatch) => dispatch(changeCasting(CHANGE_TAP, e));
+export const changeDown = (e) => (dispatch) => dispatch(changeCasting(CHANGE_DOWN, e));
+export const changeUp = (e) => (dispatch) => dispatch(changeCasting(CHANGE_UP, e));

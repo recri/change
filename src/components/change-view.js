@@ -10,10 +10,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
+
 import { SharedStyles } from './shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
+
+import { GestureButton } from './gesture-button.js';
+
+import { changeTap, changeDown, changeUp } from '../actions/app.js';
 
 export class ChangeView extends connect(store)(PageViewElement) {
     static get properties() {
@@ -97,22 +102,27 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		${ ! allStationary ? moving : ''}
 		${finis}`;
 	}
-	if (change === '') {
-	    return html``;
-	} else {
-	    const links = change.split(',');
-	    return html`
+	const links = change.split(',');
+	const self = this;
+	function castTap(e) { self.castTap(e) }
+	return html`
 		${SharedStyles}
 		<style>
 		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px }
+		  div.action { text-align: center; }
 		  svg.kua { width: 24px; height: 24px; }
 		  svg.kua .kua-line { stroke: black; }
 		  svg.kua .kua-mark { stroke: black; }
 		</style>
 		<section>
-		  ${links.map(renderLink)}
+		  ${links.length > 0  && links[0].length > 0 ? links.map(renderLink) : ''}
+		  <div class="action">
+		    <gesture-button 
+			on-tap="${(e) => this.onTap.bind(this)(e)}"
+			on-down="${(e) => this.onDown.bind(this)(e)}"
+			on-up="${(e) => this.onUp.bind(this)(e)}">Cast</gesture-button>
+		  </div>
 		</section>`;
-	}
     }
 
     _stateChanged(state) {
@@ -124,6 +134,16 @@ export class ChangeView extends connect(store)(PageViewElement) {
     _shouldRender(props, changedProps, prevProps) {
 	return true
     }
+    onTap(e) { 
+	console.log(`change-view onTap ${e}`)
+    }
+    onDown(e) { 
+	console.log(`change-view onDown ${e}`)
+    }
+    onUp(e) {
+	console.log(`change-view onUp ${e}`)
+    }
+
 }
 
 window.customElements.define('change-view', ChangeView);
