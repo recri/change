@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { UPDATE_PAGE, UPDATE_WIDE_LAYOUT, UPDATE_DRAWER_STATE,
 	 CHANGE_CAST, CHANGE_REDO, CHANGE_UNDO, CHANGE_CLEAR, CHANGE_UPDATE, 
-	 CHANGE_DIST, CHANGE_FORMAT, CHANGE_DOWN
+	 CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL, CHANGE_DOWN
        } from '../actions/app.js';
 
 import { Random } from '../code/random.js';
@@ -20,7 +20,13 @@ import { Change } from '../code/change.js';
 const random = new Random();
 const iching = new Change(random, Changes);
 
-const app = (state = { drawerOpened: false, change: '', iching: iching, dist: 'yarrow', format: 'single'}, action) => {
+const app = (state = { drawerOpened: false, change: '',
+		       iching: iching, 
+		       dist: 'yarrow', // 'yarrow', 'coins', 'uniform', 'custom'
+		       custom: '3113', // /^[1-9]{4}$/
+		       format: 'single', // 'single', 'multiple', 'linked', 'threaded'
+		       protocol: 'one-per-cast' // 'one-per-cast', 'one-per-line', 'three-per-line'
+		     }, action) => {
     switch (action.type) {
     case CHANGE_CAST: {
 	const timestamp = Date.now()
@@ -66,6 +72,7 @@ const app = (state = { drawerOpened: false, change: '', iching: iching, dist: 'y
 	}
     }
 
+
     case CHANGE_DOWN:
 	return {
 	    ...state,
@@ -93,12 +100,22 @@ const app = (state = { drawerOpened: false, change: '', iching: iching, dist: 'y
     case CHANGE_DIST:
 	return {
 	    ...state,
-	    dist: iching.setDist(action.dist)
+	    dist: action.dist
+	};
+    case CHANGE_CUSTOM:
+	return {
+	    ...state,
+	    custom: action.custom
 	};
     case CHANGE_FORMAT:
 	return {
 	    ...state,
-	    format: iching.setFormat(action.format)
+	    format: action.format
+	};
+    case CHANGE_PROTOCOL:
+	return {
+	    ...state,
+	    protocol: action.protocol
 	};
 	
     case UPDATE_PAGE:

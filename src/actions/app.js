@@ -18,17 +18,18 @@ export const CHANGE_REDO = 'CHANGE_UNDO';
 export const CHANGE_UNDO = 'CHANGE_UNDO';
 export const CHANGE_CLEAR = 'CHANGE_CLEAR';
 export const CHANGE_UPDATE = 'CHANGE_UPDATE';
+export const CHANGE_DOWN = 'CHANGE_DOWN';
 
 export const CHANGE_DIST = 'CHANGE_DIST';
+export const CHANGE_CUSTOM = 'CHANGE_CUSTOM';
 export const CHANGE_FORMAT = 'CHANGE_FORMAT';
-
-export const CHANGE_DOWN = 'CHANGE_DOWN';
+export const CHANGE_PROTOCOL = 'CHANGE_PROTCOL';
 
 export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
     var page = path === '/' ? 'view' : path.slice(1);
 
-    if (/^([6789]{6})(,[6789]{6})*$/.test(page)) {
+    if (/^([6789]{6})([;,-][6789]{6})*$/.test(page)) {
 	dispatch(changeUpdate(page));
 	page = 'view';
     }
@@ -106,16 +107,25 @@ export const changeRedo = () => (dispatch) => dispatch(changeType(CHANGE_REDO));
 export const changeUndo = () => (dispatch) => dispatch(changeType(CHANGE_UNDO));
 export const changeClear = () => (dispatch) => dispatch(changeType(CHANGE_CLEAR));
 export const changeDown = () => (dispatch) => dispatch(changeType(CHANGE_DOWN));
+
 export const changeUpdate = (change) => (dispatch) => {
-    dispatch({ type: CHANGE_UPDATE, change: change});
+    dispatch({ type: CHANGE_UPDATE, change});
     dispatch(updateDrawerState(false));
 }
 export const changeDist = (dist) => (dispatch) => {
-    dispatch({ type: CHANGE_DIST, dist: dist});
+    dispatch({ type: CHANGE_DIST, dist});
+    dispatch(updateDrawerState(false));
+}
+export const changeCustom = (custom) => (dispatch) => {
+    dispatch({ type: CHANGE_CUSTOM, custom});
     dispatch(updateDrawerState(false));
 }
 export const changeFormat = (format) => (dispatch) => {
-    dispatch({ type: CHANGE_UPDATE, format: format});
+    dispatch({ type: CHANGE_FORMAT, format});
+    dispatch(updateDrawerState(false));
+}
+export const changeProtocol = (protocol) => (dispatch) => {
+    dispatch({ type: CHANGE_PROTOCOL, protocol});
     dispatch(updateDrawerState(false));
 }
 

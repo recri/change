@@ -14,69 +14,118 @@ import { SharedStyles } from './shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { navigate, changeDist, changeFormat } from '../actions/app.js';
+import { changeDist, changeCustom, changeFormat, changeProtocol } from '../actions/app.js';
 
 class ChangeSettings extends connect(store)(PageViewElement) {
 
     static get properties() {
 	return {
-	    dist: String,
-	    format: String
+	    _dist: String,
+	    _format: String,
+	    _custom: String,
+	    _protocol: String
 	}
     }
 
-    _render({dist, format}) {
+    _render({_dist, _format, _custom, _protocol}) {
+	const input_radio = (id, name, checked, onclick, label) =>
+	      html`
+		<label>
+		  <input type="radio" id="${id}" name="${name}" value="${id}" checked?=${checked} on-click="${onclick}"></input>
+		  ${label}</label>
+		`;
+	const distribution = (id, label) =>
+	      html`${input_radio(id, 'distribution', _dist===id, _ => this._distClick.bind(this)(id), label)}`
+	const format = (id, label) =>
+	      html`${input_radio(id, 'format', _format===id, _ => this._formatClick.bind(this)(id), label)}`;
+	const protocol = (id, label) =>
+	      html`${input_radio(id, 'protocol', _protocol===id, _ => this._protocolClick.bind(this)(id), label)}`;
+
+	const custom_select = (i,d,name) => {
+	    const option = (v) => html`<option value="${v}" selected?=${v == d}>${v}</option>`
+	    return html`
+		<select name="${name}" on-change=${e => this._customClick.bind(this)(e,i,name)}>
+		  ${[1,2,3,4,5,6,7,8,9].map(v => option(v))}
+		</select>
+		`;
+	}
+
 	return html`
       ${SharedStyles}
       <section>
         <h2>Settings</h2>
-	<form on-submit="${(e) => this.onSubmit.bind(this)(e)}" on-cancel="${(e) => this.onCancel.bind(this)(e)}">
+	<form on-submit="${(e) => e.preventDefault()}">
 	<p>Line distribution:</p>
 	  <div>
-	    <input type="radio" id="distYarrow" name="dist" value="yarrow" checked?=${dist==='yarrow'}>
-	    <label for="distYarrow">Yarrow stalks</label>
-	    <input type="radio" id="distCoins" name="dist" value="coins" checked?=${dist==='coins'}>
-	    <label for="distCoins">Coins</label>
-	    <input type="radio" id="distUniform" name="dist" value="uniform" checked?=${dist==='uniform'}>
-	    <label for="distUniform">Uniform</label>
+	    ${distribution('yarrow', 'Yarrow stalks (1375)')}
+	    ${distribution('coins', 'Coins (1331)')}
+	    ${distribution('uniform', 'Uniform (1111)')}
+	    ${distribution('custom', 'Custom')}
 	  </div>
+	<p>Custom distribution:</p>
+	<div>
+	  6:7:8:9 :: 
+	  ${custom_select(0, _custom.charAt(0), 'old-yin')}:
+	  ${custom_select(1, _custom.charAt(1), 'young-yang')}:
+	  ${custom_select(2, _custom.charAt(2), 'young-yin')}:
+	  ${custom_select(3, _custom.charAt(3), 'old-yang')}
+	</div>
 	<p>Reading format:</p>
 	  <div>
-	    <input type="radio" id="formSingle" name="format" value="single" checked?=${format==='single'}>
-	    <label for="formSingle">Single casts</label>
-	    <input type="radio" id="formMultiple" name="format" value="multiple" checked?=${format==='multiple'}>
-	    <label for="formMultiple">Multiple casts</label>
-	    <input type="radio" id="formLinked" name="format" value="linked" checked?=${format==='linked'}>
-	    <label for="formLinked">Linked casts</label>
+	    ${format('single', 'Single casts')}
+	    ${format('multiple', 'Multiple casts')}
+	    ${format('linked', 'Linked casts')}
+	    ${format('threaded', 'Threaded casts')}
 	  </div>
-	  <div>
-	    <button type="submit">Set</button>
-	    <button type="reset">Reset</button>
-	  </div>
+	<p>Casting protocol:</p>
+	<div>
+	  ${protocol('one-per-cast', 'One click/cast')}
+	  ${protocol('one-per-line', 'One click/line')}
+	  ${protocol('three-per-cast', 'Three clicks/line')}
+	</div>
+	<div>
+	  <button on-click="${_ => this._resetClick.bind(this)()}">Reset to default</button>
+	</div>
 	</form>
       </section>
     `
     }
 
     _stateChanged(state) {
-	this.dist = state.app.dist;
-	this.format = state.app.format;
+	var changed = [];
+	if (this._dist !== state.app.dist) { this._dist = state.app.dist; changed.push('dist'); }
+	if (this._custom !== state.app.custom) { this._custom = state.app.custom; changed.push('custom'); }
+	if (this._format !== state.app.format) { this._format = state.app.format; changed.push('format'); }
+	if (this._protocol !== state.app.protocol) { this._protocol = state.app.protocol; changed.push('protocol'); }
+	if (changed.length != 0)
+	    console.log(`change-settings _stateChanged modified ${changed.join(',')}`);
     }
-
-    onSubmit(e) {
-	e.preventDefault();
-	for (const entry of new FormData(this.shadowRoot.querySelector('form'))) {
-	    for (const [name, value] of entry) {
-		switch (name) {
-		case 'dist':
-		    if (value !== dist) store.dispatch(changeDist(value));
-		    break;
-		case 'format':
-		    if (value !== format) store.dispatch(changeFormat(value));
-		    break;
-		}
-	    }
-	}
+    
+    _resetClick() {
+	// console.log("change-settings _resetClick");
+	store.dispatch(changeDist('yarrow'));
+	store.dispatch(changeCustom('3113'));
+	store.dispatch(changeFormat('single'));
+	store.dispatch(changeProtocol('one-per-cast'));
+    }
+    
+    _distClick(tag) { 
+	// console.log(`change-settings _distClick(${tag})`); 
+	store.dispatch(changeDist(tag));
+    }
+    _customClick(e, i, tag) {
+	// this._custom[i] = e.target.value
+	var dist = this._custom.split('').map((c,ci) => ci===i ? e.target.value : c).join('');
+	console.log(`change-settings _customClick(${e}, ${i}, ${tag}) e.target.value = ${e.target.value}, old ${this._custom}, new ${dist}`);
+	store.dispatch(changeCustom(dist));
+    }
+    _formatClick(tag) {
+	// console.log(`change-settings _formatClick(${tag})`);
+	store.dispatch(changeFormat(tag));
+    }
+    _protocolClick(tag) {
+	// console.log(`_protocolClick(${tag})`);
+	store.dispatch(changeProtocol(tag));
     }
 }
 
