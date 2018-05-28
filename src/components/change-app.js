@@ -17,22 +17,18 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 
 import { menuIcon } from './change-icons.js';
-import './snack-bar.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
-import { installOfflineWatcher } from 'pwa-helpers/network.js';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
 
-import { navigate, updateOffline, updateDrawerState, updateLayout, installPrompt,
-         changeCast, changeLink, changeUndo, changeClear, changeUpdate,
-         changeDist } from '../actions/app.js';
+import { navigate, updateDrawerState, updateLayout, installPrompt } from '../actions/app.js';
 
 class ChangeApp extends connect(store)(LitElement) {
-    _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline, _wideLayout, _change}) {
+    _render({appTitle, _page, _drawerOpened, _wideLayout, _change}) {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -170,11 +166,9 @@ class ChangeApp extends connect(store)(LitElement) {
     <app-drawer opened="${_drawerOpened}" persistent="${_wideLayout}"
         on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
-        <a selected?="${_page === 'view'}" href="/view">View</a>
+        <a selected?="${_page === 'view'}" href="/">View</a>
+        <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
-        <button disabled?="${_page !== 'view'}" on-click="${_ => store.dispatch(changeLink())}">Cast</button>
-        <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeUndo())}">Undo</button>
-        <button disabled?="${_page !== 'view' || _change === ''}" on-click="${_ => store.dispatch(changeClear())}">Clear</button>
       </nav>
     </app-drawer>
 
@@ -194,8 +188,6 @@ class ChangeApp extends connect(store)(LitElement) {
       </p>
     </footer>
 
-    <snack-bar active?="${_snackbarOpened}">
-        You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
     `;
   }
 
@@ -204,8 +196,6 @@ class ChangeApp extends connect(store)(LitElement) {
       appTitle: String,
       _page: String,
       _drawerOpened: Boolean,
-      _snackbarOpened: Boolean,
-      _offline: Boolean,
       _wideLayout: Boolean,
       _change: String
     }
@@ -222,7 +212,6 @@ class ChangeApp extends connect(store)(LitElement) {
 
   _firstRendered() {
     installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
-    installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 768px)`,
         (matches) => store.dispatch(updateLayout(matches)));
   }
@@ -240,8 +229,6 @@ class ChangeApp extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this._page = state.app.page;
-    this._offline = state.app.offline;
-    this._snackbarOpened = state.app.snackbarOpened;
     this._drawerOpened = state.app.drawerOpened;
     this._wideLayout = state.app.wideLayout;
     this._change = state.app.change;

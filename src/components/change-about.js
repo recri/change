@@ -17,7 +17,7 @@ class ChangeAbout extends PageViewElement {
     return html`
       ${SharedStyles}
       <section>
-        <h2>About Change</h2>
+        <h2>About</h2>
         <p>
 	This web app allows you to digitally consult the <i>I Ching</i>,
 	which you may read about in <a href="https://en.wikipedia.org/wiki/I_Ching">Wikipedia</a>.

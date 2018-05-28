@@ -5,11 +5,37 @@ export class Change {
 
     constructor(random, text) {
 	this.random = random;
-	this.dist = 'yarrow';
-	this.text = text;
-	this.commentary = undefined;
+	this.setDist('yarrow');	// yarrow, coins, uniform, /[1-9]{4}/
+	this.setFormat('single'); // single, multiple, linked, threaded
+	this.setText(text);
+	this.setCommentary(null);
     }
     
+    setDist(dist) { 
+	console.log(`set change dist to ${dist}`)
+	this._distName = dist;
+	switch (dist) {
+	case 'yarrow': this._dist = this.distYarrow; break;
+	case 'coins': this._dist = this.distCoins; break;
+	case 'uniform': this._dist = this.distUniform; break;
+	default: 
+	    if (/^[1-9]{4}$/.test(value))
+		this._dist = value;
+	    else
+		this._dist = random.choosen("123456789", 4);
+	    break;
+	}
+	this._hist = this.random.hist_for_dist(this._dist, '6789');
+	this._yinHist = this._hist.slice(0).replace(/[79]/g, '')
+	this._yangHist = this._hist.slice(0).replace(/[68]/g, '')
+	return this.distName;
+    }
+    getDist() { return this.distName; }
+    setFormat(format) {
+	this.format = format;
+	return format;
+    }
+    getFormat() { return this.format; }
     setText(text) { this.text = text; }
     setCommentary(commentary) { this.commentary = commentary; }
     
@@ -34,25 +60,6 @@ export class Change {
 	return '';
     }
     
-    set dist(value) {
-	this._distName = value;
-	switch (value) {
-	case 'yarrow': this._dist = this.distYarrow; break;
-	case 'coins': this._dist = this.distCoins; break;
-	case 'uniform': this._dist = this.distUniform; break;
-	default: 
-	    if (/^[0-9][0-9][0-9][0-9]$/.test(value))
-		this._dist = value;
-	    else
-		this._dist = Math.floor(random.random()*1000).toString()
-	    break;
-	}
-	this._hist = this.random.hist_for_dist(this._dist, '6789');
-	this._yinHist = this._hist.slice(0).replace(/[79]/g, '')
-	this._yangHist = this._hist.slice(0).replace(/[68]/g, '')
-    }
-
-    get dist() { return this.distName; }
 
     // make a line from a distribution
     getLines() { return this.random.choosen(this._hist, 6); }

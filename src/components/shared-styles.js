@@ -33,14 +33,14 @@ export const SharedStyles = html`
   }
 
   h2 {
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
     color: var(--app-dark-text-color);
   }
 
   @media (min-width: 460px) {
     h2 {
-      font-size: 36px;
+      font-size: 24px;
     }
   }
 

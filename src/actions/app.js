@@ -10,27 +10,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_WIDE_LAYOUT = 'UPDATE_WIDE_LAYOUT';
-export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
-export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
-export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 export const INSTALL_PROMPT = 'INSTALL_PROMPT'
 
 export const CHANGE_CAST = 'CHANGE_CAST';
-export const CHANGE_LINK = 'CHANGE_LINK';
+export const CHANGE_REDO = 'CHANGE_UNDO';
 export const CHANGE_UNDO = 'CHANGE_UNDO';
 export const CHANGE_CLEAR = 'CHANGE_CLEAR';
 export const CHANGE_UPDATE = 'CHANGE_UPDATE';
+
 export const CHANGE_DIST = 'CHANGE_DIST';
+export const CHANGE_FORMAT = 'CHANGE_FORMAT';
 
-export const CHANGE_TAP = 'CHANGE_TAP';
 export const CHANGE_DOWN = 'CHANGE_DOWN';
-export const CHANGE_UP = 'CHANGE_UP';
-
-export const CHANGE_SAVE = 'CHANGE_SAVE';
-export const CHANGE_RESTORE = 'CHANGE_RESTORE';
-export const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
-export const CHANGE_ABOUT = 'CHANGE_ABOUT';
 
 export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
@@ -54,12 +46,6 @@ const loadPage = (page) => async (dispatch) => {
     case 'view':
 	await import('../components/change-view.js');
 	break;
-    case 'save':
-	await import('../components/change-save.js');
-	break;
-    case 'restore':
-	await import('../components/change-restore.js');
-	break;
     case 'settings':
 	await import('../components/change-settings.js');
 	break;
@@ -81,28 +67,6 @@ const updatePage = (page) => {
     page
   };
 }
-
-let snackbarTimer;
-
-export const showSnackbar = () => (dispatch) => {
-  dispatch({
-    type: OPEN_SNACKBAR
-  });
-  clearTimeout(snackbarTimer);
-  snackbarTimer = setTimeout(() =>
-    dispatch({ type: CLOSE_SNACKBAR }), 3000);
-};
-
-export const updateOffline = (offline) => (dispatch, getState) => {
-  // Show the snackbar, unless this is the first load of the page.
-  if (getState().app.offline !== undefined) {
-    dispatch(showSnackbar());
-  }
-  dispatch({
-    type: UPDATE_OFFLINE,
-    offline
-  });
-};
 
 export const updateLayout = (wideLayout) => (dispatch, getState) => {
    dispatch({
@@ -132,18 +96,28 @@ export const installPrompt = (e) => (dispatch) => {
     e.prompt();
 }
 
-export const changeCasting = (t,c) => (dispatch) => {
-    dispatch({ type: t, change: c});
+export const changeType = (t) => (dispatch) => {
+    dispatch({ type: t });
     dispatch(updateDrawerState(false));
 }
 
-export const changeCast = () => (dispatch) => dispatch(changeCasting(CHANGE_CAST));
-export const changeLink = () => (dispatch) => dispatch(changeCasting(CHANGE_LINK));
-export const changeUndo = () => (dispatch) => dispatch(changeCasting(CHANGE_UNDO));
-export const changeClear = () => (dispatch) => dispatch(changeCasting(CHANGE_CLEAR));
-export const changeUpdate = (str) => (dispatch) => dispatch(changeCasting(CHANGE_UPDATE, str));
-export const changeSettings = (dist) => (dispatch) => dispatch(changeCasting(CHANGE_SETTINGS, dist));
-export const changeDist = (dist) => (dispatch) => dispatch(changeCasting(CHANGE_DIST, dist));
-export const changeTap = (e) => (dispatch) => dispatch(changeCasting(CHANGE_TAP, e));
-export const changeDown = (e) => (dispatch) => dispatch(changeCasting(CHANGE_DOWN, e));
-export const changeUp = (e) => (dispatch) => dispatch(changeCasting(CHANGE_UP, e));
+export const changeCast = () => (dispatch) => dispatch(changeType(CHANGE_CAST));
+export const changeRedo = () => (dispatch) => dispatch(changeType(CHANGE_REDO));
+export const changeUndo = () => (dispatch) => dispatch(changeType(CHANGE_UNDO));
+export const changeClear = () => (dispatch) => dispatch(changeType(CHANGE_CLEAR));
+export const changeDown = () => (dispatch) => dispatch(changeType(CHANGE_DOWN));
+export const changeUpdate = (change) => (dispatch) => {
+    dispatch({ type: CHANGE_UPDATE, change: change});
+    dispatch(updateDrawerState(false));
+}
+export const changeDist = (dist) => (dispatch) => {
+    dispatch({ type: CHANGE_DIST, dist: dist});
+    dispatch(updateDrawerState(false));
+}
+export const changeFormat = (format) => (dispatch) => {
+    dispatch({ type: CHANGE_UPDATE, format: format});
+    dispatch(updateDrawerState(false));
+}
+
+
+

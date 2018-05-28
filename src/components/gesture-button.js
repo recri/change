@@ -1,11 +1,12 @@
 //
 // gesture events are tailored to work the same on mouse and touch devices
 //
-import { html, LitElement } from '@polymer/lit-element';
+import { html } from '@polymer/lit-element';
+import { PageViewElement } from './page-view-element.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 
-export class GestureButton extends GestureEventListeners(LitElement) {
+export class GestureButton extends GestureEventListeners(PageViewElement) {
 
     static get properties() {
 	return {

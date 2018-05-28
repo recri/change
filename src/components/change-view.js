@@ -15,26 +15,21 @@ import { SharedStyles } from './shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
+import { changeDown, changeCast, changeRedo, changeUndo, changeClear } from '../actions/app.js';
 
 import { GestureButton } from './gesture-button.js';
-
-import { changeTap, changeDown, changeUp } from '../actions/app.js';
 
 export class ChangeView extends connect(store)(PageViewElement) {
     static get properties() {
 	return {
-	    change: String,
-	    // index: Number,
 	    iching: Object,
-	    dist: String
+	    change: String,
+	    dist: String,
+	    format: String
 	}
     }
 
-    constructor() {
-	super();
-    }
-    
-    _render({change, iching, dist}) {
+    _render({iching, change, dist, format}) {
 	const breakAtNewlines = (str, skipFirst) => skipFirst ?
 	      str.split('\n').slice(1).map((x) => html`${x}<br/>\n`) :
 	      str.split('\n').map((x) => html`${x}<br/>\n`);
@@ -63,7 +58,7 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	const isStationaryLine = (line) => (line === '7' || line === '8');
 	const renderHex = (hex) => {
 	    return html`
-		<div class="hexagram" title="${getNameInterpretation(hex)}">
+		<div class="hexagram" title="${getNumber(hex)}. ${getNameInterpretation(hex)}">
 		${getHexagram(hex)}
 		<div class="judgment" title="Judgment">${getJudgment(hex)}</div>
 		<div class="image" title="Image">${getImage(hex)}</div>
@@ -80,6 +75,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	    const isLast = linkIndex === links.length-1
 	    const start = renderHex(hex);
 	    const finis = isLast ? renderHex(finisHex) : html``;
+	    const startNumber = getNumber(hex);
+	    const finisNumber = getNumber(finisHex);
 	    const startName = getNameInterpretation(hex);
 	    const finisName = getNameInterpretation(finisHex);
 	    const bonus = allMoving && getLine(hex,7) !== undefined ?
@@ -92,7 +89,7 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		    html``;
 	    }
 	    const moving =
-		  html`<div class="lines" title="${startName} -> ${finisName}">
+		  html`<div class="lines" title="${startNumber}. ${startName} \u{2192} ${finisNumber}. ${finisName}">
 			${getHexagram(link)}
 			${lines.map(renderLine)}
 			${bonus}
@@ -115,35 +112,29 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		  svg.kua .kua-mark { stroke: black; }
 		</style>
 		<section>
-		  ${links.length > 0  && links[0].length > 0 ? links.map(renderLink) : ''}
 		  <div class="action">
-		    <gesture-button 
-			on-tap="${(e) => this.onTap.bind(this)(e)}"
-			on-down="${(e) => this.onDown.bind(this)(e)}"
-			on-up="${(e) => this.onUp.bind(this)(e)}">Cast</gesture-button>
+		    <gesture-button active 
+			on-tap="${_ => store.dispatch(changeCast())}"
+			on-down="${_ => store.dispatch(changeDown())}">Cast</gesture-button>
+		    <gesture-button active?="${change !== '' && format !== 'single'}"
+			on-tap="${_ => store.dispatch(changeRedo())}"
+			on-down="${_ => store.dispatch(changeDown())}">Redo</gesture-button>
+		    <gesture-button active?="${change !== '' && format !== 'single'}"
+			on-tap="${_ => store.dispatch(changeUndo())}">Undo</gesture-button>
+		    <gesture-button active?="${change !== '' && format !== 'single'}"
+			on-tap="${_ => store.dispatch(changeClear())}">Clear</gesture-button>
 		  </div>
+		  ${links.length > 0  && links[0].length > 0 ? links.map(renderLink) : ''}
 		</section>`;
     }
 
     _stateChanged(state) {
-	const {change, iching, dist} = state.app;
-	this.change = change;
-	this.iching = iching;
-	this.dist = dist;
+	console.log(`change-view stateChanged ${state.app.dist} ${state.app.format} ${state.app.change}`)
+	this.change = state.app.change;
+	this.iching = state.app.iching;
+	this.dist = state.app.dist;
+	this.format = state.app.format;
     }
-    _shouldRender(props, changedProps, prevProps) {
-	return true
-    }
-    onTap(e) { 
-	console.log(`change-view onTap ${e}`)
-    }
-    onDown(e) { 
-	console.log(`change-view onDown ${e}`)
-    }
-    onUp(e) {
-	console.log(`change-view onUp ${e}`)
-    }
-
 }
 
 window.customElements.define('change-view', ChangeView);

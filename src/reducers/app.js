@@ -8,39 +8,70 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-/**
-There are too many of these, I think, or maybe not.
-Does each change of page view require an action?
-I cannot see where these are getting generated in the code.
-*/
-import { UPDATE_PAGE, UPDATE_OFFLINE, UPDATE_WIDE_LAYOUT,
-         OPEN_SNACKBAR, CLOSE_SNACKBAR, UPDATE_DRAWER_STATE,
-	 CHANGE_CAST, CHANGE_LINK, CHANGE_UNDO, CHANGE_CLEAR, CHANGE_UPDATE, 
-	 CHANGE_SAVE, CHANGE_RESTORE, CHANGE_SETTINGS, CHANGE_ABOUT,
-	 CHANGE_DIST, CHANGE_TAP, CHANGE_DOWN, CHANGE_UP
+import { UPDATE_PAGE, UPDATE_WIDE_LAYOUT, UPDATE_DRAWER_STATE,
+	 CHANGE_CAST, CHANGE_REDO, CHANGE_UNDO, CHANGE_CLEAR, CHANGE_UPDATE, 
+	 CHANGE_DIST, CHANGE_FORMAT, CHANGE_DOWN
        } from '../actions/app.js';
 
-// import { Changes } from '../code/changes.js';
 import { Random } from '../code/random.js';
-const random = new Random();
 import { Changes } from '../code/changes.js';
 import { Change } from '../code/change.js';
+
+const random = new Random();
 const iching = new Change(random, Changes);
 
-const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'yarrow'}, action) => {
+const app = (state = { drawerOpened: false, change: '', iching: iching, dist: 'yarrow', format: 'single'}, action) => {
     switch (action.type) {
-	// funnel changes through the window.location, 
-	// so the browser hosted version can save bookmarks
-    case CHANGE_CAST:
-	random.srandom(Date.now());
-	window.location.pathname = `/${iching.cast(state.change)}`
-	return state;
-    case CHANGE_LINK:
-	random.srandom(Date.now());
+    case CHANGE_CAST: {
+	const timestamp = Date.now()
+	random.srandom(timestamp+(timestamp+state.timestamp));
+	switch (state.format) {
+	case 'single':
+	    return {
+		...state,
+		change: iching.cast(iching.clear(state.change))
+	    };
+	case 'multiple':
+	    return {
+		...state,
+		change: iching.cast(state.change)
+	    };
+	case 'linked':
+	    return {
+		...state,
+		change: iching.link(state.change)
+	    };
+	}
+    }
+
+    case CHANGE_REDO: {
+	const timestamp = Date.now()
+	random.srandom(timestamp+(timestamp+state.timestamp))
+	switch (state.format) {
+	case 'single':
+	    return {
+		...state,
+		change: iching.cast(iching.clear(state.change))
+	    };
+	case 'multiple':
+	    return {
+		...state,
+		change: iching.cast(iching.undo(state.change))
+	    };
+	case 'linked':
+	    return {
+		...state,
+		change: iching.link(iching.undo(state.change))
+	    };
+	}
+    }
+
+    case CHANGE_DOWN:
 	return {
 	    ...state,
-	    change: iching.link(state.change)
+	    timestamp: Date.now()
 	};
+
     case CHANGE_UNDO:
 	if (window.location.pathname.length > 1) window.location.pathname = ''
 	return {
@@ -58,32 +89,18 @@ const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'ya
 	    ...state,
 	    change: iching.update(action.change)
 	};
+
     case CHANGE_DIST:
 	return {
 	    ...state,
-	    dist: iching.setDist(action.change)
+	    dist: iching.setDist(action.dist)
 	};
-    case CHANGE_SAVE:
+    case CHANGE_FORMAT:
 	return {
 	    ...state,
-	    saved: true
-	};
-    case CHANGE_RESTORE:
-	return {
-	    ...state,
-	    restored: true
+	    format: iching.setFormat(action.format)
 	};
 	
-    case CHANGE_TAP:
-	console.log('CHANGE_TAP '+Object.keys(action.change))
-	return state;
-    case CHANGE_DOWN:
-	console.log('CHANGE_DOWN '+action.change)
-	return state;
-    case CHANGE_UP:
-	console.log('CHANGE_UP '+action.change)
-	return state;
-
     case UPDATE_PAGE:
 	return {
             ...state,
@@ -94,26 +111,11 @@ const app = (state = {drawerOpened: false, change: '', iching: iching, dist: 'ya
             ...state,
             wideLayout: action.wideLayout
 	};
-    case UPDATE_OFFLINE:
-	return {
-            ...state,
-            offline: action.offline
-	};
     case UPDATE_DRAWER_STATE:
 	return {
             ...state,
             drawerOpened: action.opened
 	}
-    case OPEN_SNACKBAR:
-	return {
-            ...state,
-            snackbarOpened: true
-	};
-    case CLOSE_SNACKBAR:
-	return {
-            ...state,
-            snackbarOpened: false
-	};
     default:
 	return state;
     }
