@@ -39,8 +39,9 @@ export class Random {
     //
     choosen(str, n) {
 	n = Math.max(n,0);
-	const tail = (res) => (res.length >= n) ? res : tail(res+this.choose(str));
-	return tail('')
+	let res = '';
+	for (let i = 0; i < n; i += 1) res = `${res}${this.choose(str)}`;
+	return res;
     }
 
     //

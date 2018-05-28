@@ -28,18 +28,18 @@ class ChangeSettings extends connect(store)(PageViewElement) {
     }
 
     _render({_dist, _format, _custom, _protocol}) {
-	const input_radio = (id, name, checked, onclick, label) =>
+	const input_radio = (id, name, chk, onclick, label, dis) =>
 	      html`
 		<label>
-		  <input type="radio" id="${id}" name="${name}" value="${id}" checked?=${checked} on-click="${onclick}"></input>
+		  <input type="radio" disabled?=${dis} id="${id}" name="${name}" value="${id}" checked?=${chk} on-click="${onclick}"></input>
 		  ${label}</label>
 		`;
-	const distribution = (id, label) =>
-	      html`${input_radio(id, 'distribution', _dist===id, _ => this._distClick.bind(this)(id), label)}`
-	const format = (id, label) =>
-	      html`${input_radio(id, 'format', _format===id, _ => this._formatClick.bind(this)(id), label)}`;
-	const protocol = (id, label) =>
-	      html`${input_radio(id, 'protocol', _protocol===id, _ => this._protocolClick.bind(this)(id), label)}`;
+	const distribution = (id, label, disabled) =>
+	      html`${input_radio(id, 'distribution', _dist===id, _ => this._distClick.bind(this)(id), label, disabled)}`
+	const format = (id, label, disabled) =>
+	      html`${input_radio(id, 'format', _format===id, _ => this._formatClick.bind(this)(id), label, disabled)}`;
+	const protocol = (id, label, disabled) =>
+	      html`${input_radio(id, 'protocol', _protocol===id, _ => this._protocolClick.bind(this)(id), label, disabled)}`;
 
 	const custom_select = (i,d,name) => {
 	    const option = (v) => html`<option value="${v}" selected?=${v == d}>${v}</option>`
@@ -52,6 +52,9 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 
 	return html`
       ${SharedStyles}
+      <style>
+	div.action { text-align: center; }
+      </style>
       <section>
         <h2>Settings</h2>
 	<form on-submit="${(e) => e.preventDefault()}">
@@ -72,18 +75,18 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	</div>
 	<p>Reading format:</p>
 	  <div>
-	    ${format('single', 'Single casts')}
-	    ${format('multiple', 'Multiple casts')}
-	    ${format('linked', 'Linked casts')}
-	    ${format('threaded', 'Threaded casts')}
+	    ${format('single', 'Single casts', false)}
+	    ${format('multiple', 'Multiple casts', true)}
+	    ${format('linked', 'Linked casts', false)}
+	    ${format('threaded', 'Threaded casts', true)}
 	  </div>
 	<p>Casting protocol:</p>
 	<div>
-	  ${protocol('one-per-cast', 'One click/cast')}
-	  ${protocol('one-per-line', 'One click/line')}
-	  ${protocol('three-per-cast', 'Three clicks/line')}
+	  ${protocol('one-per-cast', 'One click/cast', false)}
+	  ${protocol('one-per-line', 'One click/line', true)}
+	  ${protocol('three-per-cast', 'Three clicks/line', true)}
 	</div>
-	<div>
+	<div class="action">
 	  <button on-click="${_ => this._resetClick.bind(this)()}">Reset to default</button>
 	</div>
 	</form>
@@ -92,13 +95,10 @@ class ChangeSettings extends connect(store)(PageViewElement) {
     }
 
     _stateChanged(state) {
-	var changed = [];
-	if (this._dist !== state.app.dist) { this._dist = state.app.dist; changed.push('dist'); }
-	if (this._custom !== state.app.custom) { this._custom = state.app.custom; changed.push('custom'); }
-	if (this._format !== state.app.format) { this._format = state.app.format; changed.push('format'); }
-	if (this._protocol !== state.app.protocol) { this._protocol = state.app.protocol; changed.push('protocol'); }
-	if (changed.length != 0)
-	    console.log(`change-settings _stateChanged modified ${changed.join(',')}`);
+	this._dist = state.app.dist;
+	this._custom = state.app.custom;
+	this._format = state.app.format;
+	this._protocol = state.app.protocol;
     }
     
     _resetClick() {
@@ -116,7 +116,6 @@ class ChangeSettings extends connect(store)(PageViewElement) {
     _customClick(e, i, tag) {
 	// this._custom[i] = e.target.value
 	var dist = this._custom.split('').map((c,ci) => ci===i ? e.target.value : c).join('');
-	console.log(`change-settings _customClick(${e}, ${i}, ${tag}) e.target.value = ${e.target.value}, old ${this._custom}, new ${dist}`);
 	store.dispatch(changeCustom(dist));
     }
     _formatClick(tag) {

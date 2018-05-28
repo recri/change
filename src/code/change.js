@@ -5,25 +5,28 @@ export class Change {
 
     constructor(random, text) {
 	this.random = random;
-	this.setDist('yarrow');	// yarrow, coins, uniform, /[1-9]{4}/
+	this.setDist('yarrow', '3113');	// yarrow, coins, uniform, custom, /[1-9]{4}/
 	this.setFormat('single'); // single, multiple, linked, threaded
 	this.setText(text);
 	this.setCommentary(null);
     }
     
+    setCustom(custom) {
+	if (/^[1-9]{4}$/.test(custom))
+	    this._custom = custom;
+	else
+	    this._custom = random.choosen("123456789", 4);
+    }
+    getCustom() { return this._custom; }
+
     setDist(dist) { 
-	console.log(`set change dist to ${dist}`)
+	// console.log(`set change dist to ${dist}`)
 	this._distName = dist;
 	switch (dist) {
 	case 'yarrow': this._dist = this.distYarrow; break;
 	case 'coins': this._dist = this.distCoins; break;
 	case 'uniform': this._dist = this.distUniform; break;
-	default: 
-	    if (/^[1-9]{4}$/.test(value))
-		this._dist = value;
-	    else
-		this._dist = random.choosen("123456789", 4);
-	    break;
+	case 'custom': this._dist = this._custom; break;
 	}
 	this._hist = this.random.hist_for_dist(this._dist, '6789');
 	this._yinHist = this._hist.slice(0).replace(/[79]/g, '')
@@ -31,11 +34,13 @@ export class Change {
 	return this.distName;
     }
     getDist() { return this.distName; }
+
     setFormat(format) {
 	this.format = format;
 	return format;
     }
     getFormat() { return this.format; }
+
     setText(text) { this.text = text; }
     setCommentary(commentary) { this.commentary = commentary; }
     

@@ -38,7 +38,8 @@
 * try running the chinese through google translate?
 * Todo list as of May 23
 [x] Move the menu to the side bar
-[ ] Put the buttons at the foot of the View page
+[x] Put the buttons at the foot of the View page
+	put them at the head of the View page instead
 [ ] Style those buttons
 [x] Incorporate mersenne-twister.js
 [x] Use time of cast button press as random seed
@@ -53,8 +54,10 @@
     deferredPrompt.prompt();
   });
   also can save e for later display.
-[ ] Change distributions in settings
-[ ] Change cast protocol in settings
+[x] Change distributions in settings
+[x] Change cast protocol in settings
+	but cast protocols remain to be implemented
+	other than the single shot
 [x] Draw hexagrams, including moving lines
 	initial hexagram is static
 	moving lines hexagram is moving
@@ -65,8 +68,8 @@
 	try using 1/13th as line stroke, interline spacing, and margins,
 	then shift space to margins and spacing from line strokes,
 	then tune the marker strokes
-[ ] Move about and settings into dialogs
-[ ] Style those dialogs
+[x] Move about and settings into dialogs
+	no, leave them as pages
 [x] Pick a hexagram as the app icon
 	Inner truth. Pigs and fishes.
 [x] asynchronously load text, used
@@ -75,3 +78,23 @@
 [x] accept list of changes in url, eg ([6789]{6})(,[6789]{6})*
 	and display the specfied change or changes
 	but do not put all casts into location
+[ ] redo icon images with white background, or some other background,
+	maybe go for some
+[ ] move some of the change manipulations into the change-view
+[ ] write tests to verify the random number generation
+[ ] write tests to verify the distributions
+	choosen(
+[ ] write tests to cover all the single cast results
+[ ] add save restore settings to local storage
+[ ] add option to save readings to local storage
+[ ] add option to record the questions asked
+[ ] extend the change syntax to include
+	; to separate independent casts
+	- to thread casts together by constructing the
+		transition between adjacent casts
+[ ] the linked protocol is biased using the yarrow stalk
+	tends toward yin because yang ages faster
+[ ] maybe there's a way to make a continuously evolving
+	change, where the lines age and transform as
+	you watch.
+

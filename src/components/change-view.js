@@ -22,24 +22,26 @@ import { GestureButton } from './gesture-button.js';
 export class ChangeView extends connect(store)(PageViewElement) {
     static get properties() {
 	return {
-	    iching: Object,
-	    change: String,
-	    dist: String,
-	    format: String
+	    _iching: Object,
+	    _change: String,
+	    _dist: String,
+	    _custom: String,
+	    _format: String,
+	    _protocol: String
 	}
     }
 
-    _render({iching, change, dist, format}) {
+    _render({_iching, _change, _dist, _custom, _format, _protocol}) {
 	const breakAtNewlines = (str, skipFirst) => skipFirst ?
 	      str.split('\n').slice(1).map((x) => html`${x}<br/>\n`) :
 	      str.split('\n').map((x) => html`${x}<br/>\n`);
-	const getText = (hex,value) => this.iching.getText(hex, value);
-	const getBoolean = (hex,value) => this.iching.getBoolean(hex, value);
-	const getCommentary = (hex,value) => this.iching.getCommentary(hex, value);
+	const getText = (hex,value) => _iching.getText(hex, value);
+	const getBoolean = (hex,value) => _iching.getBoolean(hex, value);
+	const getCommentary = (hex,value) => _iching.getCommentary(hex, value);
 	const getNumber = (hex) => getText(hex,"number");
 	// const getCharacter = (hex) => getText(hex,"character");
 	// const getHexagram = (hex) => getText(hex,"hexagram");
-	const getHexagram = (hex) => iching.kua(hex);
+	const getHexagram = (hex) => _iching.kua(hex);
 	// const getName = (hex) => getText(hex,"name");
 	const getNameInterpretation = (hex) => getText(hex,"name-interpretation");
 	// const getPinyin = (hex) => getText(hex,"pinyin");
@@ -67,8 +69,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	}
 
 	const renderLink = (link, linkIndex, links) => {
-	    const hex = iching.backward(link);
-	    const finisHex = iching.forward(link);
+	    const hex = _iching.backward(link);
+	    const finisHex = _iching.forward(link);
 	    const lines = link.split('')
 	    const allMoving = lines.every(isMovingLine);
 	    const allStationary = lines.every(isStationaryLine)
@@ -99,9 +101,22 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		${ ! allStationary ? moving : ''}
 		${finis}`;
 	}
-	const links = change.split(',');
-	const self = this;
-	function castTap(e) { self.castTap(e) }
+	// cast button becomes conditional on protocol
+	const cast_button = html`<gesture-button active on-tap="${_ => store.dispatch(changeCast())}"
+		on-down="${_ => store.dispatch(changeDown())}">Cast</gesture-button>`;
+	const clear_button = () => _change === '' ? html`` : 
+	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeClear())}">Clear</gesture-button>`;
+	const undo_change = _iching.undo(_change)
+	const undo_button = () => _change === '' || undo_change === '' ? html`` : 
+	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUndo())}">Undo</gesture-button>`;
+
+	const links = _change.split(',');
+	// 
+	// this is a little hacky, ...
+	if (_iching.getCustom() !== _custom) _iching.setCustom(_custom);
+	if (_iching.getDist() !== _dist || 'custom' === _dist) _iching.setDist(_dist);
+	if (_iching.getFormat() !== _format) _iching.setFormat(_format);
+
 	return html`
 		${SharedStyles}
 		<style>
@@ -113,28 +128,23 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		</style>
 		<section>
 		  <div class="action">
-		    <gesture-button active 
-			on-tap="${_ => store.dispatch(changeCast())}"
-			on-down="${_ => store.dispatch(changeDown())}">Cast</gesture-button>
-		    <gesture-button active?="${change !== '' && format !== 'single'}"
-			on-tap="${_ => store.dispatch(changeRedo())}"
-			on-down="${_ => store.dispatch(changeDown())}">Redo</gesture-button>
-		    <gesture-button active?="${change !== '' && format !== 'single'}"
-			on-tap="${_ => store.dispatch(changeUndo())}">Undo</gesture-button>
-		    <gesture-button active?="${change !== '' && format !== 'single'}"
-			on-tap="${_ => store.dispatch(changeClear())}">Clear</gesture-button>
+		    ${cast_button()}
+		    ${undo_button()}
+		    ${clear_button()}
 		  </div>
 		  ${links.length > 0  && links[0].length > 0 ? links.map(renderLink) : ''}
 		</section>`;
     }
 
     _stateChanged(state) {
-	console.log(`change-view stateChanged ${state.app.dist} ${state.app.format} ${state.app.change}`)
-	this.change = state.app.change;
-	this.iching = state.app.iching;
-	this.dist = state.app.dist;
-	this.format = state.app.format;
+	this._iching = state.app.iching;
+	this._change = state.app.change;
+	this._dist = state.app.dist;
+	this._custom = state.app.custom
+	this._format = state.app.format;
+	this._protocol = state.app.protocol;
     }
+
 }
 
 window.customElements.define('change-view', ChangeView);
