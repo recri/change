@@ -80,7 +80,8 @@
 	but do not put all casts into location
 [ ] redo icon images with white background, or some other background,
 	maybe go for some
-[ ] move some of the change manipulations into the change-view
+[x] move all of the change manipulations into the change-view
+	except the update, which still shares with redux
 [ ] write tests to verify the random number generation
 [ ] write tests to verify the distributions
 	choosen(
@@ -97,4 +98,3 @@
 [ ] maybe there's a way to make a continuously evolving
 	change, where the lines age and transform as
 	you watch.
-
