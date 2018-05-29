@@ -12,7 +12,7 @@ import { html } from '@polymer/lit-element';
 
 export const ButtonSharedStyles = html`
 <style>
-  button {
+  gesture-button, button {
     font-size: inherit;
     vertical-align: middle;
     background: transparent;

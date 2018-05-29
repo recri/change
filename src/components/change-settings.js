@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
@@ -35,10 +36,13 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 		  ${label}</label>
 		`;
 	const distribution = (id, label, disabled) =>
+	      disabled ? html`` :
 	      html`${input_radio(id, 'distribution', _dist===id, _ => this._distClick.bind(this)(id), label, disabled)}`
 	const format = (id, label, disabled) =>
+	      disabled ? html`` :
 	      html`${input_radio(id, 'format', _format===id, _ => this._formatClick.bind(this)(id), label, disabled)}`;
 	const protocol = (id, label, disabled) =>
+	      disabled ? html`` :
 	      html`${input_radio(id, 'protocol', _protocol===id, _ => this._protocolClick.bind(this)(id), label, disabled)}`;
 
 	const custom_select = (i,d,name) => {
@@ -52,6 +56,7 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 
 	return html`
       ${SharedStyles}
+      ${ButtonSharedStyles}
       <style>
 	div.action { text-align: center; }
       </style>
@@ -60,9 +65,9 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	<form on-submit="${(e) => e.preventDefault()}">
 	<p>Line distribution:</p>
 	  <div>
-	    ${distribution('yarrow', 'Yarrow stalks (1375)')}
-	    ${distribution('coins', 'Coins (1331)')}
-	    ${distribution('uniform', 'Uniform (1111)')}
+	    ${distribution('yarrow', 'Yarrow')}
+	    ${distribution('coins', 'Coins')}
+	    ${distribution('uniform', 'Uniform')}
 	    ${distribution('custom', 'Custom')}
 	  </div>
 	<p>Custom distribution:</p>

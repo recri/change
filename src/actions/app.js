@@ -11,14 +11,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_WIDE_LAYOUT = 'UPDATE_WIDE_LAYOUT';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
+
 export const INSTALL_PROMPT = 'INSTALL_PROMPT'
 
-export const CHANGE_CAST = 'CHANGE_CAST';
-export const CHANGE_REDO = 'CHANGE_UNDO';
-export const CHANGE_UNDO = 'CHANGE_UNDO';
-export const CHANGE_CLEAR = 'CHANGE_CLEAR';
 export const CHANGE_UPDATE = 'CHANGE_UPDATE';
-export const CHANGE_DOWN = 'CHANGE_DOWN';
 
 export const CHANGE_DIST = 'CHANGE_DIST';
 export const CHANGE_CUSTOM = 'CHANGE_CUSTOM';
@@ -97,21 +93,11 @@ export const installPrompt = (e) => (dispatch) => {
     e.prompt();
 }
 
-export const changeType = (t) => (dispatch) => {
-    dispatch({ type: t });
-    dispatch(updateDrawerState(false));
-}
-
-export const changeCast = () => (dispatch) => dispatch(changeType(CHANGE_CAST));
-export const changeRedo = () => (dispatch) => dispatch(changeType(CHANGE_REDO));
-export const changeUndo = () => (dispatch) => dispatch(changeType(CHANGE_UNDO));
-export const changeClear = () => (dispatch) => dispatch(changeType(CHANGE_CLEAR));
-export const changeDown = () => (dispatch) => dispatch(changeType(CHANGE_DOWN));
-
 export const changeUpdate = (change) => (dispatch) => {
     dispatch({ type: CHANGE_UPDATE, change});
     dispatch(updateDrawerState(false));
 }
+
 export const changeDist = (dist) => (dispatch) => {
     dispatch({ type: CHANGE_DIST, dist});
     dispatch(updateDrawerState(false));
