@@ -86,11 +86,11 @@ export const updateDrawerState = (opened) => (dispatch, getState) => {
   }
 }
 
-export const installPrompt = (e) => (dispatch) => {
+export const installPrompt = (install) => (dispatch) => {
     // Prevent Chrome 67 and earlier from automatically showing the prompt
-    e.preventDefault();
-    // Show the prompt
-    e.prompt();
+    if (install) install.preventDefault();
+    dispatch({type: INSTALL_PROMPT, install});
+    dispatch(updateDrawerState(false));
 }
 
 export const changeUpdate = (change) => (dispatch) => {

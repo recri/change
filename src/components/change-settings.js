@@ -29,9 +29,27 @@ class ChangeSettings extends connect(store)(PageViewElement) {
     }
 
     _render({_dist, _format, _custom, _protocol}) {
+	const title = {
+	    'distribution': "The frequencies of the lines of the hexagram depend on the mechanism for casting.",
+	    'distribution-yarrow': "The yarrow stalk cast produces the lines 6:7:8:9 in proportions of 1:5:7:3.",
+	    'distribution-coins': "The coin cast produces the lines 6:7:8:9 in frequencies of 1:3:3:1.",
+	    'distribution-uniform': "A uniform cast produces the lines 6:7:8:9 in frequencies of 1:1:1:1.",
+	    'distribution-custom': "A custom cast produces the lines 6:7:8:9 in the frequencies specified below.",
+	    'custom': "The custom cast allows arbitrary frequencies of lines.",
+	    'format': "The format determines whether and how multiple casts are formatted.",
+	    'format-single': "Only one cast is displayed.",
+	    'format-multiple': "Multiple casts are displayed in the order thrown.",
+	    'format-linked': "Multiple casts are linked together.",
+	    'format-threaded': "Multiple casts are threaded together",
+	    'protocol': "The cast button can require different user interactions.",
+	    'protocol-one-per-cast': "Cast a reading when pressed.",
+	    'protocol-one-per-line': "Cast one line of a reading for each press.",
+	    'protocol-three-per-line': "Cast one third of a line of a reading for each press.",
+	    'protocol-manual': "Allow the lines of the cast to be entered manually."
+	};
 	const input_radio = (id, name, chk, onclick, label, dis) =>
 	      html`
-		<label>
+		<label title="${title[name+'-'+id]}">
 		  <input type="radio" disabled?=${dis} id="${id}" name="${name}" value="${id}" checked?=${chk} on-click="${onclick}"></input>
 		  ${label}</label>
 		`;
@@ -63,14 +81,14 @@ class ChangeSettings extends connect(store)(PageViewElement) {
       <section>
         <h2>Settings</h2>
 	<form on-submit="${(e) => e.preventDefault()}">
-	<p>Line distribution:</p>
+	<p title="${title.distribution}">Line distribution:</p>
 	  <div>
 	    ${distribution('yarrow', 'Yarrow')}
 	    ${distribution('coins', 'Coins')}
 	    ${distribution('uniform', 'Uniform')}
 	    ${distribution('custom', 'Custom')}
 	  </div>
-	<p>Custom distribution:</p>
+	<p title="${title.custom}">Custom distribution:</p>
 	<div>
 	  6:7:8:9 :: 
 	  ${custom_select(0, _custom.charAt(0), 'old-yin')}:
@@ -78,21 +96,22 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	  ${custom_select(2, _custom.charAt(2), 'young-yin')}:
 	  ${custom_select(3, _custom.charAt(3), 'old-yang')}
 	</div>
-	<p>Reading format:</p>
+	<p title="${title.format}">Reading format:</p>
 	  <div>
 	    ${format('single', 'Single casts', false)}
 	    ${format('multiple', 'Multiple casts', true)}
 	    ${format('linked', 'Linked casts', false)}
 	    ${format('threaded', 'Threaded casts', true)}
 	  </div>
-	<p>Casting protocol:</p>
+	<p title="${title.protocol}">Casting protocol:</p>
 	<div>
 	  ${protocol('one-per-cast', 'One click/cast', false)}
 	  ${protocol('one-per-line', 'One click/line', true)}
 	  ${protocol('three-per-cast', 'Three clicks/line', true)}
+	  ${protocol('manual', 'Manual entry', true)}
 	</div>
 	<div class="action">
-	  <button on-click="${_ => this._resetClick.bind(this)()}">Reset to default</button>
+	  <button title="Reset the settings to the default values." on-click="${_ => this._resetClick.bind(this)()}">Reset to default</button>
 	</div>
 	</form>
       </section>

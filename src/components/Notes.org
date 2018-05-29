@@ -1,3 +1,0 @@
-* Converting mahjong to polymer 3.0 / lit-html
-** Initial pass converted /index.html, /*.json, /images/**, src/mahjong-app.js,
-   and src/mahjong-icons.js.

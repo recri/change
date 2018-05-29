@@ -31,11 +31,11 @@ const iching = new Change(random, Changes);
 export class ChangeView extends connect(store)(PageViewElement) {
     static get properties() {
 	return {
-	    _change: String,
-	    _dist: String,
-	    _custom: String,
-	    _format: String,
-	    _protocol: String
+	    _change: String,	// /^(([6789]{6})([-,;][6789]{6}))?*$/
+	    _dist: String,	// /^(yarrow|coins|uniform|custom)$/
+	    _custom: String,	// /^[1-9]{4}$/
+	    _format: String,	// /^(single|multiple|linked|threaded)$/
+	    _protocol: String	// /^(one-per-cast|one-per-line|three-per-line)$/
 	}
     }
 
