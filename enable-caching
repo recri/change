@@ -1,0 +1,9 @@
+#!/bin/sh
+# enable caching of files for an hour
+for f in build/es?-bundled; do
+    cat >> $f/.htaccess <<EOF
+# 1 hour
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "max-age=3600, public"
+</FilesMatch>
+EOF

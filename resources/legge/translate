@@ -1,0 +1,337 @@
+#!/usr/bin/tclsh
+
+# use htmlparse, I hope, ...
+package require Tcl 8.2
+package require struct::stack 1.3
+package require cmdline 1.1
+package require htmlparse 1.2.2
+
+# translate an xml format document into a tcl list
+# taken from http://wiki.tcl.tk/3919 by Richard Suchenwirth
+
+proc xml2list xml {
+    regsub -all {>\s*<} [string trim $xml " \n\t<>"] "\} \{" xml
+    set xml [string map {> "\} \{#text \{" < "\}\} \{"}  $xml]
+	
+    set res ""   ;# string to collect the result   
+    set stack {} ;# track open tags
+    set rest {}
+    
+    foreach item "{$xml}" {
+	switch -regexp -- $item {
+	    ^# {
+		append res "{[lrange $item 0 end]} " ; #text item
+	    }
+	    ^/ {
+		regexp {/(.+)} $item -> tagname ;# end tag
+		set expected [lindex $stack end]
+		if {$tagname!=$expected} {error "$item != $expected"}
+		set stack [lrange $stack 0 end-1]
+		append res "\}\} "
+	    }
+	    /$ { # singleton - start and end in one <> group
+		regexp {([^ ]+)( (.+))?/$} $item -> tagname - rest
+		set rest [lrange [string map {= " "} $rest] 0 end]
+		append res "{$tagname [list $rest] {}} "
+	    }
+	    ^!-- { # comment
+	    }
+	    default {
+		set tagname [lindex $item 0] ;# start tag
+		set rest [lrange [string map {= " "} $item] 1 end]
+		lappend stack $tagname
+		append res "\{$tagname [list $rest] \{"
+	    }
+	}
+	if {[llength $rest]%2} {error "att's not paired: $rest"}
+    }
+    if [llength $stack] {error "unresolved: $stack"}
+    string map {"\} \}" "\}\}"} [lindex $res 0]
+}
+proc read-file {file} {
+    set fp [open $file r]
+    set data [read $fp]
+    close $fp
+    set data
+}
+# set changes [xml2list [string trim [read-file changes.xml]]]
+proc get-text {doc} {
+    set text {}
+    foreach item $doc {
+	foreach {tag attrs body} $item {
+	    switch -glob $tag {
+		?text {
+		    set lines $attrs
+		    set lines [regsub -all "\n" $lines " "]
+		    set lines [regsub -all "  +" $lines " "]
+		    append text " [string trim $lines]"
+		    continue
+		}
+		br {
+		    set text [string trim $text]\n
+		    continue
+		}
+		* {
+		    error "$tag in get-text"
+		}
+	    }
+	}
+    }
+    return [string trim $text]
+}
+proc get-text-and-tags {doc tags} {
+    set text {}
+    array set content {}
+    foreach item $doc {
+	foreach {tag attrs body} $item {
+	    switch -glob $tag {
+		?text {
+		    set lines $attrs
+		    set lines [regsub -all "\n" $lines " "]
+		    set lines [regsub -all "  +" $lines " "]
+		    append text " [string trim $lines]"
+		    continue
+		}
+		br {
+		    set text [string trim $text]\n
+		    continue
+		}
+		* {
+		    if {$tag in $tags} {
+			set content($tag) [get-text $body]
+			continue
+		    }
+		    error "$tag in get-text-and-tags $tags"
+		}
+	    }
+	}
+    }
+    set result [list [string trim $text]]
+    lappend result {*}[array get content]
+    return $result
+}
+proc get-line {n gov doc} {
+    return [list line-$n {*}[get-text-and-tags $doc {comment}] rules $gov]
+}
+
+proc traverse {indent doc} {
+    foreach {tag attrs body} $doc { 
+	switch $tag {
+	    changes {
+		set changes {}
+		foreach item $body { lappend changes [traverse "  $indent" $item] }
+		return $changes
+	    }
+	    change {
+		set change {}
+		foreach item $body { lappend change {*}[traverse "  $indent" $item] }
+		return $change
+	    }
+	    number -
+	    character -
+	    comment -
+	    lines {
+		# there is a #text body with the hexagram number
+		# there is a #text body with the character in utf-8
+		# there is a #text body, this is the comment on the change
+		# there is one #text in the body with the lines [6789]+
+		return [list $tag [get-text $body]]
+	    }
+	    name -
+	    above -
+	    below {
+		# there is a #text body with and possibly a comment
+		return [list $tag {*}[get-text-and-tags $body {comment interpretation}]]
+	    }
+	    image -
+	    judgment {
+		# there is a body with #text and br and possibly a comment
+		return [list $tag [get-text-and-tags $body {comment}]]
+	    }
+	    line {
+		# there is an n=? attribute,
+		# optionally a governing_ruler=? attribute
+		# there is a body with #text and br and possibly a comment
+		set myattrs(governing_ruler) false
+		array set myattrs $attrs
+		return [get-line $myattrs(n) $myattrs(governing_ruler) $body]
+	    }
+	    default {
+		error "$indent$tag $attrs"
+		foreach item $body {
+		    traverse "  $indent" $item
+		}
+	    }
+	}
+    }
+}
+
+# set nchanges [traverse {} $changes]
+
+# ::htmlparse::debugCallback ?clientdata? tag slash param textBehindTheTag
+
+proc initParse {} {
+    set ::data0 0
+    set ::data1 0
+    set ::div_id_content3 0
+    set ::div_depth 0
+    set ::tables 0
+    set ::keepers {}
+}
+
+proc parseKeep {tag slash param text} {
+    lappend ::keepers [list $tag $slash $param $text]
+}
+
+proc cleanupEmpty {i} {
+    # remove a pair of tags with uninteresting content
+    foreach {tag0 slash0 param0 text0} [lindex $::keepers $i] break
+    foreach {tag1 slash1 param1 text1} [lindex $::keepers [expr {$i+1}]] break
+    foreach {tag2 slash2 param2 text2} [lindex $::keepers [expr {$i+2}]] break
+    if {[string trim $text1] ne {}} {
+	append text0 $text1
+	set ::keepers [lreplace $::keepers $i $i [list $tag0 $slash0 $param0 $text0]]
+    }
+    if {[string trim $text2] ne {}} {
+	append text0 $text2
+	set ::keepers [lreplace $::keepers $i $i [list $tag0 $slash0 $param0 $text0]]
+    }
+    set ::keepers [lreplace $::keepers [expr {$i+1}] [expr {$i+2}]]
+}    
+proc cleanupKeepers {} {
+    ## remove empty <div></div>'s which appear to be a speciality
+    ## remove empty <p></p>'s
+    ## remove <a></a>'s which are cross references
+    ## drop <tr id="n\d+"> parameter
+    ## drop <td valign=".*" align=".*"> parameters
+    ## multiple passes necessary because of the way things are nested
+    set done 0
+    for {set i 0} {$i < [llength $::keepers]-2} {incr i} {
+	foreach {tag0 slash0 param0 text0} [lindex $::keepers [expr {$i+0}]] break
+	foreach {tag1 slash1 param1 text1} [lindex $::keepers [expr {$i+1}]] break
+	foreach {tag2 slash2 param2 text2} [lindex $::keepers [expr {$i+2}]] break
+	switch $tag0$slash0 {
+	    tr {
+		if {[llength $param0] > 0 && [string first {id=} [lindex $param0 0]] == 0} {
+		    set param0 [lrange $param0 1 end]
+		    set ::keepers [lreplace $::keepers $i $i [list $tag0 $slash0 $param0 $text0]]
+		}
+	    }
+	    td {
+		if {[llength $param0] == 2 && [join $param0 { }] eq {align="right" valign="top"}} {
+		    set param0 {}
+		    set ::keepers [lreplace $::keepers $i $i [list $tag0 $slash0 $param0 $text0]]
+		}
+		if {[llength $param0] > 1 && [lindex $param0 0] eq {valign="top"}} {
+		    set param0 [lrange $param0 1 end]
+		    set ::keepers [lreplace $::keepers $i $i [list $tag0 $slash0 $param0 $text0]]
+		}
+	    }
+	}
+	switch $tag1$slash1$tag2$slash2 {
+	    aa/ {
+		if {[string trim $text1] eq {Jump to dictionary} ||
+		    [string trim $text1] eq {Show parallel passages}} {
+		    # just delete these anchors
+		    set ::keepers [lreplace $::keepers [expr {$i+1}] [expr {$i+1}] [list $tag1 $slash1 $param1 {}]]
+		}
+		cleanupEmpty $i
+		incr i -1
+		incr done
+		continue
+	    }
+	    pp/ -
+	    divdiv/ {
+		if {[string trim $text1] eq {}} {
+		    cleanupEmpty $i
+		    incr i -1
+		    incr done
+		    continue
+		}
+	    }
+	}
+    }
+    return $done
+}
+
+proc printKeepers {} {
+    foreach k $::keepers {
+	foreach {tag slash param text} $k break
+	switch $tag$slash {
+	    table - tr - td - div - p - br {
+		if {[llength $param] > 0} {
+		    puts "<$tag [join $param { }]>$text"
+		} else {
+		    puts "<$tag>$text"
+		}
+	    }
+	    table/ - tr/ - td/ - div/ - p/ {
+		puts "</$tag>$text"
+	    }
+	    br/ {
+		puts "<$tag/>"
+	    }
+	    a {
+		# candidate to skip
+		puts "<$tag [join $param { }]>$text"
+	    }
+	    a/ {
+		# candidate to skip
+		puts "</$tag>$text"
+	    }
+	    default {
+		error "unhandled tag $tag$slash"
+	    }
+	}
+    }
+}
+
+# we let the structure go by until we see <div id="content3">
+# we keep everything to the matching </div>
+proc parseCallback {tag slash param text} {
+    if {[catch {llength $param} error]} {
+	puts "$error: $param"
+    }
+    if {$::div_id_content3 == 0} {
+	if {$tag eq {div} && $slash eq {} && [llength $param] > 0 && [lindex $param 0] eq {id="content3"}} {
+	    # puts "got div_id_content3"
+	    incr ::div_id_content3
+	    return
+	}
+    } elseif {$::tables < 2} {
+	if {$tag eq {table} && $slash eq {}} {
+	    incr ::tables
+	    if {$::tables == 2} {
+		parseKeep $tag $slash $param $text
+	    }
+	}
+    } elseif {$::tables == 2} {
+	parseKeep $tag $slash $param $text
+	if {$tag eq {table}} {
+	    if {$slash eq {}} {
+		puts "nested table?"
+	    } else {
+		incr ::tables
+	    }
+	}
+    }
+}
+
+proc cleanupData {data} {
+    return [regsub -all { (style|onclick|onClick)="[^""]*"} $data {}]
+}
+
+# foreach c $nchanges { puts --------\n$c\n-------- }
+foreach x $argv {
+    initParse
+    set data [read-file $x]
+    set ::data0 [string length $data]
+    ## remove all style=".*" because they confuse the parser
+    ## remove all on[Cc]lick=".*" because they're ugly
+    set data [cleanupData $data]
+    set ::data1 [string length $data]
+    htmlparse::parse -cmd parseCallback $data
+    while {[cleanupKeepers]} continue
+    printKeepers
+    puts "$x length [llength $::keepers] elements"
+}

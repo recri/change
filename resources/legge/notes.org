@@ -1,0 +1,74 @@
+  <provenance>
+    https://ctext.org/book-of-changes/
+    lower case and hypens for spaces to get page
+    ah, and some require numeric suffixes, but
+    retrieved by number.
+      Qian 1.html:24: <title>Book of Changes : Yi Jing : Qian - Chinese Text Project</title>
+    　Kun 2.html:24: <title>Book of Changes : Yi Jing : Kun - Chinese Text Project</title>
+　　　Zhun 3.html:24: <title>Book of Changes : Yi Jing : Zhun - Chinese Text Project</title>
+　　　Meng 4.html:24: <title>Book of Changes : Yi Jing : Meng - Chinese Text Project</title>
+　　　Xu 5.html:24: <title>Book of Changes : Yi Jing : Xu - Chinese Text Project</title>
+　　　Song 6.html:24: <title>Book of Changes : Yi Jing : Song - Chinese Text Project</title>
+　　　Shi 7.html:24: <title>Book of Changes : Yi Jing : Shi - Chinese Text Project</title>
+　　　Bi 8.html:24: <title>Book of Changes : Yi Jing : Bi - Chinese Text Project</title>
+　　　Xiao Xu 9.html:24: <title>Book of Changes : Yi Jing : Xiao Xu - Chinese Text Project</title>
+　　　Lu 10.html:24: <title>Book of Changes : Yi Jing : Lu - Chinese Text Project</title>
+　　　Tai 11.html:24: <title>Book of Changes : Yi Jing : Tai - Chinese Text Project</title>
+　　　Pi 12.html:24: <title>Book of Changes : Yi Jing : Pi - Chinese Text Project</title>
+　　　Tong Ren 13.html:24: <title>Book of Changes : Yi Jing : Tong Ren - Chinese Text Project</title>
+　　　Da You 14.html:24: <title>Book of Changes : Yi Jing : Da You - Chinese Text Project</title>
+　　　Qian 15.html:24: <title>Book of Changes : Yi Jing : Qian - Chinese Text Project</title>
+　　　Yu 16.html:24: <title>Book of Changes : Yi Jing : Yu - Chinese Text Project</title>
+　　　Sui 17.html:24: <title>Book of Changes : Yi Jing : Sui - Chinese Text Project</title>
+　　　Gu 18.html:24: <title>Book of Changes : Yi Jing : Gu - Chinese Text Project</title>
+　　　Lin 19.html:24: <title>Book of Changes : Yi Jing : Lin - Chinese Text Project</title>
+　　　Guan 20.html:24: <title>Book of Changes : Yi Jing : Guan - Chinese Text Project</title>
+　　　Shi He 21.html:24: <title>Book of Changes : Yi Jing : Shi He - Chinese Text Project</title>
+　　　Bi 22.html:24: <title>Book of Changes : Yi Jing : Bi - Chinese Text Project</title>
+　　　Bo 23.html:24: <title>Book of Changes : Yi Jing : Bo - Chinese Text Project</title>
+　　　Fu 24.html:24: <title>Book of Changes : Yi Jing : Fu - Chinese Text Project</title>
+　　　Wu Wang 25.html:24: <title>Book of Changes : Yi Jing : Wu Wang - Chinese Text Project</title>
+　　　Da Xu 26.html:24: <title>Book of Changes : Yi Jing : Da Xu - Chinese Text Project</title>
+　　　Yi 27.html:24: <title>Book of Changes : Yi Jing : Yi - Chinese Text Project</title>
+　　　Da Guo 28.html:24: <title>Book of Changes : Yi Jing : Da Guo - Chinese Text Project</title>
+　　　Kan 29.html:24: <title>Book of Changes : Yi Jing : Kan - Chinese Text Project</title>
+　　　Li 30.html:24: <title>Book of Changes : Yi Jing : Li - Chinese Text Project</title>
+　　　Xian 31.html:24: <title>Book of Changes : Yi Jing : Xian - Chinese Text Project</title>
+　　　Heng 32.html:24: <title>Book of Changes : Yi Jing : Heng - Chinese Text Project</title>
+　　　Dun 33.html:24: <title>Book of Changes : Yi Jing : Dun - Chinese Text Project</title>
+　　　Da Zhuang 34.html:24: <title>Book of Changes : Yi Jing : Da Zhuang - Chinese Text Project</title>
+　　　Jin 35.html:24: <title>Book of Changes : Yi Jing : Jin - Chinese Text Project</title>
+　　　Ming Yi 36.html:24: <title>Book of Changes : Yi Jing : Ming Yi - Chinese Text Project</title>
+　　　Jia Ren 37.html:24: <title>Book of Changes : Yi Jing : Jia Ren - Chinese Text Project</title>
+　　　Kui 38.html:24: <title>Book of Changes : Yi Jing : Kui - Chinese Text Project</title>
+　　　Jian 39.html:24: <title>Book of Changes : Yi Jing : Jian - Chinese Text Project</title>
+　　　Jie 40.html:24: <title>Book of Changes : Yi Jing : Jie - Chinese Text Project</title>
+　　　Sun 41.html:24: <title>Book of Changes : Yi Jing : Sun - Chinese Text Project</title>
+　　　Yi 42.html:24: <title>Book of Changes : Yi Jing : Yi - Chinese Text Project</title>
+　　　Guai 43.html:24: <title>Book of Changes : Yi Jing : Guai - Chinese Text Project</title>
+　　　Gou 44.html:24: <title>Book of Changes : Yi Jing : Gou - Chinese Text Project</title>
+　　　Cui 45.html:24: <title>Book of Changes : Yi Jing : Cui - Chinese Text Project</title>
+　　　Sheng 46.html:24: <title>Book of Changes : Yi Jing : Sheng - Chinese Text Project</title>
+　　　Kun 47.html:24: <title>Book of Changes : Yi Jing : Kun - Chinese Text Project</title>
+　　　Jing 48.html:24: <title>Book of Changes : Yi Jing : Jing - Chinese Text Project</title>
+　　　Ge 49.html:24: <title>Book of Changes : Yi Jing : Ge - Chinese Text Project</title>
+　　　Ding 50.html:24: <title>Book of Changes : Yi Jing : Ding - Chinese Text Project</title>
+　　　Zhen 51.html:24: <title>Book of Changes : Yi Jing : Zhen - Chinese Text Project</title>
+　　　Gen 52.html:24: <title>Book of Changes : Yi Jing : Gen - Chinese Text Project</title>
+　　　Jian 53.html:24: <title>Book of Changes : Yi Jing : Jian - Chinese Text Project</title>
+　　　Gui Mei 54.html:24: <title>Book of Changes : Yi Jing : Gui Mei - Chinese Text Project</title>
+　　　Feng 55.html:24: <title>Book of Changes : Yi Jing : Feng - Chinese Text Project</title>
+　　　Lu 56.html:24: <title>Book of Changes : Yi Jing : Lu - Chinese Text Project</title>
+　　　Xun 57.html:24: <title>Book of Changes : Yi Jing : Xun - Chinese Text Project</title>
+　　　Dui 58.html:24: <title>Book of Changes : Yi Jing : Dui - Chinese Text Project</title>
+　　　Huan 59.html:24: <title>Book of Changes : Yi Jing : Huan - Chinese Text Project</title>
+　　　Jie 60.html:24: <title>Book of Changes : Yi Jing : Jie - Chinese Text Project</title>
+　　　Zhong Fu 61.html:24: <title>Book of Changes : Yi Jing : Zhong Fu - Chinese Text Project</title>
+　　　Xiao Guo 62.html:24: <title>Book of Changes : Yi Jing : Xiao Guo - Chinese Text Project</title>
+　　　Ji Ji 63.html:24: <title>Book of Changes : Yi Jing : Ji Ji - Chinese Text Project</title>
+　　　Wei Ji 64.html:24: <title>Book of Changes : Yi Jing : Wei Ji - Chinese Text Project</title>
+</provenance>
+<div id="content3"> appears to mark the first line of non-navigation cruft
+	actually appears to introduce the reference list
+	Ah, the second <table> inside <div id="content3"> is the text and
+	translation and a bunch of interleaved buttons.

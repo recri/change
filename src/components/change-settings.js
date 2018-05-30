@@ -39,8 +39,6 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	    'format': "The format determines whether and how multiple casts are formatted.",
 	    'format-single': "Only one cast is displayed.",
 	    'format-multiple': "Multiple casts are displayed in the order thrown.",
-	    'format-linked': "Multiple casts are linked together.",
-	    'format-threaded': "Multiple casts are threaded together",
 	    'protocol': "The cast button can require different user interactions.",
 	    'protocol-one-per-cast': "Cast a reading when pressed.",
 	    'protocol-one-per-line': "Cast one line of a reading for each press.",
@@ -81,6 +79,18 @@ class ChangeSettings extends connect(store)(PageViewElement) {
       <section>
         <h2>Settings</h2>
 	<form on-submit="${(e) => e.preventDefault()}">
+	<p title="${title.format}">Reading format:</p>
+	  <div>
+	    ${format('single', 'Single casts', false)}
+	    ${format('multiple', 'Multiple casts', false)}
+	  </div>
+	<p title="${title.protocol}">Casting protocol:</p>
+	<div>
+	  ${protocol('one-per-cast', 'One click/cast', false)}
+	  ${protocol('one-per-line', 'One click/line', true)}
+	  ${protocol('three-per-cast', 'Three clicks/line', true)}
+	  ${protocol('manual', 'Manual entry', true)}
+	</div>
 	<p title="${title.distribution}">Line distribution:</p>
 	  <div>
 	    ${distribution('yarrow', 'Yarrow')}
@@ -96,22 +106,8 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	  ${custom_select(2, _custom.charAt(2), 'young-yin')}:
 	  ${custom_select(3, _custom.charAt(3), 'old-yang')}
 	</div>
-	<p title="${title.format}">Reading format:</p>
-	  <div>
-	    ${format('single', 'Single casts', false)}
-	    ${format('multiple', 'Multiple casts', true)}
-	    ${format('linked', 'Linked casts', false)}
-	    ${format('threaded', 'Threaded casts', true)}
-	  </div>
-	<p title="${title.protocol}">Casting protocol:</p>
-	<div>
-	  ${protocol('one-per-cast', 'One click/cast', false)}
-	  ${protocol('one-per-line', 'One click/line', true)}
-	  ${protocol('three-per-cast', 'Three clicks/line', true)}
-	  ${protocol('manual', 'Manual entry', true)}
-	</div>
 	<div class="action">
-	  <button title="Reset the settings to the default values." on-click="${_ => this._resetClick.bind(this)()}">Reset to default</button>
+	  <button title="Reset the settings to the default values." on-click="${_ => this._resetClick.bind(this)()}">Reset</button>
 	</div>
 	</form>
       </section>

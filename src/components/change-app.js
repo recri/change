@@ -31,7 +31,7 @@ class ChangeApp extends connect(store)(LitElement) {
     _render({appTitle, _page, _drawerOpened, _wideLayout, _change, _install}) {
 	// Anything that's related to rendering should be done in here.
 	// construct an install button when 
-	const install = _install ?
+	const installPrompt = _install ?
 	      html`<button on-click="${this._installPrompt.bind(this)(_install)}">Install</button>` :
 	      html``;
 	
@@ -136,7 +136,7 @@ class ChangeApp extends connect(store)(LitElement) {
         color: var(--app-drawer-text-color);
         text-align: center;
       }
-      footer a:link {
+      footer a {
         color: var(--app-drawer-text-color);
       }
 
@@ -174,7 +174,7 @@ class ChangeApp extends connect(store)(LitElement) {
         <a selected?="${_page === 'view'}" href="/">View</a>
         <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
-	${install}
+	${installPrompt}
       </nav>
     </app-drawer>
 
@@ -190,8 +190,10 @@ class ChangeApp extends connect(store)(LitElement) {
       <p>
 	Inner Truth.  Pigs and fishes.
       </p></p>
-	<a href="https://elf.org/change">elf.org/change</a>
-      </p>
+	<a href="https://elf.org" target="_blank" title="home page">elf.org</a>
+      </p></p>
+	2018-05-30-17-04
+      <p>
     </footer>
 
     `;

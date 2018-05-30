@@ -89,12 +89,17 @@
 [ ] add save restore settings to local storage
 [ ] add option to save readings to local storage
 [ ] add option to record the questions asked
-[ ] extend the change syntax to include
+[ ] add option to export current change url to clipboard
+[-] extend the change syntax to include
 	; to separate independent casts
 	- to thread casts together by constructing the
 		transition between adjacent casts
-[ ] the linked protocol is biased using the yarrow stalk
+[-] the linked protocol is biased using the yarrow stalk
 	tends toward yin because yang ages faster
+[x] replace the origin - movement - destination reading with
+	movement when movement, otherwise origin equal to destination
+[x] leave off the "image", it's from a subsequent commentary on the original text
+	from the xiang zhuan
 [ ] maybe there's a way to make a continuously evolving
 	change, where the lines age and transform as
 	you watch.

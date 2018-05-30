@@ -25,7 +25,7 @@ export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
     var page = path === '/' ? 'view' : path.slice(1);
 
-    if (/^([6789]{6})([;,-][6789]{6})*$/.test(page)) {
+    if (/^([6789]{6})(,[6789]{6})*$/.test(page)) {
 	dispatch(changeUpdate(page));
 	page = 'view';
     }

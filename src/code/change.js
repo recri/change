@@ -118,10 +118,7 @@ export class Change {
     head(str) { return str.length <= 6 ? '' : str.slice(0,-7); }
 
     // cast a new change, append onto previous 
-    cast(str) { return str.length === 0 ? this.getLines() : str+';'+this.getLines(); }
-
-    // link a new change onto the existing change
-    link(str) { return str.length === 0 ? this.getLines() : str+','+this.nextLines(this.tail(str)); }
+    cast(str) { return str.length === 0 ? this.getLines() : str+','+this.getLines(); }
 
     // undo the last cast or link
     undo(str) { return this.head(str); }

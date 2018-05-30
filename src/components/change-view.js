@@ -31,10 +31,10 @@ const iching = new Change(random, Changes);
 export class ChangeView extends connect(store)(PageViewElement) {
     static get properties() {
 	return {
-	    _change: String,	// /^(([6789]{6})([-,;][6789]{6}))?*$/
+	    _change: String,	// /^(([6789]{6})(,[6789]{6}))?*$/
 	    _dist: String,	// /^(yarrow|coins|uniform|custom)$/
 	    _custom: String,	// /^[1-9]{4}$/
-	    _format: String,	// /^(single|multiple|linked|threaded)$/
+	    _format: String,	// /^(single|multiple)$/
 	    _protocol: String	// /^(one-per-cast|one-per-line|three-per-line)$/
 	}
     }
@@ -57,7 +57,7 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	// const getBelow = (hex) => getText(hex,"below");
 	// const getBelowInterpretation = (hex) => getText(hex,"below-interpretation");
 	const getJudgment = (hex) => breakAtNewlines(getText(hex,"judgment"), false);
-	const getImage = (hex) => breakAtNewlines(getText(hex,"image"), false);
+	// const getImage = (hex) => breakAtNewlines(getText(hex,"image"), false);
 	const getLine = (hex,line) => breakAtNewlines(getText(hex,`line-${line}`), true);
 	const getLineOrdinal = (hex,line) => getText(hex,`line-${line}`).split('\n')[0];
 	const getLineGoverning = (hex,line) => getBoolean(hex, `line-${line}-governing-ruler`)
@@ -66,11 +66,11 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	const isMovingLine = (line) => (line === '6' || line === '9');
 	const isStationaryLine = (line) => (line === '7' || line === '8');
 	const renderHex = (hex) => {
+	    /* <div class="image" title="Image">${getImage(hex)}</div> */
 	    return html`
 		<div class="hexagram" title="${getNumber(hex)}. ${getNameInterpretation(hex)}">
 		${getHexagram(hex)}
 		<div class="judgment" title="Judgment">${getJudgment(hex)}</div>
-		<div class="image" title="Image">${getImage(hex)}</div>
 		</div>
 	    `;
 	}
@@ -104,9 +104,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 			${bonus}
 			</div>`;
 	    return html`
-		${start}
-		${ ! allStationary ? moving : ''}
-		${finis}`;
+		${ allStationary ? start : ''}
+		${ ! allStationary ? moving : ''}`;
 	}
 	// cast button becomes conditional on protocol
 	const cast_down = this._castDown.bind(this);
@@ -163,7 +162,6 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	switch (this._format) {
 	case 'single': store.dispatch(changeUpdate(iching.cast(''))); break;
 	case 'multiple': store.dispatch(changeUpdate(iching.cast(this._change))); break;
-	case 'linked': store.dispatch(changeUpdate(iching.link(this._change))); break;
 	}
     }
 }
