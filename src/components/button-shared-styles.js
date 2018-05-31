@@ -16,7 +16,7 @@ export const ButtonSharedStyles = html`
     font-size: inherit;
     vertical-align: middle;
     background: transparent;
-    border: none;
+    border: 1;
     cursor: pointer;
   }
   button:hover svg {

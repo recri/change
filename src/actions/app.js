@@ -49,7 +49,10 @@ const loadPage = (page) => async (dispatch) => {
     case 'about':
 	await import('../components/change-about.js');
 	break;
-
+    case 'tests':
+	await import('../components/change-tests.js');
+	break;
+	
     default:
 	await import('../components/change-view404.js');
 	break;

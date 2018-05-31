@@ -24,8 +24,10 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
-
 import { navigate, updateDrawerState, updateLayout, installPrompt } from '../actions/app.js';
+
+import { SharedStyles } from './shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ChangeApp extends connect(store)(LitElement) {
     _render({appTitle, _page, _drawerOpened, _wideLayout, _change, _install}) {
@@ -36,6 +38,8 @@ class ChangeApp extends connect(store)(LitElement) {
 	      html``;
 	
 	return html`
+    ${SharedStyles}
+    ${ButtonSharedStyles}
     <style>
       :host {
         --app-drawer-width: 256px;
@@ -174,6 +178,7 @@ class ChangeApp extends connect(store)(LitElement) {
         <a selected?="${_page === 'view'}" href="/">View</a>
         <a selected?="${_page === 'settings'}" href="/settings">Settings</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
+        <a selected?="${_page === 'tests'}" href="/tests">Tests</a>
 	${installPrompt}
       </nav>
     </app-drawer>
@@ -183,6 +188,7 @@ class ChangeApp extends connect(store)(LitElement) {
       <change-view class="page" active?="${_page === 'view'}"></change-view>
       <change-settings class="page" active?="${_page === 'settings'}"></change-settings>
       <change-about class="page" active?="${_page === 'about'}"></change-about>
+      <change-tests class="page" active?="${_page === 'tests'}"></change-tests>
       <change-view404 class="page" active?="${_page === 'view404'}"></change-view404>
     </main>
 

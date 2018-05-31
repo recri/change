@@ -36,11 +36,16 @@
   the dog owner and the dog
   surface the original wilhem-baynes translation.
 * try running the chinese through google translate?
+  That works terribly, the archaic text doesn't even
+  make sense, it ends up as anglicized pinyin.
 * Todo list as of May 23
 [x] Move the menu to the side bar
 [x] Put the buttons at the foot of the View page
 	put them at the head of the View page instead
-[ ] Style those buttons
+	put them at the foot, again.
+[ ] Make the cast-view window scroll to end after each
+	appended cast
+[x] Style those buttons
 [x] Incorporate mersenne-twister.js
 [x] Use time of cast button press as random seed
 [ ] Optionally add commentary
@@ -100,6 +105,7 @@
 	movement when movement, otherwise origin equal to destination
 [x] leave off the "image", it's from a subsequent commentary on the original text
 	from the xiang zhuan
-[ ] maybe there's a way to make a continuously evolving
+[-] maybe there's a way to make a continuously evolving
 	change, where the lines age and transform as
 	you watch.
+[ ] add keyboard accelerators to cast/undo/clear buttons

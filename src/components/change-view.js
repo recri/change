@@ -12,6 +12,7 @@ import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 
 import { SharedStyles } from './shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
@@ -128,6 +129,7 @@ export class ChangeView extends connect(store)(PageViewElement) {
 
 	return html`
 		${SharedStyles}
+		${ButtonSharedStyles}
 		<style>
 		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px }
 		  div.action { text-align: center; }
