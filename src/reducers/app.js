@@ -10,11 +10,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { UPDATE_PAGE, UPDATE_WIDE_LAYOUT, UPDATE_DRAWER_STATE,
 	 INSTALL_PROMPT,
-	 CHANGE_UPDATE, 
+	 CHANGE_ICHING, CHANGE_RANDOM, CHANGE_UPDATE, 
 	 CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL
        } from '../actions/app.js';
 
-const app = (state = { drawerOpened: false, change: '',
+const app = (state = { drawerOpened: false, 
+		       change: '',
 		       dist: 'yarrow', // 'yarrow', 'coins', 'uniform', 'custom'
 		       custom: '3113', // /^[1-9]{4}$/
 		       format: 'single', // 'single', 'multiple', 'linked', 'threaded'
@@ -23,6 +24,8 @@ const app = (state = { drawerOpened: false, change: '',
 		     }, action) => {
 
     switch (action.type) {
+    case CHANGE_ICHING: return { ...state, iching: action.iching };
+    case CHANGE_RANDOM: return { ...state, random: action.random };
     case CHANGE_UPDATE: return { ...state, change: action.change };
     case CHANGE_DIST: return { ...state, dist: action.dist };
     case CHANGE_CUSTOM: return { ...state, custom: action.custom };

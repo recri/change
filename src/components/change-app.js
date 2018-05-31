@@ -32,7 +32,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 class ChangeApp extends connect(store)(LitElement) {
     _render({appTitle, _page, _drawerOpened, _wideLayout, _change, _install}) {
 	// Anything that's related to rendering should be done in here.
-	// construct an install button when 
+	// construct an install button when it's been signaled
 	const installPrompt = _install ?
 	      html`<button on-click="${this._installPrompt.bind(this)(_install)}">Install</button>` :
 	      html``;
@@ -247,7 +247,7 @@ class ChangeApp extends connect(store)(LitElement) {
 	this._drawerOpened = state.app.drawerOpened;
 	this._wideLayout = state.app.wideLayout;
 	this._change = state.app.change;
-	this._installPrompt = null;
+	this._install = state.app.install;
     }
 
     _installPrompt(_install) {

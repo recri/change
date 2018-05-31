@@ -22,15 +22,22 @@ class ChangeTests extends connect(store)(PageViewElement) {
     static get properties() {
 	return {
 	    _iching: Object,
-	    _random: Object,
-	    _yarrowHist: Array,
-	    _coinsHist: Array,
-	    _uniformHist: Array,
-	    _customHist: Array
+	    _random: Object
 	}
     }
 
-    _render({_iching, _random, _yarrowHist, _coinsHist, _uniformHist, _customHist}) {
+    _render({_iching, _random}) {
+	if ( ! _iching || ! _random) 
+	    return html`
+      ${SharedStyles}
+      ${ButtonSharedStyles}
+      <style>
+	div.action { text-align: center; }
+      </style>
+      <section>
+        <h2>Tests</h2>
+      </section>`;
+
 	return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -40,49 +47,41 @@ class ChangeTests extends connect(store)(PageViewElement) {
       <section>
         <h2>Tests</h2>
 	<p>Yarrow Distribution</p>
-	<div></div>
+	<div>
+	  ${this._makeBarChart('6789', _random.choosen(_iching.distYarrow), 1000)}
+	</div>
 	<p>Coins Distribution</p>
-	<div></div>
+	<div>
+  	  ${this._makeBarChart('6789', _random.choosen(_iching.distCoins), 1000)}
+	</div>
 	<p>Uniform Distribution</p>
-	<div></div>
+	<div>
+  	  ${this._makeBarChart('6789', _random.choosen(_iching.distUniform), 1000)}
+	</div>
 	<p>Custom Distribution</p>
-	<div></div>
+	<div>
+  	  ${this._makeBarChart('6789', _random.choosen(_iching.getCustom()), 1000)}
+	</div>
       </section>
     `
     }
 
     _stateChanged(state) {
-	this._dist = state.app.dist;
-	this._custom = state.app.custom;
-	this._format = state.app.format;
-	this._protocol = state.app.protocol;
+	console.log(`change-tests stateChanged ${state.app.iching} and ${state.app.random}`);
+	this._iching = state.app.iching;
+	this._random = state.app.random;
     }
     
-    _resetClick() {
-	// console.log("change-settings _resetClick");
-	store.dispatch(changeDist('yarrow'));
-	store.dispatch(changeCustom('3113'));
-	store.dispatch(changeFormat('single'));
-	store.dispatch(changeProtocol('one-per-cast'));
+    _makeBarChart(str) {
+	const n = str.length;
+	let counts = { '6':0, '7': 0, '8': 0, '9': 0 }
+	for (let d of str.split('').sort()) counts[d]++
+	const bar = (d) => html`${d.repeat(Math.round(counts[d]/20))}<br/>`
+	return html`<div>
+	   ${['6', '7', '8', '9'].map(bar)}
+		</div>`
     }
-    
-    _distClick(tag) { 
-	// console.log(`change-settings _distClick(${tag})`); 
-	store.dispatch(changeDist(tag));
-    }
-    _customClick(e, i, tag) {
-	// this._custom[i] = e.target.value
-	var dist = this._custom.split('').map((c,ci) => ci===i ? e.target.value : c).join('');
-	store.dispatch(changeCustom(dist));
-    }
-    _formatClick(tag) {
-	// console.log(`change-settings _formatClick(${tag})`);
-	store.dispatch(changeFormat(tag));
-    }
-    _protocolClick(tag) {
-	// console.log(`_protocolClick(${tag})`);
-	store.dispatch(changeProtocol(tag));
-    }
+	
 }
 
-window.customElements.define('change-settings', ChangeSettings);
+window.customElements.define('change-tests', ChangeTests);

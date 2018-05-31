@@ -16,6 +16,8 @@ export const INSTALL_PROMPT = 'INSTALL_PROMPT'
 
 export const CHANGE_UPDATE = 'CHANGE_UPDATE';
 
+export const CHANGE_ICHING = 'CHANGE_ICHING';
+export const CHANGE_RANDOM = 'CHANGE_RANDOM';
 export const CHANGE_DIST = 'CHANGE_DIST';
 export const CHANGE_CUSTOM = 'CHANGE_CUSTOM';
 export const CHANGE_FORMAT = 'CHANGE_FORMAT';
@@ -117,6 +119,11 @@ export const changeProtocol = (protocol) => (dispatch) => {
     dispatch({ type: CHANGE_PROTOCOL, protocol});
     dispatch(updateDrawerState(false));
 }
-
-
-
+export const changeIChing = (iching) => (dispatch) => {
+    dispatch({ type: CHANGE_ICHING, iching });
+    dispatch(updateDrawerState(false));
+}
+export const changeRandom = (random) => (dispatch) => {
+    dispatch({ type: CHANGE_RANDOM, random });
+    dispatch(updateDrawerState(false));
+}

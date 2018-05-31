@@ -16,7 +16,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { changeUpdate } from '../actions/app.js';
+import { changeUpdate, changeIChing, changeRandom } from '../actions/app.js';
 
 import { GestureButton } from './gesture-button.js';
 
@@ -40,6 +40,13 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	}
     }
 
+    constructor() {
+	super();
+	console.log(`change-view constructor ${iching} and ${random}`);
+	changeIChing(iching);
+	changeRandom(random);
+    }
+    
     _render({_change, _dist, _custom, _format, _protocol}) {
 	const breakAtNewlines = (str, skipFirst) => str ?
 	      str.split('\n').slice(skipFirst ? 1 : 0).map((x) => html`${x}<br/>\n`) : undefined;

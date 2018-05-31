@@ -2,8 +2,9 @@ export class Change {
 
     constructor(random, text) {
 	this.random = random;
-	this.setDist('yarrow', '3113');	// yarrow, coins, uniform, custom, /[1-9]{4}/
-	this.setFormat('single'); // single, multiple, linked, threaded
+	this.setDist('yarrow');	// yarrow, coins, uniform, custom
+	this.setCustom('3113');	// /[1-9]{4}/
+	this.setFormat('single'); // single, multiple
 	this.setText(text);
 	this.setCommentary(null);
     }
