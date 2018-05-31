@@ -1,4 +1,5 @@
 <svg class="kua" viewBox="0 0 390 390" stroke="black">
+  <rect x="0" y="0" width="390" height="390" stroke="white" fill="white"></rect>
   <line class="kua-line" x1="32" y1="345" x2="358" y2="345" stroke-width="26"></line>
   <line class="kua-line" x1="32" y1="285" x2="358" y2="285" stroke-width="26"></line>
   <line class="kua-line" x1="32" y1="225" x2="135" y2="225" stroke-width="26"></line>
