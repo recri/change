@@ -25,6 +25,18 @@ class ChangeTests extends connect(store)(PageViewElement) {
     }
 
     _render({_iching}) {
+	const makeBigBarCharts(cast) {
+	    var init = {}, fini = {}
+	    const n = 10000
+	    for (let i = 0; i < 10000; i += 1) {
+		const c = cast();
+		const s = _iching.backward(c);
+		const f = _iching.forward(c);
+		if (init[s]) init[s] += 1; else init[s] = 1;
+		if (fini[f]) fini[f] += 1; else fini[f] = 1;
+	    }
+	    return html``;
+	}
 	const sample = (dist) => _iching.choosen(_iching.hist_for_dist(dist, '6789'), 1000);
 	const makeBarChart = (dist) => {
 	    const keys = '6789';
@@ -66,6 +78,10 @@ class ChangeTests extends connect(store)(PageViewElement) {
 	<p>Custom Distribution(${_iching.getCustom()})</p>
 	<div>
   	  ${makeBarChart(_iching.getCustom())}
+	</div>
+	<p>Result Distribution (1/64th)</p>
+	<div>
+	  ${makeBigBarCharts(() => _iching.cast(''))}
 	</div>
       </section>
     `

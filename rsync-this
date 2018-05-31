@@ -1,4 +1,5 @@
 #!/bin/sh
 ./enable-compression
+./rewrite-paths-to-index
 # ./enable-caching; # when things have settled
 rsync -av --delete --delete-excluded --exclude '*~' --exclude /node_modules ~/Web/change/ elf021@elf021.pairserver.com:public_html/change/

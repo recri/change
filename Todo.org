@@ -35,6 +35,7 @@
   the better person, the dependent, ...
   the dog owner and the dog
   surface the original wilhem-baynes translation.
+  been done several times already by people on the web
 * try running the chinese through google translate?
   That works terribly, the archaic text doesn't even
   make sense, it ends up as anglicized pinyin.
@@ -43,13 +44,9 @@
 [x] Put the buttons at the foot of the View page
 	put them at the head of the View page instead
 	put them at the foot, again.
-[ ] Make the cast-view window scroll to end after each
-	appended cast
 [x] Style those buttons
 [x] Incorporate mersenne-twister.js
 [x] Use time of cast button press as random seed
-[ ] Optionally add commentary
-[ ] Optionally add other translations
 [x] Catch "addtodesktop" event and handle
   minimal is
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -83,18 +80,14 @@
 [x] accept list of changes in url, eg ([6789]{6})(,[6789]{6})*
 	and display the specfied change or changes
 	but do not put all casts into location
-[ ] redo icon images with white background, or some other background,
-	maybe go for some
+[x] redo icon images with white background, or some other background,
+	best to do the color change in the original svg,
+	scale the svg to size on open (ctl-o),
+	export to png (ctl-shift-e)
 [x] move all of the change manipulations into the change-view
 	except the update, which still shares with redux
-[ ] write tests to verify the random number generation
-[ ] write tests to verify the distributions
-	choosen(
-[ ] write tests to cover all the single cast results
-[ ] add save restore settings to local storage
-[ ] add option to save readings to local storage
-[ ] add option to record the questions asked
-[ ] add option to export current change url to clipboard
+[x] write tests to verify the random number generation
+[x] write tests to verify the distributions choosen(dist, n)
 [-] extend the change syntax to include
 	; to separate independent casts
 	- to thread casts together by constructing the
@@ -108,4 +101,22 @@
 [-] maybe there's a way to make a continuously evolving
 	change, where the lines age and transform as
 	you watch.
+[x] add option to export current change url to clipboard
+	this turns out to be a massive clusterf**k
+	made a {show url} page with a textarea which
+	is loaded with the url, found that I need to
+	hack the apache configuration to get the app
+	loaded to handle the reading url.
+* Todo list as of May 23
+[ ] Make the cast-view window scroll to end after each
+	appended cast
+[ ] Optionally add commentary
+[ ] Optionally add other translations
 [ ] add keyboard accelerators to cast/undo/clear buttons
+[ ] redo the app color scheme
+[ ] write tests to cover all the single cast results
+[ ] add save restore settings to local storage
+[ ] add option to save readings to local storage
+[ ] add option to record the questions asked
+[ ] keep a complete history of readings in local store
+[ ] optionally prompt for the question prompting the reading
