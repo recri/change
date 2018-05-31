@@ -16,7 +16,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { changeUpdate, changeIChing, changeRandom } from '../actions/app.js';
+import { changeUpdate, changeIChing, changeRandom } from '../actions/change.js';
 
 import { GestureButton } from './gesture-button.js';
 
@@ -155,11 +155,11 @@ export class ChangeView extends connect(store)(PageViewElement) {
     }
 
     _stateChanged(state) {
-	this._change = state.app.change;
-	this._dist = state.app.dist;
-	this._custom = state.app.custom
-	this._format = state.app.format;
-	this._protocol = state.app.protocol;
+	this._change = state.change.change;
+	this._dist = state.change.dist;
+	this._custom = state.change.custom
+	this._format = state.change.format;
+	this._protocol = state.change.protocol;
     }
 
     _castDown() {

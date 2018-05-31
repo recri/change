@@ -15,7 +15,6 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { changeDist, changeCustom, changeFormat, changeProtocol } from '../actions/app.js';
 
 class ChangeTests extends connect(store)(PageViewElement) {
 
@@ -68,8 +67,8 @@ class ChangeTests extends connect(store)(PageViewElement) {
 
     _stateChanged(state) {
 	console.log(`change-tests stateChanged ${state.app.iching} and ${state.app.random}`);
-	this._iching = state.app.iching;
-	this._random = state.app.random;
+	this._iching = state.change.iching;
+	this._random = state.change.random;
     }
     
     _makeBarChart(str) {
@@ -77,9 +76,7 @@ class ChangeTests extends connect(store)(PageViewElement) {
 	let counts = { '6':0, '7': 0, '8': 0, '9': 0 }
 	for (let d of str.split('').sort()) counts[d]++
 	const bar = (d) => html`${d.repeat(Math.round(counts[d]/20))}<br/>`
-	return html`<div>
-	   ${['6', '7', '8', '9'].map(bar)}
-		</div>`
+	return html`<div>${['6', '7', '8', '9'].map(bar)}</div>`
     }
 	
 }
