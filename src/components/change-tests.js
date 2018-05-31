@@ -25,6 +25,24 @@ class ChangeTests extends connect(store)(PageViewElement) {
     }
 
     _render({_iching}) {
+	const sample = (dist) => _iching.choosen(_iching.hist_for_dist(dist, '6789'), 1000);
+	const makeBarChart = (dist) => {
+	    const keys = '6789';
+	    const str = sample(dist)
+	    const n = str.length;
+	    let counts = { }
+	    for (let d of keys.split('')) counts[d] = 0
+	    for (let d of str.split('')) counts[d] += 1;
+	    console.log(`counts: ${'6789'.split('').map(d => d+': '+counts[d])}`);
+	    return html`<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="20px">
+			  <g fill="black" stroke="black">
+			    <rect x="0" y="0"  width$="${counts['6']*100/n}" height="20"></rect>
+			    <rect x="0" y="25" width$="${counts['7']*100/n}" height="20"></rect>
+			    <rect x="0" y="50" width$="${counts['8']*100/n}" height="20"></rect>
+			    <rect x="0" y="75" width$="${counts['9']*100/n}" height="20"></rect>
+			  </g>
+			</svg>`;
+	}
 	return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -33,39 +51,29 @@ class ChangeTests extends connect(store)(PageViewElement) {
       </style>
       <section>
         <h2>Tests</h2>
-	<p>Yarrow Distribution</p>
+	<p>Yarrow Distribution (${_iching.distYarrow})</p>
 	<div>
-	  ${this._makeBarChart('6789', _iching.choosen(_iching.distYarrow), 1000)}
+	  ${makeBarChart(_iching.distYarrow)}
 	</div>
-	<p>Coins Distribution</p>
+	<p>Coins Distribution (${_iching.distCoins})</p>
 	<div>
-  	  ${this._makeBarChart('6789', _iching.choosen(_iching.distCoins), 1000)}
+  	  ${makeBarChart(_iching.distCoins)}
 	</div>
-	<p>Uniform Distribution</p>
+	<p>Uniform Distribution (${_iching.distUniform})</p>
 	<div>
-  	  ${this._makeBarChart('6789', _iching.choosen(_iching.distUniform), 1000)}
+  	  ${makeBarChart(_iching.distUniform)}
 	</div>
-	<p>Custom Distribution</p>
+	<p>Custom Distribution(${_iching.getCustom()})</p>
 	<div>
-  	  ${this._makeBarChart('6789', _iching.choosen(_iching.getCustom()), 1000)}
+  	  ${makeBarChart(_iching.getCustom())}
 	</div>
       </section>
     `
     }
 
     _stateChanged(state) {
-	console.log(`change-tests stateChanged ${state.change.iching}`);
 	this._iching = state.change.iching;
     }
-    
-    _makeBarChart(str) {
-	const n = str.length;
-	let counts = { '6':0, '7': 0, '8': 0, '9': 0 }
-	for (let d of str.split('').sort()) counts[d]++
-	const bar = (d) => html`${d.repeat(Math.round(counts[d]/20))}<br/>`
-	return html`<div>${['6', '7', '8', '9'].map(bar)}</div>`
-    }
-	
 }
 
 window.customElements.define('change-tests', ChangeTests);
