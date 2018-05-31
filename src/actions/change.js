@@ -3,18 +3,12 @@
 */
 
 
-export const CHANGE_ICHING = 'CHANGE_ICHING';
-export const CHANGE_RANDOM = 'CHANGE_RANDOM';
-
 export const CHANGE_UPDATE = 'CHANGE_UPDATE';
 
 export const CHANGE_DIST = 'CHANGE_DIST';
 export const CHANGE_CUSTOM = 'CHANGE_CUSTOM';
 export const CHANGE_FORMAT = 'CHANGE_FORMAT';
 export const CHANGE_PROTOCOL = 'CHANGE_PROTCOL';
-
-export const changeIChing = (iching) => (dispatch) => dispatch({ type: CHANGE_ICHING, iching });
-export const changeRandom = (random) => (dispatch) => dispatch({ type: CHANGE_RANDOM, random });
 
 export const changeUpdate = (change) => (dispatch) => dispatch({ type: CHANGE_UPDATE, change});
 

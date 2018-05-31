@@ -21,22 +21,10 @@ class ChangeTests extends connect(store)(PageViewElement) {
     static get properties() {
 	return {
 	    _iching: Object,
-	    _random: Object
 	}
     }
 
-    _render({_iching, _random}) {
-	if ( ! _iching || ! _random) 
-	    return html`
-      ${SharedStyles}
-      ${ButtonSharedStyles}
-      <style>
-	div.action { text-align: center; }
-      </style>
-      <section>
-        <h2>Tests</h2>
-      </section>`;
-
+    _render({_iching}) {
 	return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -47,28 +35,27 @@ class ChangeTests extends connect(store)(PageViewElement) {
         <h2>Tests</h2>
 	<p>Yarrow Distribution</p>
 	<div>
-	  ${this._makeBarChart('6789', _random.choosen(_iching.distYarrow), 1000)}
+	  ${this._makeBarChart('6789', _iching.choosen(_iching.distYarrow), 1000)}
 	</div>
 	<p>Coins Distribution</p>
 	<div>
-  	  ${this._makeBarChart('6789', _random.choosen(_iching.distCoins), 1000)}
+  	  ${this._makeBarChart('6789', _iching.choosen(_iching.distCoins), 1000)}
 	</div>
 	<p>Uniform Distribution</p>
 	<div>
-  	  ${this._makeBarChart('6789', _random.choosen(_iching.distUniform), 1000)}
+  	  ${this._makeBarChart('6789', _iching.choosen(_iching.distUniform), 1000)}
 	</div>
 	<p>Custom Distribution</p>
 	<div>
-  	  ${this._makeBarChart('6789', _random.choosen(_iching.getCustom()), 1000)}
+  	  ${this._makeBarChart('6789', _iching.choosen(_iching.getCustom()), 1000)}
 	</div>
       </section>
     `
     }
 
     _stateChanged(state) {
-	console.log(`change-tests stateChanged ${state.app.iching} and ${state.app.random}`);
+	console.log(`change-tests stateChanged ${state.change.iching}`);
 	this._iching = state.change.iching;
-	this._random = state.change.random;
     }
     
     _makeBarChart(str) {

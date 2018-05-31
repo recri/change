@@ -1,7 +1,9 @@
-export class Change {
+import { Random } from './random.js';
 
-    constructor(random, text) {
-	this.random = random;
+export class Change extends Random {
+
+    constructor(text) {
+	super();
 	this.setDist('yarrow');	// yarrow, coins, uniform, custom
 	this.setCustom('3113');	// /[1-9]{4}/
 	this.setFormat('single'); // single, multiple
@@ -13,7 +15,7 @@ export class Change {
 	if (/^[1-9]{4}$/.test(custom))
 	    this._custom = custom;
 	else
-	    this._custom = random.choosen("123456789", 4);
+	    this._custom = this.choosen("123456789", 4);
     }
     getCustom() { return this._custom; }
 
@@ -27,7 +29,7 @@ export class Change {
 	case 'custom': this._dist = this._custom; break;
 	default: error(`change setDist ${dist}??`); 
 	}
-	this._hist = this.random.hist_for_dist(this._dist, '6789');
+	this._hist = this.hist_for_dist(this._dist, '6789');
 	this._yinHist = this._hist.slice(0).replace(/[79]/g, '')
 	this._yangHist = this._hist.slice(0).replace(/[68]/g, '')
 	// console.log(`dist ${dist} ${this._dist} hist ${this._hist} yin ${this._yinHist} yang ${this._yangHist}`)
@@ -67,12 +69,12 @@ export class Change {
     
 
     // make a line from a distribution
-    getLines() { return this.random.choosen(this._hist, 6); }
+    getLines() { return this.choosen(this._hist, 6); }
 
     // age an existing hexagram into a new hexagram
     // using yin and yang transition probabilities
     nextLines(str) {
-	return str.split('').map((c) => this.random.choose(c === '6' || c === '7' ? this._yangHist : this._yinHist)).join('')
+	return str.split('').map((c) => this.choose(c === '6' || c === '7' ? this._yangHist : this._yinHist)).join('')
     }
 
     // choose or age a hexagram using the yarrow stalk oracle

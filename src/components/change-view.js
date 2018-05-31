@@ -16,22 +16,16 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { changeUpdate, changeIChing, changeRandom } from '../actions/change.js';
+import { changeUpdate } from '../actions/change.js';
 
 import { GestureButton } from './gesture-button.js';
 
 import { kua } from '../code/kua.js';
 
-import { Random } from '../code/random.js';
-import { Changes } from '../code/changes.js';
-import { Change } from '../code/change.js';
-
-const random = new Random();
-const iching = new Change(random, Changes);
-
 export class ChangeView extends connect(store)(PageViewElement) {
     static get properties() {
 	return {
+	    _iching: Object,
 	    _change: String,	// /^(([6789]{6})(,[6789]{6}))?*$/
 	    _dist: String,	// /^(yarrow|coins|uniform|custom)$/
 	    _custom: String,	// /^[1-9]{4}$/
@@ -40,19 +34,12 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	}
     }
 
-    constructor() {
-	super();
-	console.log(`change-view constructor ${iching} and ${random}`);
-	changeIChing(iching);
-	changeRandom(random);
-    }
-    
-    _render({_change, _dist, _custom, _format, _protocol}) {
+    _render({_iching, _change, _dist, _custom, _format, _protocol}) {
 	const breakAtNewlines = (str, skipFirst) => str ?
 	      str.split('\n').slice(skipFirst ? 1 : 0).map((x) => html`${x}<br/>\n`) : undefined;
-	const getText = (hex,value) => iching.getText(hex, value);
-	const getBoolean = (hex,value) => iching.getBoolean(hex, value);
-	const getCommentary = (hex,value) => iching.getCommentary(hex, value);
+	const getText = (hex,value) => _iching.getText(hex, value);
+	const getBoolean = (hex,value) => _iching.getBoolean(hex, value);
+	const getCommentary = (hex,value) => _iching.getCommentary(hex, value);
 	const getNumber = (hex) => getText(hex,"number");
 	// const getCharacter = (hex) => getText(hex,"character");
 	// const getHexagram = (hex) => getText(hex,"hexagram");
@@ -84,8 +71,8 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	}
 
 	const renderLink = (link, linkIndex, links) => {
-	    const hex = iching.backward(link);
-	    const finisHex = iching.forward(link);
+	    const hex = _iching.backward(link);
+	    const finisHex = _iching.forward(link);
 	    const lines = link.split('')
 	    const allMoving = lines.every(isMovingLine);
 	    const allStationary = lines.every(isStationaryLine)
@@ -122,7 +109,7 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	const clear_button = () => _change === '' ? 
 	      html`` : 
 	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(''))}">Clear</gesture-button>`;
-	const undo_change = iching.undo(_change)
+	const undo_change = _iching.undo(_change)
 	const undo_button = () => _change === '' || undo_change === '' ? 
 	      html`` : 
 	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(undo_change))}">Undo</gesture-button>`;
@@ -130,9 +117,9 @@ export class ChangeView extends connect(store)(PageViewElement) {
 	const links = _change.split(',');
 	// 
 	// this is a little hacky, ...
-	if (iching.getCustom() !== _custom) iching.setCustom(_custom);
-	if (iching.getDist() !== _dist || 'custom' === _dist) iching.setDist(_dist);
-	if (iching.getFormat() !== _format) iching.setFormat(_format);
+	if (_iching.getCustom() !== _custom) _iching.setCustom(_custom);
+	if (_iching.getDist() !== _dist || 'custom' === _dist) _iching.setDist(_dist);
+	if (_iching.getFormat() !== _format) _iching.setFormat(_format);
 
 	return html`
 		${SharedStyles}
@@ -155,6 +142,7 @@ export class ChangeView extends connect(store)(PageViewElement) {
     }
 
     _stateChanged(state) {
+	this._iching = state.change.iching;
 	this._change = state.change.change;
 	this._dist = state.change.dist;
 	this._custom = state.change.custom
@@ -165,12 +153,13 @@ export class ChangeView extends connect(store)(PageViewElement) {
     _castDown() {
 	this._downtime = Date.now();
     }
+
     _castTap() {
 	const taptime = Date.now();
-	random.srandom(taptime+(taptime-this._downtime));
+	this._iching.srandom(taptime+(taptime-this._downtime));
 	switch (this._format) {
-	case 'single': store.dispatch(changeUpdate(iching.cast(''))); break;
-	case 'multiple': store.dispatch(changeUpdate(iching.cast(this._change))); break;
+	case 'single': store.dispatch(changeUpdate(this._iching.cast(''))); break;
+	case 'multiple': store.dispatch(changeUpdate(this._iching.cast(this._change))); break;
 	}
     }
 }
