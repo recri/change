@@ -1,4 +1,5 @@
 #!/bin/sh
+# this is the rewrite required to make single page apps work, I hope
 # rewrite accesses to arbitrary readings to use index.html
 for f in build/es?-bundled; do
     cat >> $f/.htaccess <<EOF
