@@ -3,13 +3,24 @@
 # rewrite accesses to arbitrary readings to use index.html
 for f in build/es?-bundled; do
     cat >> $f/.htaccess <<EOF
-    RewriteEngine on
+# magic apache configuration from stack
+# turn on the rewrite engine
+RewriteEngine on
 
-    RewriteCond %{REQUEST_FILENAME} -s [OR]
-    RewriteCond %{REQUEST_FILENAME} -l [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^.*$ - [NC,L]
-    RewriteRule ^(.*) /index.html [NC,L]
+# the three conditions applying to the first rule are
+# that the requested filename is a regular file with non-zero size (-s), or
+# that the requested filename is a symbolic link (-l), or
+# that the requested filename is a directory (-d), then
+# match any string (^.*$) and process it normally (-) and skip subsequent rules [L], 
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+
+# this rule is applied when the previous rule fails
+# take any requested file name part and pass it to /index.html to process
+RewriteRule ^(.*) /index.html [NC,L]
+
 EOF
 done
 
