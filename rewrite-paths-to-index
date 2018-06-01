@@ -2,7 +2,13 @@
 # rewrite accesses to arbitrary readings to use index.html
 for f in build/es?-bundled; do
     cat >> $f/.htaccess <<EOF
-RewriteEngine On
-RewriteRule ^/[6789]{6}(,[6789]{6})*$ /index.html [QSA,L]
+    RewriteEngine on
+
+    RewriteCond %{REQUEST_FILENAME} -s [OR]
+    RewriteCond %{REQUEST_FILENAME} -l [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^.*$ - [NC,L]
+    RewriteRule ^(.*) /index.html [NC,L]
 EOF
 done
+
