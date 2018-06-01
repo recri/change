@@ -141,6 +141,9 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		</section>`;
     }
 
+    _firstRendered() {
+    }
+
     _stateChanged(state) {
 	this._iching = state.change.iching;
 	this._change = state.change.change;

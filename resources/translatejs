@@ -1,8 +1,15 @@
 #!/usr/bin/tclsh
+
+# trim the data output to make us lean and fast
+set ::omit {
+    comment
+    name image character hexagram pinyin constituting-ruler governing-ruler
+    above above-interpretation below below-interpretation
+}
+
 # translate an xml format document into a json list
 # taken from http://wiki.tcl.tk/3919 by Richard Suchenwirth
 
-set omit {comment}
 proc xml2list xml {
     regsub -all {>\s*<} [string trim $xml " \n\t<>"] "\} \{" xml
     set xml [string map {> "\} \{#text \{" < "\}\} \{"}  $xml]
@@ -106,6 +113,7 @@ proc get-text-and-tags {doc tags} {
     lappend result {*}[array get content]
     return $result
 }
+
 proc get-line {n gov con doc} {
     return [list line-$n {*}[get-text-and-tags $doc {comment}] governing-ruler $gov constituting-ruler $con]
 }
@@ -140,7 +148,7 @@ proc traverse {indent doc} {
 	    name -
 	    above -
 	    below {
-		# there is a #text body with and possibly a comment
+		# there is a #text body with and optionally a comment and/or interpretation
 		return [list $tag {*}[get-text-and-tags $body {comment interpretation}]]
 	    }
 	    image -
@@ -168,13 +176,9 @@ proc traverse {indent doc} {
     }
 }
 
-proc keep-comments {} {
-    global omit
-    return [expr {{comment} ni $omit}]
-}
-proc is-comment {tag} {
-    return [expr {[string first comment $tag] >= 0}]
-}
+proc keep-tag {tag} { return [expr {$tag ni $::omit}] }
+proc keep-comments {} { return [keep-tag {comment}] }
+proc is-comment {tag} { return [expr {[string first comment $tag] >= 0}] }
 
 set nchanges [traverse {} $changes]
 set index 0
@@ -204,36 +208,46 @@ foreach c $nchanges {
 	    {interpretation} {
 		if {$pname in {name above below}} {
 		    # keep lookaside table of interpretations
-		    puts "    \"$pname-interpretation\" : \"$value\","
+		    if {[keep-tag $pname-$name]} {
+			puts "    \"$pname-interpretation\" : \"$value\","
+		    }
 		} else {
 		    error "unexpected predecessor of interpretation $pname"
 		}
 	    }
 	    {judgment} - {image} {
-		if {[llength $value] == 3 && [lindex $value 1] == "comment"} {
-		    set nname $name-comment
-		    set nvalue [lindex $value 2]
-		    set value [lindex $value 0]
-		    puts "    \"$name\" : \`$value\`,"
-		    if {[keep-comments]} {
-			puts "    \"$nname\" : \"$nvalue\","
+		if {[keep-tag $name]} {
+		    if {[llength $value] == 3 && [lindex $value 1] == "comment"} {
+			set nname $name-comment
+			set nvalue [lindex $value 2]
+			set value [lindex $value 0]
+			puts "    \"$name\" : \`$value\`,"
+			if {[keep-comments]} {
+			    puts "    \"$nname\" : \"$nvalue\","
+			}
+		    } else {
+			puts "    \"$name\" : \`$value\`,"
 		    }
-		} else {
-		    puts "    \"$name\" : \`$value\`,"
 		}
 	    }
 	    {line-?} {
-		set lname $name
-		puts "    \"$name\" : \`$value\`,"
+		if {[keep-tag $name]} {
+		    set lname $name
+		    puts "    \"$name\" : \`$value\`,"
+		}
 	    }
 	    {constituting-ruler} {
-		if {$value eq "true"} {
-		    puts "    \"$lname-$name\" : \"$value\","
+		if {[keep-tag $name]} {
+		    if {$value eq "true"} {
+			puts "    \"$lname-$name\" : \"$value\","
+		    }
 		}
 	    }
 	    {governing-ruler} {
-		if {$value eq "true"} {
-		    puts "    \"$lname-$name\" : \"$value\","
+		if {[keep-tag $name]} {
+		    if {$value eq "true"} {
+			puts "    \"$lname-$name\" : \"$value\","
+		    }
 		}
 	    }
 	    {comment} {
@@ -260,7 +274,9 @@ foreach c $nchanges {
 			puts "    \"$name\" : \"$value\","
 		    }
 		} else {
-		    puts "    \"$name\" : \"$value\","
+		    if {[keep-tag $name]} {
+			puts "    \"$name\" : \"$value\","
+		    }
 		}
 	    }
 	}
@@ -272,8 +288,8 @@ foreach c $nchanges {
 puts "]"
 puts "}"
 puts "static get lines() { return {[join $lmap ,]} }"
-puts "static get bits() { return {[join $bmap ,]} }"
-puts "static get octs() { return {[join $omap ,]} }"
-puts "static linesToBits(lines) { return parseInt(lines.split('').map(l => l === '7' ? '1' : '0').join(''), 2) }"
-puts "static bitsToLines(bits) { return bits.toString(2).split('').map(b => b === '1' ? '7' : '8').join('') }"
+## puts "static get bits() { return {[join $bmap ,]} }"
+## puts "static get octs() { return {[join $omap ,]} }"
+## puts "static linesToBits(lines) { return parseInt(lines.split('').map(l => l === '7' ? '1' : '0').join(''), 2) }"
+## puts "static bitsToLines(bits) { return bits.toString(2).split('').map(b => b === '1' ? '7' : '8').join('') }"
 puts "}"

@@ -107,7 +107,9 @@
 	is loaded with the url, found that I need to
 	hack the apache configuration to get the app
 	loaded to handle the reading url.
-* Todo list as of May 23
+* Todo list as of May 31
+[x] add save restore settings to local storage
+[ ] add titles to tests histogram bars
 [ ] Make the cast-view window scroll to end after each
 	appended cast
 [ ] Optionally add commentary
@@ -115,7 +117,6 @@
 [ ] add keyboard accelerators to cast/undo/clear buttons
 [ ] redo the app color scheme
 [ ] write tests to cover all the single cast results
-[ ] add save restore settings to local storage
 [ ] add option to save readings to local storage
 [ ] add option to record the questions asked
 [ ] keep a complete history of readings in local store
