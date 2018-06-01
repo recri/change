@@ -25,7 +25,7 @@ class ChangeTests extends connect(store)(PageViewElement) {
     }
 
     _render({_iching}) {
-	const makeBigBarCharts(cast) {
+	const makeBigBarCharts = (cast) => {
 	    var init = {}, fini = {}
 	    const n = 10000
 	    for (let i = 0; i < 10000; i += 1) {
