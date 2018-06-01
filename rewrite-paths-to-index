@@ -5,3 +5,4 @@ for f in build/es?-bundled; do
 RewriteEngine On
 RewriteRule ^/[6789]{6}(,[6789]{6})*$ /index.html [QSA,L]
 EOF
+done
