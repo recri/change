@@ -112,6 +112,9 @@
 [x] add titles to tests histogram bars
 [ ] Make the cast-view window scroll to end after each
 	appended cast
+[ ] implement one-per-line and three-per-line
+[ ] animate the superposition of possible outcomes
+	during on-down
 [ ] Optionally add commentary
 [ ] Optionally add other translations
 [ ] add keyboard accelerators to cast/undo/clear buttons
