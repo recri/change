@@ -8,10 +8,10 @@ import {
     CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL
 } from '../actions/change.js';
 
-import { Changes } from '../code/text-wilhelm.js';
+import { ChangesText } from '../code/text-wilhelm.js';
 import { Change } from '../code/change.js';
 
-const iching = new Change(Changes);
+const iching = new Change(ChangesText);
 
 const persist = (name, value) => {
     // console.log(`persist(${name},${value}) called`);
