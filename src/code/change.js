@@ -129,6 +129,11 @@ export class Change extends Random {
     get distUniform() { return '1111'; }
 
     //
+    // translate an oracle into all moving lines
+    //
+    furthur(str) {  return String(str).replace(/8/g, '6').replace(/7/g, '9'); }
+
+    //
     // translate an oracle backward
     // ie, retract the old lines into new lines
     //
@@ -161,4 +166,14 @@ export class Change extends Random {
 	return (/^([6789]{6})(,[6789]{6})*$/.test(str)) ? str : '';
     }
     
+    // make up a change that produces the whole book in King Wen order
+    wholeBook() {
+	var book = [];
+	for (let i = 0; i < 64; i += 1) {
+	    const c = Change.numbers[i];
+	    const f = this.furthur(c);
+	    book.push(c, f);
+	}
+	return book.join(',');
+    }
 }

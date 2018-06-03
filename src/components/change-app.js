@@ -25,6 +25,7 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
 import { navigate, updateDrawerState, updateLayout, installPrompt } from '../actions/app.js';
+import { changeBook } from '../actions/change.js';
 
 import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
@@ -176,6 +177,7 @@ class ChangeApp extends connect(store)(LitElement) {
         on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
         <a selected?="${_page === 'view'}" href="/" title="View the current reading.">View</a>
+        <a selected?="${_page === 'book'}" href="/" on-click="${store.dispatch(changeBook())}" title="Show the entire text of the book.">Book</a>
         <a selected?="${_page === 'show'}" href="/show" title="Show the URL for the current reading.">Show</a>
         <a selected?="${_page === 'settings'}" href="/settings" title="Change the settings.">Settings</a>
         <a selected?="${_page === 'about'}" href="/about" title="About the app.">About</a>
