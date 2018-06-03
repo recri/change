@@ -8,7 +8,7 @@ import {
     CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL
 } from '../actions/change.js';
 
-import { Changes } from '../code/changes.js';
+import { Changes } from '../code/text-wilhelm.js';
 import { Change } from '../code/change.js';
 
 const iching = new Change(Changes);
