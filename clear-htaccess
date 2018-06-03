@@ -1,0 +1,5 @@
+#!/bin/sh
+# start with empty .htaccess fies
+for f in build/es?-bundled; do
+    cat > $f/.htaccess < /dev/null
+done
