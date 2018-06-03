@@ -18,11 +18,11 @@ export const INSTALL_PROMPT = 'INSTALL_PROMPT'
 
 export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
-    var page = path === '/' ? 'view' : path.slice(1);
+    var page = path === '/' ? 'cast' : path.slice(1);
 
     if (/^([6789]{6})(,[6789]{6})*$/.test(page)) {
 	dispatch(changeUpdate(page));
-	page = 'view';
+	page = 'cast';
     }
 
     // Any other info you might want to extract from the path (like page type),
@@ -35,17 +35,20 @@ export const navigate = (path) => (dispatch) => {
 
 const loadPage = (page) => async (dispatch) => {
     switch(page) {
-    case 'view':
-	await import('../components/change-view.js');
+    case 'cast':
+	await import('../components/change-cast.js');
+	break;
+    case 'show':
+	await import('../components/change-show.js');
 	break;
     case 'settings':
 	await import('../components/change-settings.js');
 	break;
+    case 'book':
+	await import('../components/change-book.js');
+	break;
     case 'about':
 	await import('../components/change-about.js');
-	break;
-    case 'show':
-	await import('../components/change-show.js');
 	break;
     case 'tests':
 	await import('../components/change-tests.js');

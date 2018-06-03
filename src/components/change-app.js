@@ -176,10 +176,10 @@ class ChangeApp extends connect(store)(LitElement) {
     <app-drawer opened="${_drawerOpened}" persistent="${_wideLayout}"
         on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
-        <a selected?="${_page === 'view'}" href="/" title="View the current reading.">View</a>
-        <a selected?="${_page === 'book'}" href="/" on-click="${store.dispatch(changeBook())}" title="Show the entire text of the book.">Book</a>
+        <a selected?="${_page === 'cast'}" href="/" title="View and update the current reading.">Cast</a>
         <a selected?="${_page === 'show'}" href="/show" title="Show the URL for the current reading.">Show</a>
         <a selected?="${_page === 'settings'}" href="/settings" title="Change the settings.">Settings</a>
+        <a selected?="${_page === 'book'}" href="/book" title="Show the entire text of the book.">Book</a>
         <a selected?="${_page === 'about'}" href="/about" title="About the app.">About</a>
         <a selected?="${_page === 'tests'}" href="/tests" title="Test the app.">Tests</a>
 	${installPrompt}
@@ -188,10 +188,11 @@ class ChangeApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <main class="main-content">
-      <change-view class="page" active?="${_page === 'view'}"></change-view>
-      <change-settings class="page" active?="${_page === 'settings'}"></change-settings>
-      <change-about class="page" active?="${_page === 'about'}"></change-about>
+      <change-cast class="page" active?="${_page === 'cast'}"></change-cast>
       <change-show class="page" active?="${_page === 'show'}"></change-show>
+      <change-settings class="page" active?="${_page === 'settings'}"></change-settings>
+      <change-book class="page" active?="${_page === 'book'}"></change-book>
+      <change-about class="page" active?="${_page === 'about'}"></change-about>
       <change-tests class="page" active?="${_page === 'tests'}"></change-tests>
       <change-view404 class="page" active?="${_page === 'view404'}"></change-view404>
     </main>

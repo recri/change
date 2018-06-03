@@ -8,33 +8,23 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '@polymer/lit-element';
-import { PageViewElement } from './page-view-element.js';
+import { LitElement } from '@polymer/lit-element';
+
+import { html, LitElement } from '@polymer/lit-element';
 
 import { SharedStyles } from './shared-styles.js';
-import { ButtonSharedStyles } from './button-shared-styles.js';
-
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../store.js';
-import { changeUpdate } from '../actions/change.js';
-
-import { GestureButton } from './gesture-button.js';
 
 import { kua } from '../code/kua.js';
 
-export class ChangeView extends connect(store)(PageViewElement) {
+export class ChangeView extends LitElement {
     static get properties() {
 	return {
 	    _iching: Object,
 	    _change: String,	// /^(([6789]{6})(,[6789]{6}))?*$/
-	    _dist: String,	// /^(yarrow|coins|uniform|custom)$/
-	    _custom: String,	// /^[1-9]{4}$/
-	    _format: String,	// /^(single|multiple)$/
-	    _protocol: String	// /^(one-per-cast|one-per-line|three-per-line)$/
 	}
     }
 
-    _render({_iching, _change, _dist, _custom, _format, _protocol}) {
+    _render({_iching, _change}) {
 	const breakAtNewlines = (str, skipFirst) => str ?
 	      str.split('\n').slice(skipFirst ? 1 : 0).map((x) => html`${x}<br/>\n`) : undefined;
 	const getText = (hex,value) => _iching.getText(hex, value);
@@ -102,69 +92,22 @@ export class ChangeView extends connect(store)(PageViewElement) {
 		${ allStationary ? start : ''}
 		${ ! allStationary ? moving : ''}`;
 	}
-	// cast button becomes conditional on protocol
-	const cast_down = this._castDown.bind(this);
-	const cast_tap = this._castTap.bind(this);
-	const cast_button = () => html`<gesture-button active on-down="${cast_down}" on-tap="${cast_tap}">Cast</gesture-button>`;
-	const clear_button = () => _change === '' ? 
-	      html`` : 
-	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(''))}">Clear</gesture-button>`;
-	const undo_change = _iching.undo(_change)
-	const undo_button = () => _change === '' || undo_change === '' ? 
-	      html`` : 
-	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(undo_change))}">Undo</gesture-button>`;
 
 	const links = _change.split(',');
-	// 
-	// this is a little hacky, ...
-	if (_iching.getCustom() !== _custom) _iching.setCustom(_custom);
-	if (_iching.getDist() !== _dist || 'custom' === _dist) _iching.setDist(_dist);
-	if (_iching.getFormat() !== _format) _iching.setFormat(_format);
 
 	return html`
 		${SharedStyles}
-		${ButtonSharedStyles}
 		<style>
 		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px }
-		  div.action { text-align: center; }
 		  svg.kua { width: 24px; height: 24px; }
 		  svg.kua .kua-line { stroke: black; }
 		  svg.kua .kua-mark { stroke: black; }
 		</style>
 		<section>
-		  <div class="action">
-		    ${cast_button()}
-		    ${undo_button()}
-		    ${clear_button()}
-		  </div>
 		  ${links.length > 0  && links[0].length > 0 ? links.map(renderLink) : ''}
 		</section>`;
     }
 
-    _firstRendered() {
-    }
-
-    _stateChanged(state) {
-	this._iching = state.change.iching;
-	this._change = state.change.change;
-	this._dist = state.change.dist;
-	this._custom = state.change.custom
-	this._format = state.change.format;
-	this._protocol = state.change.protocol;
-    }
-
-    _castDown() {
-	this._downtime = Date.now();
-    }
-
-    _castTap() {
-	const taptime = Date.now();
-	this._iching.srandom(taptime+(taptime-this._downtime));
-	switch (this._format) {
-	case 'single': store.dispatch(changeUpdate(this._iching.cast(''))); break;
-	case 'multiple': store.dispatch(changeUpdate(this._iching.cast(this._change))); break;
-	}
-    }
 }
 
 window.customElements.define('change-view', ChangeView);

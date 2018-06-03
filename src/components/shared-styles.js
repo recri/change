@@ -56,5 +56,17 @@ export const SharedStyles = html`
     font-size: 30px;
     line-height: 64px;
   }
+
+  gesture-button, button {
+    font-size: inherit;
+    vertical-align: middle;
+    background: transparent;
+    border: 1;
+    cursor: pointer;
+  }
+  button:hover svg {
+    fill: var(--app-primary-color);
+  }
+
 </style>
 `;
