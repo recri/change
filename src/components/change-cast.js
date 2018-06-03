@@ -17,6 +17,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
 import { changeUpdate } from '../actions/change.js';
 
+import { ChangeView } from './change-view.js';
 import { GestureButton } from './gesture-button.js';
 
 import { kua } from '../code/kua.js';
@@ -42,7 +43,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	      html`` : 
 	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(''))}">Clear</gesture-button>`;
 	const undo_change = _iching.undo(_change)
-	const undo_button = () => _change === '' || undo_change === '' || format === 'single' ? 
+	const undo_button = () => _change === '' || undo_change === '' || _format === 'single' ? 
 	      html`` : 
 	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(undo_change))}">Undo</gesture-button>`;
 
@@ -58,7 +59,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 		    ${undo_button()}
 		    ${cast_button()}
 		  </div>
-		  <change-view change="${_change}" iching="${iching}></change-view>
+		  <change-view _change="${_change}" _iching="${_iching}"></change-view>
 		</section>`;
     }
 

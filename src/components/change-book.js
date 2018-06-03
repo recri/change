@@ -9,7 +9,8 @@ import { SharedStyles } from './shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { changeUpdate } from '../actions/change.js';
+
+import { ChangeView } from './change-view.js';
 
 export class ChangeBook extends connect(store)(PageViewElement) {
     static get properties() {
@@ -23,7 +24,7 @@ export class ChangeBook extends connect(store)(PageViewElement) {
 	return html`
 		${SharedStyles}
 		<section>
-		  <change-view change="${_iching.wholeBook}" iching="${iching}></change-view>
+		  <change-view _change="${_iching.wholeBook()}" _iching="${_iching}"></change-view>
 		</section>`;
     }
 

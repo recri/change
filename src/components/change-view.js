@@ -8,8 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement } from '@polymer/lit-element';
-
 import { html, LitElement } from '@polymer/lit-element';
 
 import { SharedStyles } from './shared-styles.js';
@@ -20,7 +18,7 @@ export class ChangeView extends LitElement {
     static get properties() {
 	return {
 	    _iching: Object,
-	    _change: String,	// /^(([6789]{6})(,[6789]{6}))?*$/
+	    _change: String,	// /^(([6789]{6})(,[6789]{6})*)?$/
 	}
     }
 
@@ -92,7 +90,6 @@ export class ChangeView extends LitElement {
 		${ allStationary ? start : ''}
 		${ ! allStationary ? moving : ''}`;
 	}
-
 	const links = _change.split(',');
 
 	return html`
@@ -104,10 +101,9 @@ export class ChangeView extends LitElement {
 		  svg.kua .kua-mark { stroke: black; }
 		</style>
 		<section>
-		  ${links.length > 0  && links[0].length > 0 ? links.map(renderLink) : ''}
+		  ${links.length > 0 && links[0].length > 0 ? links.map(renderLink) : ''}
 		</section>`;
     }
-
 }
 
 window.customElements.define('change-view', ChangeView);

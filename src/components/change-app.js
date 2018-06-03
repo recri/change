@@ -25,7 +25,6 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
 import { navigate, updateDrawerState, updateLayout, installPrompt } from '../actions/app.js';
-import { changeBook } from '../actions/change.js';
 
 import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';

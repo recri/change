@@ -5,7 +5,7 @@
 
 import {
     CHANGE_UPDATE, 
-    CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL, CHANGE_BOOK
+    CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL
 } from '../actions/change.js';
 
 import { ChangesText } from '../code/text-wilhelm.js';
@@ -54,7 +54,6 @@ const change = (state = {
     case CHANGE_CUSTOM: return { ...state, custom: persist('custom', action.custom) };
     case CHANGE_FORMAT: return { ...state, format: persist('format', action.format) };
     case CHANGE_PROTOCOL: return { ...state, protocol: persist('protocol', action.protocol) };
-    case CHANGE_BOOK: return { ...state, change: iching.wholeBook() };
     default: return state;
     }
 }
