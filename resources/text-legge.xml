@@ -1,0 +1,173 @@
+<changes>
+  <change>
+    <number>1</number>
+    <lines>777777</lines>
+    <hexagram>䷀</hexagram>
+    <name>
+      <text>乾</text>
+      <pinyin>qian</pinyin>
+    </name>	
+    <judgment>
+      <text>乾：元亨，利貞。</text>
+      <translation>Qian (represents) what is great and originating, penetrating, advantageous, correct and firm.</translation>
+      <comment source="Tuan Zhuan">
+	<text>彖傳: 大哉乾元，萬物資始，乃統天。雲行雨施，品物流形。大明始終，六位時成，時乘六龍以御天。乾道變化，各正性命，保合大和，乃利貞。首出庶物，萬國咸寧。</text>
+	<translation>Vast is the 'great and originating (power)' indicated by Qian! All things owe to it their beginning: - it contains all the meaning belonging to (the name) heaven. The clouds move and the rain is distributed; the various things appear in their developed forms. (The sages) grandly understand (the connexion between) the end and the beginning, and how (the indications of) the six lines (in the hexagram) are accomplished, (each) in its season. (Accordingly) they mount (the carriage) drawn by those six dragons at the proper times, and drive through the sky. The method of Qian is to change and transform, so that everything obtains its correct nature as appointed (by the mind of Heaven); and (thereafter the conditions of) great harmony are preserved in union. The result is 'what is advantageous, and correct and firm. (The sage) appears aloft, high above all things, and the myriad states all enjoy repose.</translation>
+      </comment>
+    </judgment>
+    <image source="Xiang Zhuan">
+      <text>天行健，君子以自強不息。</text>
+      <translation>
+	Heaven, in its motion, (gives the idea of) strength. The superior man, in accordance with this, nerves himself to ceaseless activity.
+      </translation>
+    </image>
+    <line n="1">
+      <text>初九：潛龍，勿用。</text>
+      <translation>In the first (or lowest) NINE, undivided, (we see its subject as) the dragon lying hid (in the deep). It is not the time for active doing.</translation>
+      <comment source="Xiang Zhuan">
+	<text>潛龍勿用，陽在下也。</text>
+	<translation>
+	  'The dragon lies hid in the deep; - it is not the time for active doing:' - (this appears from) the strong and undivided line's being in the lowest place.
+	</translation>
+      </comment>
+    </line>
+    <line n="2">
+      <text>九二：見龍在田，利見大人。</text>
+      <translation>In the second NINE, undivided, (we see its subject as) the dragon appearing in the field. It will be advantageous to meet with the great man.</translation>
+      <comment>
+	<text>見龍在田，德施普也。</text>
+	<translation>'The dragon appears in the field:' - the diffusion of virtuous influence has been wide.</translation>
+      </comment>
+    </line>
+    <line n="3">
+      <text>九三：君子終日乾乾，夕惕若，厲，无咎。</text>
+      <translation>In the third NINE, undivided, (we see its subject as) the superior man active and vigilant all the day, and in the evening still careful and apprehensive. (The position is) dangerous, but there will be no mistake.</translation>
+      <comment source="Xiang Zhuan">
+	<text>終日乾乾，反復道也。</text>
+	<translation>'Active and vigilant all the day:' - (this refers to) the treading of the (proper) path over and over again.</translation>
+      </comment>
+    </line>
+    <line n="4">
+      <text>九四：或躍在淵，无咎。</text>
+      <translation>In the fourth NINE, undivided, (we see its subject as the dragon looking) as if he were leaping up, but still in the deep. There will be no mistake.</translation>
+      <comment source="Xiang Zhuan">
+	<text>或躍在淵，進无咎也。</text>
+	<translation>'He seems to be leaping up, but is still in the deep:' - if he advance, there will be no error.</translation>
+      </comment>
+    </line>
+    <line n="5">
+      <text>九五：飛龍在天，利見大人。</text>
+      <translation>In the fifth NINE, undivided, (we see its subject as) the dragon on the wing in the sky. It will be advantageous to meet with the great man.</translation>
+      <comment source="Xiang Zhuan">
+	<text>飛龍在天，大人造也。</text>
+	<translation>'The dragon is on the wing in the sky:' - the great man rouses himself to his work.</translation>
+      </comment>
+    </line>
+    <line n="6">
+      <text>上九：亢龍有悔。</text>
+      <translation>In the sixth (or topmost) NINE, undivided, (we see its subject as) the dragon exceeding the proper limits. There will be occasion for repentance.</translation>
+      <comment source="Xiang Zhuan">
+	<text>亢龍有悔，盈不可久也。</text>
+	<translation>'The dragon exceeds the proper limits; - there will be occasion for repentance:' - a state of fulness, that is, should not be indulged in long.</translation>
+      </comment>
+    </line>
+    <line n="7">
+      <text>用九：見群龍无首，吉。</text>
+      <translation>(The lines of this hexagram are all strong and undivided, as appears from) the use of the number NINE. If the host of dragons (thus) appearing were to divest themselves of their heads, there would be good fortune.</translation>
+      <comment src="Xiang Zhuan">
+	<text>用九，天德不可為首也。</text>
+	<translation>'The same NINE (undivided) is used' (in all the places of this hexagram), but the attribute of heaven (thereby denoted) should not (always) take the foremost place.</translation>
+      </comment>
+    </line>
+  </change>
+  <change>
+    <number>2</number>
+    <lines>888888</lines>
+    <hexagram>䷁</hexagram>
+    <name>
+      <text>坤</text>	
+      <pinyin>kun</pinyin>
+    </name>
+    <judgment>
+      <text>坤：元亨，利牝馬之貞。君子有攸往，先迷後得主，利西南得朋，東北喪朋。安貞，吉。</text>
+      <translation>Kun (represents) what is great and originating, penetrating, advantageous, correct and having the firmness of a mare. When the superior man (here intended) has to make any movement, if he take the initiative, he will go astray; if he follow, he will find his (proper) lord. The advantageousness will be seen in his getting friends in the south-west, and losing friends in the north-east. If he rest in correctness and firmness, there will be good fortune.</translation>
+      <comment src="Tuan Zhuan">
+	<text>至哉坤元，萬物資生，乃順承天。坤厚載物，德合无疆。含弘光大，品物咸亨。牝馬地類，行地无疆，柔順利貞。君子攸行，先迷失道，後順得常。西南得朋，乃與類行；東北喪朋，乃終有慶。安貞之吉，應地无疆。</text>
+	<translation>Complete is the 'great and originating (capacity)' indicated by Kun! All things owe to it their birth; - it receives obediently the influences of Heaven. Kun, in its largeness, supports and contains all things. Its excellent capacity matches the unlimited power (of Qian). Its comprehension is wide, and its brightness great. The various things obtain (by it) their full development. The mare is a creature of earthly kind. Its (power of) moving on the earth is without limit; it is mild and docile, advantageous and firm: - such is the course of the superior man. 'If he take the initiative, he goes astray:' - he misses, that is, his proper course. 'If he follow,' he is docile, and gets into his regular (course). 'In the south-west he will get friends:' - he will be walking with those of his own class. 'In the north-east he will lose friends:' - but in the end there will be ground for congratulation. 'The good fortune arising from resting in firmness' corresponds to the unlimited capacity of the earth.</translation>
+      </comment>
+    </judgment>
+    <image source="Xiang Zhuan">
+      <text>地勢坤，君子以厚德載物。</text>
+      <translation>The (capacity and sustaining) power of the earth is what is denoted by Kun. The superior man, in accordance with this, with his large virtue supports (men and) things.</translation>
+    </image>
+    <line n="1">
+初六：履霜，堅冰至。
+Kun:	
+In the first SIX, divided, (we see its subject) treading on hoarfrost. The strong ice will come (by and by).
+Jump to dictionaryShow parallel passages	象傳:	
+履霜堅冰，陰始凝也。馴致其道，至堅冰也。
+Xiang Zhuan:	
+'He is treading on hoarfrost; - the strong ice will come (by and by):' - the cold (air) has begun to take form. Allow it to go on quietly according to its nature, and (the hoarfrost) will come to strong ice.
+3 Jump to dictionaryShow parallel passages	䷁坤:	
+    </line>
+    <line n="2">
+六二：直，方，大，不習无不利。
+Kun:	
+The second SIX, divided, (shows the attribute of) being straight, square, and great. (Its operation), without repeated efforts, will be in every respect advantageous.
+Jump to dictionaryShow parallel passages	象傳:	
+六二之動，直以方也。不習无不利，地道光也。
+Xiang Zhuan:	
+The movement indicated by the second six, (divided),is 'from the straight (line) to the square.' '(Its operation), without repeated effort, in every way advantageous,' shows the brilliant result of the way of earth.
+    </line>
+    <line n="3">
+4 Jump to dictionaryShow parallel passages	䷁坤:	
+六三：含章可貞。或從王事，无成有終。
+Kun:	
+The third SIX, divided, (shows its subject) keeping his excellence under restraint, but firmly maintaining it. If he should have occasion to engage in the king's service, though he will not claim the success (for himself), he will bring affairs to a good issue.
+Jump to dictionaryShow parallel passages	象傳:	
+含章可貞；以時發也。或從王事，知光大也。
+Xiang Zhuan:	
+'He keeps his excellence tinder restraint, but firmly maintains it:' - at the proper time he will manifest it. 'He may have occasion to engage in the king's service: - great is the glory of his wisdom.
+5 Jump to dictionaryShow parallel passages	䷁坤:	
+    </line>
+    <line n="4">
+六四：括囊；无咎，无譽。
+Kun:	
+The fourth SIX, divided, (shows the symbol of) a sack tied up. There will be no ground for blame or for praise.
+Jump to dictionaryShow parallel passages	象傳:	
+括囊无咎，慎不害也。
+Xiang Zhuan:	
+'A sack tied up; - there will be no error:' - this shows how, through carefulness, no injury will be received.
+6 Jump to dictionaryShow parallel passages	䷁坤:	
+    </line>
+    <line n="5">
+六五：黃裳，元吉。
+Kun:	
+The fifth SIX, divided, (shows) the yellow lower garment. There will be great good fortune.
+Jump to dictionaryShow parallel passages	象傳:	
+黃裳元吉，文在中也。
+Xiang Zhuan:	
+S. 'The Yellow lower-garment; - there will be great good fortune:' - this follows from that ornamental (colour's) being in the right and central place.
+7 Jump to dictionaryShow parallel passagesRelated discussion	䷁坤:	
+    </line>
+    <line n="6">
+上六：龍戰于野，其血玄黃。
+Kun:	
+The sixth SIX, divided (shows) dragons fighting in the wild. Their blood is purple and yellow.
+Jump to dictionaryShow parallel passages	象傳:	
+戰龍於野，其道窮也。
+Xiang Zhuan:	
+'The dragons fight in the wild: - the (onward) course (indicated by Kun) is pursued to extremity.
+8 Jump to dictionary	䷁坤:	
+    </line>
+    <line n="7">
+用六：利永貞。
+Kun:	
+(The lines of this hexagram are all weak and divided, as appears from) the use of the number six. If those (who are thus represented) be perpetually correct and firm, advantage will arise.
+Jump to dictionary	象傳:	
+用六永貞，以大終也。
+Xiang Zhuan:	
+'(The lines are all weak and divided, as appears from) the use of the number SIX: - but (those who are thus represented) becoming perpetually correct and firm, there will thereby be a great consummation.
+    </line>
+</change>
+</changes>

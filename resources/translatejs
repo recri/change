@@ -55,7 +55,8 @@ proc read-file {file} {
     close $fp
     set data
 }
-set changes [xml2list [string trim [read-file changes.xml]]]
+set myfile [lindex $argv 0]
+set changes [xml2list [string trim [read-file $myfile]]]
 proc get-text {doc} {
     set text {}
     foreach item $doc {
@@ -183,19 +184,21 @@ proc is-comment {tag} { return [expr {[string first comment $tag] >= 0}] }
 set nchanges [traverse {} $changes]
 set index 0
 set lmap {}
-set bmap {}
-set omap {}
+## set bmap {}
+## set omap {}
 
-proc toBits {lines} {
-    set b 0
-    foreach l [split $lines {}] {
-	if {$l == 7} { set l 1 } elseif {$l == 8} { set l 0 } else { error "bad digit $l in $lines" }
-	set b [expr {$b*2 + $l}]
-    }
-    return $b
-}
+## proc toBits {lines} {
+##    set b 0
+##    foreach l [split $lines {}] {
+##	if {$l == 7} { set l 1 } elseif {$l == 8} { set l 0 } else { error "bad digit $l in $lines" }
+##	set b [expr {$b*2 + $l}]
+##    }
+##    return $b
+## }
 
-puts "export class Changes {"
+puts "export class ChangesText {"
+puts "static get edition() { return \"$myfile\" }"
+puts "static get version() { return \"[clock format [clock seconds] -format %Y-%m-%d-%H-%M-%S]\" }"
 puts "static get changes() { return \["
 foreach c $nchanges {
     # puts --------\n$c\n--------
@@ -262,10 +265,6 @@ foreach c $nchanges {
 	    
 	    {lines} {
 		lappend lmap "\"$value\":\"$index\""
-		set bits [toBits $value]
-		lappend bmap "\"$bits\":\"$index\""
-		set octs [format {%02o} $bits]
-		lappend omap "\"$octs\":\"$index\""
 		incr index 
 	    }
 	    * {
@@ -287,7 +286,9 @@ foreach c $nchanges {
 }
 puts "]"
 puts "}"
-puts "static get lines() { return {[join $lmap ,]} }"
+
+## only lines() was used, moved into change.js
+## puts "static get lines() { return {[join $lmap ,]} }"
 ## puts "static get bits() { return {[join $bmap ,]} }"
 ## puts "static get octs() { return {[join $omap ,]} }"
 ## puts "static linesToBits(lines) { return parseInt(lines.split('').map(l => l === '7' ? '1' : '0').join(''), 2) }"
