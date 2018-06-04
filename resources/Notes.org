@@ -3,3 +3,28 @@
    in every Judgment, except for 31. Influence (Wooing)
    where it is normal case.  I'm changing that in my
    text to match all the other uses.
+* Extracted Wilhelm's original german text
+  need to do a thorough proofreading to ensure that the
+  extraction went as well as it appears.
+* Translated Wilhelm's text into english with google docs
+  Also needs a thorough proofreading, but the following are
+  already apparent:
+** no upper case on the initial line of the judgment and the line judgements
+   is often beginning with lower case.
+   Fix automatically.
+** comma at the beginning of a line
+   Fix automatically
+*** the 6th line of 16
+*** the 6th line of 24
+*** the 3rd line of 30
+*** the 3rd line of 32
+*** the 3rd line of 37
+*** the 4th line of 38
+*** the 3rd line of 44
+** the name of 4 is left as Jugendtorheit
+   Youthful folly, or wild oats
+** The Receptive is capitalized, the creative is not,
+** the judgement of 2 has 'isto' and 'encouragingin'
+** the first line of 4 has 'fool' pushed to the next line
+** the 3rd line of 44 lost its colon,
+   pulled there into the line introduction

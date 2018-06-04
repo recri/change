@@ -1,0 +1,16 @@
+* Getting a translation from german to english with docs.google.com:
+** Go to docs.google.com
+** Extract the text to be translated with a variant of xml-processor
+   text-wilhelm.txt is the my german file extracted from text-wilhelm.xml
+** For each 1/4tr of the the text, [1234]
+*** Copy 1/4th of the text into the clipboard
+*** Paste the clipboard into an empty google doc
+*** Select Tools > Translate from the google docs menu
+*** Specify text-wilhelm-google-[1234].txt as the output document
+*** Specify english as the target language for tranlation
+*** Click Translate
+*** Copy the text of the result google doc into the clipboard
+*** Paste the text into the result document locally.
+** Save the translated text file
+   text-wilhelm-google.txt is my english translation
+** Process the text into xml with txt-processor
