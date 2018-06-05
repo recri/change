@@ -5,6 +5,7 @@ yarn.lock
 .DS_Store
 *~
 \#*
+npm-debug.log
 text-wilhelm.js
 text-wilhelm-baynes.js
 text-wilhelm-google.js
