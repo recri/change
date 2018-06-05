@@ -39,6 +39,10 @@ export class Change extends Random {
 	this.setCommentaryObj(null);
     }
     
+    _updateHists() {
+	this._hist = this.hist_for_dist(this._dist, '6789');
+    }
+
     setCustom(custom) {
 	if (/^[1-9]{4}$/.test(custom))
 	    this._custom = custom;
@@ -62,56 +66,22 @@ export class Change extends Random {
 	this._updateHists()
 	return this.distName;
     }
-    _updateHists() {
-	this._hist = this.hist_for_dist(this._dist, '6789');
-	this._yinHist = this._hist.slice(0).replace(/[79]/g, '')
-	this._yangHist = this._hist.slice(0).replace(/[68]/g, '')
-	// console.log(`dist ${dist} ${this._dist} hist ${this._hist} yin ${this._yinHist} yang ${this._yangHist}`)
-    }
     getDist() { return this.distName; }
 
     setFormat(format) {
-	this.format = format;
-	return format;
+	return this.format = format;
     }
     getFormat() { return this.format; }
 
-    setProtocol(protocol) {
-	this.protocol = protocol;
-	return this.protocol;
-    }
+    setProtocol(protocol) { return this.protocol = protocol; }
+    getProtocol() { return this.protocol; }
 
     setBook(book) { 
 	if (this.bookName === book) return book;
 	if (this.book[book]) return this.setBookObj(book, this.book[book]);
-	const loadBook = async (book) => {
-	    const bookLoaded = (module) => this.setBookObj(module.ChangesText.name, module.ChangesText);
-	    switch (book) {
-	    case 'wilhelm': 
-		await import('./text-wilhelm.js').then(module => bookLoaded.bind(this)(module));
-		break;
-	    case 'wilhelm-baynes':
-		await import('./text-wilhelm-baynes.js').then(module => bookLoaded.bind(this)(module));
-		break;
-	    case 'wilhelm-google':
-		await import('./text-wilhelm-google.js').then(module => bookLoaded.bind(this)(module));
-		break;
-		/*
-	    case 'legge':
-		await import('./text-legge.js').then(module => bookLoaded.bind(this)(module));
-		break;
-	    case 'yizhou':
-		await import('./text-yizhou.js').then(module => bookLoaded.bind(this)(module)); 
-		break;
-		*/
-	    default:
-		console.log(`unknown book requested ${book}`);
-	    }
-	}
-	loadBook(book);
+	console.log(`change.setBook(${book}) didn't find book`);
 	return this.bookName
     }
-
     setBookObj(bookName, bookObj) {
 	this.book[bookName] = bookObj;
 	this.bookName = bookName;
@@ -152,12 +122,6 @@ export class Change extends Random {
 
     // make a line from a distribution
     getLines() { return this.choosen(this._hist, 6); }
-
-    // age an existing hexagram into a new hexagram
-    // using yin and yang transition probabilities
-    nextLines(str) {
-	return str.split('').map((c) => this.choose(c === '6' || c === '7' ? this._yangHist : this._yinHist)).join('')
-    }
 
     // choose or age a hexagram using the yarrow stalk oracle
     //	* 6 = old yin:    1 in 16 (0.0625)
