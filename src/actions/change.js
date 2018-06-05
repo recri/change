@@ -18,6 +18,7 @@ export const changeProtocol = (protocol) => (dispatch) => dispatch({ type: CHANG
 
 export const changeBook = (book) => async (dispatch, getState) => {
     const iching = getState().change.iching;
+    var module = null;
     switch(book) {
     case 'wilhelm': 
 	module = await import('../text/wilhelm.js');
