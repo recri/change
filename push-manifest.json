@@ -4,6 +4,28 @@
       "type": "script",
       "weight": 1
     },
+    "src/components/change-cast.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "src/components/change-view.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
+      "type": "script",
+      "weight": 1
+    }
+  },
+  "/book": {
+    "src/components/change-app.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "src/components/change-book.js": {
+      "type": "script",
+      "weight": 1
+    },
     "src/components/change-view.js": {
       "type": "script",
       "weight": 1
@@ -19,6 +41,20 @@
       "weight": 1
     },
     "src/components/change-settings.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
+      "type": "script",
+      "weight": 1
+    }
+  },
+  "/show": {
+    "src/components/change-app.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "src/components/change-show.js": {
       "type": "script",
       "weight": 1
     },
