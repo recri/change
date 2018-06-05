@@ -116,7 +116,7 @@
 [ ] animate the superposition of possible outcomes
 	during on-down
 [ ] Optionally add commentary
-[ ] Optionally add other translations
+[x] Optionally add other translations
 [ ] add keyboard accelerators to cast/undo/clear buttons
 [ ] write tests to cover all the single cast results
 [ ] add option to save readings to local storage
@@ -126,7 +126,10 @@
 [ ] redo the app color scheme
 [ ] redo the button styling scheme
 [ ] rethink the ordering of the app menu items
-[ ] get Wilhelm's translation entered
+[ ] maybe build the settings menus in the
+	drawer rather than taking a page
+[ ] maybe do the Show URL with a dialog box.
+[x] get Wilhelm's translation entered
 [ ] get Legge's translation entered
 [ ] get the original Chinese entered
-[ ] get Google's translation of Wilhelm's translation
+[x] get Google's translation of Wilhelm's translation
