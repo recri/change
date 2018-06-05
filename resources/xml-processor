@@ -490,10 +490,12 @@ proc process-text-line {i reading} {
 	}
 	2 {
 	    # the judgment
-	    set first [lindex $reading 0]
-	    if {[regexp {^[a-z]} $first]} {
-		set first [line-capitalize $first]
-		set reading [lreplace $reading 0 0 $first]
+	    for {set i 0} {$i < [llength $reading]} {incr i} {
+		set line [lindex $reading $i]
+		if {[regexp {^[a-z]} $line]} {
+		    set line [line-capitalize $line]
+		    set reading [lreplace $reading $i $i $line]
+		}
 	    }
 	}
 	3 - 4 - 5 - 6 - 7 - 8 {
@@ -530,10 +532,15 @@ proc process-text-line {i reading} {
 		set first [regsub Six $first six]
 		set reading [lreplace $reading 0 0 $first]
 	    }
-	    if {[llength $reading] > 1 && [regexp {^[a-z]} [lindex $reading 1]]} {
-		set second [lindex $reading 1]
-		set reading [lreplace $reading 1 1 [line-capitalize $second]]
+	    
+	    for {set i 0} {$i < [llength $reading]} {incr i} {
+		set line [lindex $reading $i]
+		if {[regexp {^[a-z]} $line]} {
+		    set line [line-capitalize $line]
+		    set reading [lreplace $reading $i $i $line]
+		}
 	    }
+
 	}
 	9 {
 	    # when all lines are

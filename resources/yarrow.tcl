@@ -176,7 +176,7 @@ proc test-cast-line {stalks} {
 	incr lhist($l)
     }
     foreach x [lsort [array names hist]] {
-	# puts [format {%5d %5.3f %s} $hist($x) [expr {$hist($x)/double($n)}] $x]
+	 puts [format {%5d %5.3f %s} $hist($x) [expr {$hist($x)/double($n)}] $x]
     }
     foreach t [lsort [array names thist]] {
 	# puts [format {%5d %5.3f %s} $thist($t) [expr {$thist($t)/double($n)}] $t]

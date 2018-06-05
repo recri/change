@@ -12,6 +12,8 @@
 ** no upper case on the initial line of the judgment and the line judgements
    is often beginning with lower case.
    Fix automatically.
+** Often no upper case on subsequent lines of the judgment and the line judgements
+   Fix automatically.
 ** comma at the beginning of a line
    Fix automatically
 *** the 6th line of 16
@@ -29,5 +31,8 @@
 ** the 3rd line of 44 lost its colon,
    pulled there into the line introduction
 ** the name of 46. The Empordringen,
-   Pushing upwards, emerging, ...
+   Pushing upwards, emerging, emergence
+** the hoop is the hoarfrost
+** on the Anger is in the meadow
+
 

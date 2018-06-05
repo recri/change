@@ -33,7 +33,7 @@ class ChangeShow extends connect(store)(PageViewElement) {
         <h2>Show URL</h2>
 	<div>
 	  <p>This URL for your current reading can be copied and pasted into another browser or shared.</p>
-	  <textarea>https://change.elf.org/${_change}</textarea>
+	  <textarea cols="32" rows="8">https://change.elf.org/${_change}</textarea>
         </div>
       </section>
     `;

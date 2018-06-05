@@ -6,10 +6,10 @@ yarn.lock
 *~
 \#*
 npm-debug.log
-text-wilhelm.js
-text-wilhelm-baynes.js
-text-wilhelm-google.js
-text-legge.js
-text-yizhou.js
+src/text/wilhelm.js
+src/text/wilhelm-baynes.js
+src/text/wilhelm-google.js
+src/text/legge.js
+src/text/yizhou.js
 text-wilhelm.txt
 text-wilhelm-google.xml
