@@ -25,11 +25,32 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
 import { navigate, updateDrawerState, updateLayout, installPrompt } from '../actions/app.js';
+import { changeRestore } from '../actions/change.js';
 
 import { SharedStyles } from './shared-styles.js';
-import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ChangeApp extends connect(store)(LitElement) {
+
+    static get properties() {
+	return {
+	    appTitle: String,
+	    _page: String,
+	    _drawerOpened: Boolean,
+	    _wideLayout: Boolean,
+	    _change: String,
+	    _install: Object
+	}
+    }
+
+    constructor() {
+	super();
+	// To force all event listeners for gestures to be passive.
+	// See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
+	setPassiveTouchGestures(true);
+	// prepare for install to home screen event
+	window.addEventListener('beforeinstallprompt', (e) => installPrompt(e))          
+    }
+
     _render({appTitle, _page, _drawerOpened, _wideLayout, _change, _install}) {
 	// Anything that's related to rendering should be done in here.
 	// construct an install button when it's been signaled
@@ -39,7 +60,6 @@ class ChangeApp extends connect(store)(LitElement) {
 	
 	return html`
     ${SharedStyles}
-    ${ButtonSharedStyles}
     <style>
       :host {
         --app-drawer-width: 256px;
@@ -209,30 +229,11 @@ class ChangeApp extends connect(store)(LitElement) {
     `;
     }
 
-    static get properties() {
-	return {
-	    appTitle: String,
-	    _page: String,
-	    _drawerOpened: Boolean,
-	    _wideLayout: Boolean,
-	    _change: String,
-	    _install: Object
-	}
-    }
-
-    constructor() {
-	super();
-	// To force all event listeners for gestures to be passive.
-	// See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
-	setPassiveTouchGestures(true);
-	// prepare for install to home screen event
-	window.addEventListener('beforeinstallprompt', (e) => installPrompt(e))          
-    }
-
     _firstRendered() {
 	installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
 	installMediaQueryWatcher(`(min-width: 768px)`,
 				 (matches) => store.dispatch(updateLayout(matches)));
+	store.dispatch(changeRestore());
     }
 
     _didRender(properties, changeList) {

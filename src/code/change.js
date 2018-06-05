@@ -29,14 +29,14 @@ export class Change extends Random {
 	} 
     }
 
-    constructor(bookObj) {
+    constructor(bookObj, commentaryObj) {
 	super();
 	this.book = {};
-	this.setDist('yarrow');	// yarrow, coins, uniform, custom
-	this.setCustom('3113');	// /[1-9]{4}/
-	this.setFormat('single'); // single, multiple
-	this.setBookObj(bookObj.name, bookObj);
-	this.setCommentaryObj(null);
+	// this.setDist('yarrow');	// yarrow, coins, uniform, custom
+	// this.setCustom('3113');	// /[1-9]{4}/
+	// this.setFormat('single'); // single, multiple
+	if (bookObj) this.setBookObj(bookObj.name, bookObj);
+	if (commentaryObj) this.setCommentaryObj(commentaryObj);
     }
     
     _updateHists() {
@@ -77,12 +77,14 @@ export class Change extends Random {
     getProtocol() { return this.protocol; }
 
     setBook(book) { 
+	// console.log(`change.setBook(${book})`);
+	if ( ! book) return this.bookName;
 	if (this.bookName === book) return book;
 	if (this.book[book]) return this.setBookObj(book, this.book[book]);
-	console.log(`change.setBook(${book}) didn't find book`);
 	return this.bookName
     }
     setBookObj(bookName, bookObj) {
+	// console.log(`change.setBookObj(${bookName}, ${bookObj ? 'obj' : '???'})`);
 	this.book[bookName] = bookObj;
 	this.bookName = bookName;
 	return bookName;

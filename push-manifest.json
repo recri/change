@@ -27,34 +27,6 @@
       "weight": 1
     }
   },
-  "/save": {
-    "src/components/change-app.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "src/components/change-settings.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
-      "type": "script",
-      "weight": 1
-    }
-  },
-  "/restore": {
-    "src/components/change-app.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "src/components/change-restore.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
-      "type": "script",
-      "weight": 1
-    }
-  },
   "/about": {
     "src/components/change-app.js": {
       "type": "script",

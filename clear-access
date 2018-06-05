@@ -1,6 +1,0 @@
-#!/bin/sh
-# start off with a blank .htacces
-for f in build/es?-bundled; do
-    cat /dev/null > $f/.htaccess
-done
-
