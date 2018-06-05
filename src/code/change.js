@@ -96,12 +96,14 @@ export class Change extends Random {
 	    case 'wilhelm-google':
 		await import('./text-wilhelm-google.js').then(module => bookLoaded.bind(this)(module));
 		break;
+		/*
 	    case 'legge':
 		await import('./text-legge.js').then(module => bookLoaded.bind(this)(module));
 		break;
 	    case 'yizhou':
 		await import('./text-yizhou.js').then(module => bookLoaded.bind(this)(module)); 
 		break;
+		*/
 	    default:
 		console.log(`unknown book requested ${book}`);
 	    }
