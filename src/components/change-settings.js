@@ -15,7 +15,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { changeDist, changeCustom, changeFormat, changeProtocol } from '../actions/change.js';
+import { changeDist, changeCustom, changeFormat, changeProtocol, changeBook } from '../actions/change.js';
 
 class ChangeSettings extends connect(store)(PageViewElement) {
 
@@ -24,16 +24,18 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	    _dist: String,
 	    _format: String,
 	    _custom: String,
-	    _protocol: String
+	    _protocol: String,
+	    _book: String,
 	}
     }
 
-    _render({_dist, _format, _custom, _protocol}) {
+    _render({_dist, _format, _custom, _protocol, _book}) {
 	const title = {
 	    'distribution': "The frequencies of the lines of the hexagram depend on the mechanism for casting.",
 	    'distribution-yarrow': "The yarrow stalk cast produces the lines 6:7:8:9 in proportions of 1:5:7:3.",
 	    'distribution-coins': "The coin cast produces the lines 6:7:8:9 in frequencies of 1:3:3:1.",
 	    'distribution-uniform': "A uniform cast produces the lines 6:7:8:9 in frequencies of 1:1:1:1.",
+	    'distribution-drunken': "A yarrow, inverted yarrow, coin, or uniform distribution in equal proportions.",
 	    'distribution-custom': "A custom cast produces the lines 6:7:8:9 in the frequencies specified below.",
 	    'custom': "The custom cast allows arbitrary frequencies of lines.",
 	    'format': "The format determines whether and how multiple casts are formatted.",
@@ -43,7 +45,13 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	    'protocol-one-per-cast': "Cast a reading when pressed.",
 	    'protocol-one-per-line': "Cast one line of a reading for each press.",
 	    'protocol-three-per-line': "Cast one third of a line of a reading for each press.",
-	    'protocol-manual': "Allow the lines of the cast to be entered manually."
+	    'protocol-manual': "Allow the lines of the cast to be entered manually.",
+	    'text': "Choose a translation.", 
+	    'text-wilhelm': "Richard Wilhelm's translation into German from Chinese.",
+	    'text-wilhelm-baynes': "Cary F. Baynes' translation into English from German.",
+	    'text-wilhelm-google': "docs.google.com's translation into English from German.",
+	    'text-legge': "Legge's translation into English from Chinese.",
+	    'text-yizhou': "Original Chinese text."
 	};
 	const input_radio = (id, name, chk, onclick, label, dis) =>
 	      html`
@@ -53,13 +61,16 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 		`;
 	const distribution = (id, label, disabled) =>
 	      disabled ? html`` :
-	      html`${input_radio(id, 'distribution', _dist===id, _ => this._distClick.bind(this)(id), label, disabled)}`
+	      html`${input_radio(id, 'distribution', _dist===id, _ => store.dispatch(changeDist(id)), label, disabled)}`
 	const format = (id, label, disabled) =>
 	      disabled ? html`` :
-	      html`${input_radio(id, 'format', _format===id, _ => this._formatClick.bind(this)(id), label, disabled)}`;
+	      html`${input_radio(id, 'format', _format===id, _ => store.dispatch(changeFormat(id)), label, disabled)}`;
 	const protocol = (id, label, disabled) =>
 	      disabled ? html`` :
-	      html`${input_radio(id, 'protocol', _protocol===id, _ => this._protocolClick.bind(this)(id), label, disabled)}`;
+	      html`${input_radio(id, 'protocol', _protocol===id, _ => store.dispatch(changeProtocol(id)), label, disabled)}`;
+	const book = (id, label, disabled) =>
+	      disabled ? html`` :
+	      html`${input_radio(id, 'book', _book===id, _ => store.dispatch(changeBook(id)), label, disabled)}`;
 
 	const custom_select = (i,d,name) => {
 	    const option = (v) => html`<option value="${v}" selected?=${v == d}>${v}</option>`
@@ -79,6 +90,14 @@ class ChangeSettings extends connect(store)(PageViewElement) {
       <section>
         <h2>Settings</h2>
 	<form on-submit="${(e) => e.preventDefault()}">
+	<p title="${title.book}">Translation:</p>
+	  <div>
+	    ${book('wilhelm-google', 'Wilhelm/Google', false)}
+	    ${book('wilhelm-baynes', 'Wilhelm/Baynes', false)}
+	    ${book('wilhelm', 'Wilhelm', false)}
+	    ${book('legge', 'Legge', true)}
+	    ${book('yizhou', 'Yizhou', true)}
+	  </div>
 	<p title="${title.format}">Reading format:</p>
 	  <div>
 	    ${format('single', 'Single casts', false)}
@@ -93,6 +112,7 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	</div>
 	<p title="${title.distribution}">Line distribution:</p>
 	  <div>
+	    ${distribution('drunken', 'Drunken')}
 	    ${distribution('yarrow', 'Yarrow')}
 	    ${distribution('coins', 'Coins')}
 	    ${distribution('uniform', 'Uniform')}
@@ -115,10 +135,12 @@ class ChangeSettings extends connect(store)(PageViewElement) {
     }
 
     _stateChanged(state) {
+	// console.log(`change-settings._stateChanged(_book=${state.change.book})`);
 	this._dist = state.change.dist;
 	this._custom = state.change.custom;
 	this._format = state.change.format;
 	this._protocol = state.change.protocol;
+	this._book = state.change.book;
     }
     
     _resetClick() {
@@ -127,24 +149,13 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	store.dispatch(changeCustom('3113'));
 	store.dispatch(changeFormat('single'));
 	store.dispatch(changeProtocol('one-per-cast'));
+	store.dispatch(changeBook('wilhelm-google'));
     }
-    
-    _distClick(tag) { 
-	// console.log(`change-settings _distClick(${tag})`); 
-	store.dispatch(changeDist(tag));
-    }
+
     _customClick(e, i, tag) {
 	// this._custom[i] = e.target.value
 	var dist = this._custom.split('').map((c,ci) => ci===i ? e.target.value : c).join('');
 	store.dispatch(changeCustom(dist));
-    }
-    _formatClick(tag) {
-	// console.log(`change-settings _formatClick(${tag})`);
-	store.dispatch(changeFormat(tag));
-    }
-    _protocolClick(tag) {
-	// console.log(`_protocolClick(${tag})`);
-	store.dispatch(changeProtocol(tag));
     }
 }
 

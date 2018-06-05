@@ -10,23 +10,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, LitElement } from '@polymer/lit-element';
 
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { store } from '../store.js';
+
 import { SharedStyles } from './shared-styles.js';
 
 import { kua } from '../code/kua.js';
 
-export class ChangeView extends LitElement {
+export class ChangeView extends connect(store)(LitElement) {
     static get properties() {
 	return {
 	    _iching: Object,
 	    _change: String,	// /^(([6789]{6})(,[6789]{6})*)?$/
+	    _book: String,
 	}
     }
 
-    _render({_iching, _change}) {
+    _render({_iching, _change, _book}) {
 	const breakAtNewlines = (str, skipFirst) => str ?
 	      str.split('\n').slice(skipFirst ? 1 : 0).map((x) => html`${x}<br/>\n`) : undefined;
-	const getText = (hex,value) => _iching.getText(hex, value);
-	const getBoolean = (hex,value) => _iching.getBoolean(hex, value);
+	const getText = (hex,value) => _iching.getBookText(_book, hex, value);
+	const getBoolean = (hex,value) => _iching.getBookBoolean(_book, hex, value);
 	const getCommentary = (hex,value) => _iching.getCommentary(hex, value);
 	const getNumber = (hex) => getText(hex,"number");
 	// const getCharacter = (hex) => getText(hex,"character");
@@ -43,8 +47,8 @@ export class ChangeView extends LitElement {
 	// const getImage = (hex) => breakAtNewlines(getText(hex,"image"), false);
 	const getLine = (hex,line) => breakAtNewlines(getText(hex,`line-${line}`), true);
 	const getLineOrdinal = (hex,line) => getText(hex,`line-${line}`).split('\n')[0];
-	const getLineGoverning = (hex,line) => getBoolean(hex, `line-${line}-governing-ruler`)
-	const getLineConstituting = (hex,line) => getBoolean(hex, `line-${line}-constituting-ruler`)
+	// const getLineGoverning = (hex,line) => getBoolean(hex, `line-${line}-governing-ruler`)
+	// const getLineConstituting = (hex,line) => getBoolean(hex, `line-${line}-constituting-ruler`)
 	
 	const isMovingLine = (line) => (line === '6' || line === '9');
 	const isStationaryLine = (line) => (line === '7' || line === '8');
@@ -53,7 +57,7 @@ export class ChangeView extends LitElement {
 	    return html`
 		<div class="hexagram" title="${getNumber(hex)}. ${getNameInterpretation(hex)}">
 		${getHexagram(hex)}
-		<div class="judgment" title="Judgment">${getJudgment(hex)}</div>
+		<div class="judgment ${_book}" title="Judgment">${getJudgment(hex)}</div>
 		</div>
 	    `;
 	}
@@ -90,7 +94,10 @@ export class ChangeView extends LitElement {
 		${ allStationary ? start : ''}
 		${ ! allStationary ? moving : ''}`;
 	}
+
 	const links = _change.split(',');
+
+	if (_iching.getBook() !== _book) _iching.setBook(_book);
 
 	return html`
 		${SharedStyles}
@@ -104,6 +111,13 @@ export class ChangeView extends LitElement {
 		  ${links.length > 0 && links[0].length > 0 ? links.map(renderLink) : ''}
 		</section>`;
     }
+
+    _stateChanged(state) {
+	this._iching = state.change.iching;
+	this._book = state.change.book;
+    }
+
+
 }
 
 window.customElements.define('change-view', ChangeView);

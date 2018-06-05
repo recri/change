@@ -30,11 +30,12 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	    _dist: String,	// /^(yarrow|coins|uniform|custom)$/
 	    _custom: String,	// /^[1-9]{4}$/
 	    _format: String,	// /^(single|multiple)$/
-	    _protocol: String	// /^(one-per-cast|one-per-line|three-per-line)$/
+	    _protocol: String,	// /^(one-per-cast|one-per-line|three-per-line)$/
+	    _book: String	// 
 	}
     }
 
-    _render({_iching, _change, _dist, _custom, _format, _protocol}) {
+    _render({_iching, _change, _dist, _custom, _format, _protocol, _book}) {
 	// cast button becomes conditional on protocol
 	const cast_down = this._castDown.bind(this);
 	const cast_tap = this._castTap.bind(this);
@@ -46,6 +47,10 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	const undo_button = () => _change === '' || undo_change === '' || _format === 'single' ? 
 	      html`` : 
 	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(undo_change))}">Undo</gesture-button>`;
+
+	if (_iching.getCustom() !== _custom) _iching.setCustom(_custom);
+	if (_iching.getDist() !== _dist) _iching.setDist(_dist);
+	if (_iching.getFormat() !== _format) _iching.setFormat(_format);
 
 	return html`
 		${SharedStyles}
@@ -59,7 +64,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 		    ${undo_button()}
 		    ${cast_button()}
 		  </div>
-		  <change-view _change="${_change}" _iching="${_iching}"></change-view>
+		  <change-view _change="${_change}" _iching="${_iching}" _book="${_book}"></change-view>
 		</section>`;
     }
 
@@ -70,6 +75,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	this._custom = state.change.custom
 	this._format = state.change.format;
 	this._protocol = state.change.protocol;
+	this._book = state.change.book;
     }
 
     _castDown() {

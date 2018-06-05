@@ -29,13 +29,14 @@ export class Change extends Random {
 	} 
     }
 
-    constructor(text) {
+    constructor(bookObj) {
 	super();
+	this.book = {};
 	this.setDist('yarrow');	// yarrow, coins, uniform, custom
 	this.setCustom('3113');	// /[1-9]{4}/
 	this.setFormat('single'); // single, multiple
-	this.setText(text);
-	this.setCommentary(null);
+	this.setBookObj(bookObj.name, bookObj);
+	this.setCommentaryObj(null);
     }
     
     setCustom(custom) {
@@ -43,6 +44,8 @@ export class Change extends Random {
 	    this._custom = custom;
 	else
 	    this._custom = this.choosen("123456789", 4);
+	if (this._distName === 'custom') this._updateHists();
+	return this._custom;
     }
     getCustom() { return this._custom; }
 
@@ -54,13 +57,16 @@ export class Change extends Random {
 	case 'coins': this._dist = this.distCoins; break;
 	case 'uniform': this._dist = this.distUniform; break;
 	case 'custom': this._dist = this._custom; break;
-	default: error(`change setDist ${dist}??`); 
+	default: console.log(`change setDist ${dist}??`); 
 	}
+	this._updateHists()
+	return this.distName;
+    }
+    _updateHists() {
 	this._hist = this.hist_for_dist(this._dist, '6789');
 	this._yinHist = this._hist.slice(0).replace(/[79]/g, '')
 	this._yangHist = this._hist.slice(0).replace(/[68]/g, '')
 	// console.log(`dist ${dist} ${this._dist} hist ${this._hist} yin ${this._yinHist} yang ${this._yangHist}`)
-	return this.distName;
     }
     getDist() { return this.distName; }
 
@@ -70,29 +76,76 @@ export class Change extends Random {
     }
     getFormat() { return this.format; }
 
-    setText(text) { this.text = text; }
-    setCommentary(commentary) { this.commentary = commentary; }
-    
-    getText(hex, value) {
-	return this.text ?
-	    this.text.changes[Change.lines[hex]][value] :
-	    '';
+    setProtocol(protocol) {
+	this.protocol = protocol;
+	return this.protocol;
     }
 
-    getBoolean(hex, value) {
-	if (this.text) {
-	    const entry = this.text.changes[Change.lines[hex]]
+    setBook(book) { 
+	if (this.bookName === book) return book;
+	if (this.book[book]) return this.setBookObj(book, this.book[book]);
+	const loadBook = async (book) => {
+	    const bookLoaded = (module) => this.setBookObj(module.ChangesText.name, module.ChangesText);
+	    switch (book) {
+	    case 'wilhelm': 
+		await import('./text-wilhelm.js').then(module => bookLoaded.bind(this)(module));
+		break;
+	    case 'wilhelm-baynes':
+		await import('./text-wilhelm-baynes.js').then(module => bookLoaded.bind(this)(module));
+		break;
+	    case 'wilhelm-google':
+		await import('./text-wilhelm-google.js').then(module => bookLoaded.bind(this)(module));
+		break;
+	    case 'legge':
+		await import('./text-legge.js').then(module => bookLoaded.bind(this)(module));
+		break;
+	    case 'yizhou':
+		await import('./text-yizhou.js').then(module => bookLoaded.bind(this)(module)); 
+		break;
+	    default:
+		console.log(`unknown book requested ${book}`);
+	    }
+	}
+	loadBook(book);
+	return this.bookName
+    }
+
+    setBookObj(bookName, bookObj) {
+	this.book[bookName] = bookObj;
+	this.bookName = bookName;
+	return bookName;
+    }
+    getBook() {
+	return this.bookName;
+    }
+
+    setCommentaryObj(commentaryObj) { this.commentary = commentaryObj; }
+    
+    getBookText(book, hex, value) {
+	return this.book[book] ?
+	    this.book[book].changes[Change.lines[hex]][value] :
+	    '';
+    }
+    
+    getBoolean(book, hex, value) {
+	if (this.book[book]) {
+	    const entry = this.book[book].changes[Change.lines[hex]]
 	    return entry.hasOwnProperty(value) && entry[value]
 	}
 	return false;
     }
 
-    getCommentary(hex, value) {
-	if (this.text && this.commentary)
-	    return this.commentary.changes[Change.lines[hex]][value]
-	// can I await the arrival? maybe not coming
+    getBookCommentary(book, hex, value) {
+	if (this.book[book] && this.commentary[book])
+	    return this.commentary[book].changes[Change.lines[hex]][value]
 	return '';
     }
+    
+    getText(hex, value) { return this.getBookText(this.bookName, hex, value); }
+
+    getBoolean(hex, value) { return this.getBookBoolean(this.bookName, hex, value); }
+
+    getCommentary(hex, value) { return getBookCommentary(this.bookName, hex, value); }
     
 
     // make a line from a distribution

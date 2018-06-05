@@ -182,12 +182,20 @@ proc keep-comments {} { return [keep-tag {comment}] }
 proc is-comment {tag} { return [expr {[string first comment $tag] >= 0}] }
 
 # option one: filter xml file into javascript source for web app
+proc single-line {string} {
+    if {[regexp \n $string]} {
+	return [regsub -all \n $string "\\n"]
+    }
+    return $string
+}
+
 proc process--to-js {myfile changes} {
     set nchanges [traverse {} $changes]
     set index 0
     set lmap {}
     
     puts "export class ChangesText {"
+    puts "static get name() { return \"[string range [file root $myfile] 5 end]\" }"
     puts "static get edition() { return \"$myfile\" }"
     puts "static get version() { return \"[clock format [clock seconds] -format %Y-%m-%d-%H-%M-%S]\" }"
     puts "static get changes() { return \["
@@ -215,19 +223,19 @@ proc process--to-js {myfile changes} {
 			    set nname $name-comment
 			    set nvalue [lindex $value 2]
 			    set value [lindex $value 0]
-			    puts "    \"$name\" : \`$value\`,"
+			    puts "    \"$name\" : \"[single-line $value]\","
 			    if {[keep-comments]} {
-				puts "    \"$nname\" : \"$nvalue\","
+				puts "    \"$nname\" : \"[single-line $nvalue]\","
 			    }
 			} else {
-			    puts "    \"$name\" : \`$value\`,"
+			    puts "    \"$name\" : \"[single-line $value]\","
 			}
 		    }
 		}
 		{line-?} {
 		    if {[keep-tag $name]} {
 			set lname $name
-			puts "    \"$name\" : \`$value\`,"
+			puts "    \"$name\" : \"[single-line $value]\","
 		    }
 		}
 		{constituting-ruler} {
@@ -247,9 +255,9 @@ proc process--to-js {myfile changes} {
 		{comment} {
 		    if {[keep-comments]} {
 			if {$pname ni {interpretation {}}} {
-			    puts "    \"$pname-$name\" : \"$value\","
+			    puts "    \"$pname-$name\" : \"[single-line $value]\","
 			} else {
-			    puts "    \"$name\" : \"$value\","
+			    puts "    \"$name\" : \"[single-line $value]\","
 			}
 		    }
 		}
@@ -261,11 +269,11 @@ proc process--to-js {myfile changes} {
 		* {
 		    if {[is-comment $name]} {
 			if {[keep-comments]} {
-			    puts "    \"$name\" : \"$value\","
+			    puts "    \"$name\" : \"[single-line $value]\","
 			}
 		    } else {
 			if {[keep-tag $name]} {
-			    puts "    \"$name\" : \"$value\","
+			    puts "    \"$name\" : \"[single-line $value]\","
 			}
 		    }
 		}
@@ -474,7 +482,7 @@ proc process-text-line {i reading} {
     # to the beginning of the next line
     # if a line begins with a , move it to the end of the
     # previous line
-    set reading [lmap l $reading {line-typo $l}
+    set reading [lmap l $reading {line-typo $l}]
     switch $i {
 	0 - 1 {
 	    # the number

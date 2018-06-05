@@ -28,3 +28,6 @@
 ** the first line of 4 has 'fool' pushed to the next line
 ** the 3rd line of 44 lost its colon,
    pulled there into the line introduction
+** the name of 46. The Empordringen,
+   Pushing upwards, emerging, ...
+

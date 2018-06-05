@@ -5,7 +5,7 @@
 
 import {
     CHANGE_UPDATE, 
-    CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL
+    CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL, CHANGE_BOOK
 } from '../actions/change.js';
 
 import { ChangesText } from '../code/text-wilhelm-google.js';
@@ -42,10 +42,12 @@ const restore = (name, defval) => {
 const change = (state = { 
     iching: iching,
     change: '',
-    dist: restore('dist', 'yarrow'),			// 'yarrow', 'coins', 'uniform', 'custom'
+    dist: restore('dist', 'yarrow'),			// 'drunken', 'yarrow', 'coins', 'uniform', 'custom'
     custom: restore('custom', '3113'),			// /^[1-9]{4}$/
     format: restore('format', 'single'),		// 'single', 'multiple', 'linked', 'threaded'
-    protocol: restore('protocol', 'one-per-cast')	// 'one-per-cast', 'one-per-line', 'three-per-line'
+    protocol: restore('protocol', 'one-per-cast'),
+    book: restore('book', 'wilhelm-google')
+    // 'one-per-cast', 'one-per-line', 'three-per-line'
 }, action) => {
 
     switch (action.type) {
@@ -54,6 +56,7 @@ const change = (state = {
     case CHANGE_CUSTOM: return { ...state, custom: persist('custom', action.custom) };
     case CHANGE_FORMAT: return { ...state, format: persist('format', action.format) };
     case CHANGE_PROTOCOL: return { ...state, protocol: persist('protocol', action.protocol) };
+    case CHANGE_BOOK: return { ...state, book: persist('book', action.book) };
     default: return state;
     }
 }
