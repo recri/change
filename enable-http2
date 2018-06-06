@@ -4,3 +4,4 @@ for f in build/es?-bundled; do
     cat >> $f/.htaccess <<EOF
 Protocols h2 h2c http/1.1
 EOF
+done
