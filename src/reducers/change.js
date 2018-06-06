@@ -4,7 +4,7 @@
 */
 
 import {
-    CHANGE_UPDATE, CHANGE_SETTINGS,
+    CHANGE_UPDATE,
     CHANGE_DIST, CHANGE_CUSTOM, CHANGE_FORMAT, CHANGE_PROTOCOL, CHANGE_BOOK
 } from '../actions/change.js';
 

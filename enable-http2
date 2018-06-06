@@ -1,7 +1,18 @@
 #!/bin/sh
 # enable http 2 support
+# the pair server didn't like this in the .htaccess file
 for f in build/es?-bundled; do
     cat >> $f/.htaccess <<EOF
 Protocols h2 h2c http/1.1
 EOF
 done
+# this is how you specify push to an http 2 server
+# adding the css and js to the html request 
+#<Location /xxx.html>
+#    Header add Link "</xxx.css>;rel=preload"
+#    Header add Link "</xxx.js>;rel=preload"
+#</Location>
+
+# oh, pair doesn't want to enable http 2 on shared accounts.  Wants to
+# upgrade me to something fancier.
+

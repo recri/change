@@ -18,7 +18,7 @@ class ChangeAbout extends PageViewElement {
 	now known as the <i>I Ching</i>, or <i>Yi Jing</i>, or 
 	<i>Yi Zhou</i>, or in english the <i>Book of Changes</i>.
 	You may read about this at length in
-	<a target="_blank" href="https://en.wikipedia.org/wiki/I_Ching">Wikipedia</a>.
+	<a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/I_Ching">Wikipedia</a>.
 	</p><p>
 	This web app randomly generates numbers of 6 digits chosen 
 	from 6, 7, 8, and 9, and associates these numbers to parts of
@@ -31,11 +31,11 @@ class ChangeAbout extends PageViewElement {
 	(Princeton NJ: Princeton University Press, 1967, 1st ed. 1950).
 	</p><p>
 	The text was originally taken from 
-	<a target="_blank" href="http://www.akirarabelais.com/i/i.html">Akira Rabelais</a> 
+	<a rel="noopener" target="_blank" href="http://www.akirarabelais.com/i/i.html">Akira Rabelais</a> 
 	and 
-	<a target="_blank" href="http://www.pantherwebworks.com/i_ching/">Panther Web Works</a>.
+	<a rel="noopener" target="_blank" href="http://www.pantherwebworks.com/i_ching/">Panther Web Works</a>.
 	The form of the readings was influenced by
-	<a target="_blank" href="https://www.eclecticenergies.com/iching/virtualcoins">Ewald Berkers</a>
+	<a rel="noopener" target="_blank" href="https://www.eclecticenergies.com/iching/virtualcoins">Ewald Berkers</a>
 	web site.
 	</p><p>
 	The readings here are confined to the oldest parts of the I Ching, 
@@ -48,7 +48,7 @@ class ChangeAbout extends PageViewElement {
 	</p><p>
 
 	</p><p>
-	More details can be found at <a target="_blank" href="https://elf.org">elf.org</a>.
+	More details can be found at <a rel="noopener" target="_blank" href="https://elf.org">elf.org</a>.
         </p>
       </section>
     `

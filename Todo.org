@@ -112,7 +112,7 @@
 [x] add titles to tests histogram bars
 [ ] Make the cast-view window scroll to end after each
 	appended cast
-[ ] implement one-per-line and three-per-line
+[ ] implement six-per-cast and eighteen-per-cast
 [ ] animate the superposition of possible outcomes
 	during on-down
 [ ] Optionally add commentary
@@ -134,3 +134,8 @@
 [ ] get Legge's translation entered
 [ ] get the original Chinese entered
 [x] get Google's translation of Wilhelm's translation
+[ ] set up translations so that swiping left/right moves
+	between the tranlations pointed at the same
+	book location or reading.
+[ ] set up text selection as a checkbox collection, keep
+	the selected collection ready to render in parallel.

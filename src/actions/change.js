@@ -4,7 +4,6 @@
 
 export const CHANGE_UPDATE = 'CHANGE_UPDATE';
 
-export const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
 export const CHANGE_DIST = 'CHANGE_DIST';
 export const CHANGE_CUSTOM = 'CHANGE_CUSTOM';
 export const CHANGE_FORMAT = 'CHANGE_FORMAT';
@@ -67,16 +66,19 @@ export const didChangeBook = (book) => {
     return { type: CHANGE_BOOK, book };
 }
 
-// restore the state that might have been persisted
+//
+// restore the state that may have been persisted
+// oh, default values are set here, the value of the
+// first restore from saved settings when there are no
+// saved settings.
+//
 export const changeRestore = () => (dispatch) => {
     // 'drunken', 'yarrow', 'coins', 'uniform', 'custom'
-    dispatch(changeDist(restore('dist', 'yarrow')));
-    // /^[1-9]{4}$/
-    dispatch(changeCustom(restore('custom', '3113')));
+    dispatch(changeDist(restore('dist', 'full')));
     // 'single', 'multiple', 'linked', 'threaded'
     dispatch(changeFormat(restore('format', 'single'))),
-    // 'one-per-cast', 'one-per-line', 'three-per-line'
+    // 'one-per-cast', 'six-per-cast', 'eighteen-per-cast'
     dispatch(changeProtocol(restore('protocol', 'one-per-cast')));
     // wilhelm, wilhelm-google, wilhelm-baynes
-    dispatch(changeBook(restore('book', 'wilhelm-google')));
+    dispatch(changeBook(restore('book', 'wilhelm-baynes')));
 }

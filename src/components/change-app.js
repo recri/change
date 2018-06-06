@@ -220,7 +220,7 @@ class ChangeApp extends connect(store)(LitElement) {
       <p>
 	<a href="https://change.elf.org/778877">Inner Truth.  Pigs and fishes.</a>
       </p></p>
-	<a href="https://elf.org/change" target="_blank" title="home page">elf.org/change</a>
+	<a href="https://elf.org/change" rel="noopener" target="_blank" title="home page">elf.org/change</a>
       <p>
     </footer>
 
