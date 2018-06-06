@@ -55,14 +55,17 @@ export class Change extends Random {
 
     setDist(dist) { 
 	// console.log(`set change dist to ${dist}`)
-	this._distName = dist;
-	switch (dist) {
-	case 'yarrow': this._dist = this.distYarrow; break;
-	case 'coins': this._dist = this.distCoins; break;
-	case 'uniform': this._dist = this.distUniform; break;
-	case 'custom': this._dist = this._custom; break;
-	default: console.log(`change setDist ${dist}??`); 
+	if (Change.dists.hasOwnProperty(dist))
+	    this._dist = Change.dists[dist];
+	else if (dist === 'custom')
+	    this._dist = this._custom;
+	else if (dist === 'full')
+	    this._dist = Change.dists[this.achoose(Change.distNames)]
+	else {
+	    console.log(`change setDist ${dist}??`); 
+	    return this.distName;
 	}
+	this._distName = dist;
 	this._updateHists()
 	return this.distName;
     }
@@ -125,29 +128,45 @@ export class Change extends Random {
     // make a line from a distribution
     getLines() { return this.choosen(this._hist, 6); }
 
-    // choose or age a hexagram using the yarrow stalk oracle
-    //	* 6 = old yin:    1 in 16 (0.0625)
-    //	* 7 = young yang: 5 in 16 (0.3125)
-    //	* 8 = young yin:  7 in 16 (0.4375)
-    //	* 9 = old yang:   3 in 16 (0.1875)
-    // or as a 4 digit dist: 1573
-    get distYarrow() { return '1573'; }
+    static get dists() {
+	return {
+	    // choose or age a hexagram using the yarrow stalk oracle
+	    //	* 6 = old yin:    1 in 16 (0.0625)
+	    //	* 7 = young yang: 5 in 16 (0.3125)
+	    //	* 8 = young yin:  7 in 16 (0.4375)
+	    //	* 9 = old yang:   3 in 16 (0.1875)
+	    // or as a 4 digit dist: 1573
+	    yarrow: '1573',
 
-    // choose a hexagram using the coin oracle
-    //	* 6 = old yin:    1 in 8 (0.125)
-    //	* 7 = young yang: 3 in 8 (0.375)
-    //	* 8 = young yin:  3 in 8 (0.375)
-    //	* 9 = old yang:   1 in 8 (0.125)
-    // or as a 4 digit dist: 1331
-    get distCoins() { return '1331'; }
+	    // choose a hexagram using the coin oracle
+	    //	* 6 = old yin:    1 in 8 (0.125)
+	    //	* 7 = young yang: 3 in 8 (0.375)
+	    //	* 8 = young yin:  3 in 8 (0.375)
+	    //	* 9 = old yang:   1 in 8 (0.125)
+	    // or as a 4 digit dist: 1331
+	    coins: '1331',
 
-    // choose a hexagram uniformly
-    //	* 6 = old yin:    1 in 4 (0.25)
-    //	* 7 = young yang: 1 in 4 (0.25)
-    //	* 8 = young yin:  1 in 4 (0.25)
-    //	* 9 = old yang:   1 in 4 (0.25)
-    // or as a 4 digit dist: 1111
-    get distUniform() { return '1111'; }
+	    // choose a hexagram uniformly
+	    //	* 6 = old yin:    1 in 4 (0.25)
+	    //	* 7 = young yang: 1 in 4 (0.25)
+	    //	* 8 = young yin:  1 in 4 (0.25)
+	    //	* 9 = old yang:   1 in 4 (0.25)
+	    // or as a 4 digit dist: 1111
+	    uniform: '1111',
+
+	    // inverted yarrow
+	    invert: '3751',
+
+	    // 6 scored as 3
+	    '6-scored-as-3': '0484',
+
+	    // 6 scored as 2
+	    '6-scored-as-2': '4840',
+	};
+    }
+    static get distNames() {
+	return Object.getOwnPropertyNames(Change.dists);
+    }
 
     //
     // translate an oracle into all moving lines

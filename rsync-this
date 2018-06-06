@@ -1,5 +1,6 @@
 #!/bin/sh
 ./clear-htaccess
+./enable-http2
 ./enable-compression
 ./rewrite-paths-to-index
 # ./enable-caching; # when things have settled

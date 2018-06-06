@@ -14,7 +14,8 @@ export class Random {
 
     random() { return this.r.random(); }
 	
-    shuffle(array) {
+    // shuffle an array
+    ashuffle(array) {
 	array = array.slice(0)	// copy array
 	const n = array.length
 	for (let i = 0; i < n; i += 1) {
@@ -28,22 +29,32 @@ export class Random {
 	}
 	return array
     }
-    //
-    // make these two generic over strings and arrays
+    
+    // shuffle a string
+    shuffle(string) {
+	return ashuffle(string.split('')).join('');
+    }
+
     // chose one character from a string at random
-    //
     choose(str) { return str.charAt(Math.floor(this.random()*str.length)); }
 
-    //
+    // choose one item from an array at random
+    achoose(arr) { return arr[Math.floor(this.random()*arr.length)]; }
+
     // make n choices of characters from a string
-    //
     choosen(str, n) {
 	n = Math.max(n,0);
 	let res = '';
 	for (let i = 0; i < n; i += 1) res = `${res}${this.choose(str)}`;
 	return res;
     }
-
+    // make n choices of items from an array
+    achoosen(arr, n) {
+	n = Math.max(n, 0);
+	let res = [];
+	for (let i = 0; i < n; i += 1) res.push(this.achoose(arr));
+	return res;
+    }
     //
     // make a histogram from distribution counts
     //

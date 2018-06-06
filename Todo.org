@@ -119,6 +119,7 @@
 [x] Optionally add other translations
 [ ] add keyboard accelerators to cast/undo/clear buttons
 [ ] write tests to cover all the single cast results
+[ ] write tests to verify the full yarrow results
 [ ] add option to save readings to local storage
 [ ] add option to record the questions asked
 [ ] keep a complete history of readings in local store
