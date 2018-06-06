@@ -1,6 +1,6 @@
 #!/bin/sh
 ./clear-htaccess
-./enable-http2
+# ./enable-http2 protocols not allowed here
 ./enable-compression
 ./rewrite-paths-to-index
 # ./enable-caching; # when things have settled
