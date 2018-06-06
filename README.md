@@ -1,35 +1,26 @@
-[![Built with pwa–starter–kit](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)](https://github.com/Polymer/pwa-starter-kit "Built with pwa–starter–kit")
-[![Build status](https://api.travis-ci.org/Polymer/pwa-starter-kit.svg?branch=master)](https://travis-ci.org/Polymer/pwa-starter-kit)
 
-> ## 🛠 Status: In Development
-> PWA Starter Kit is currently in development. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.
->
-> See the list of Known Issues and TODOs, below, for updates.
+This a progressive web app that displays fortunes from the I Ching.
 
-# PWA Starter Kit
+Home page for this project is https://elf.org/change.
 
-This sample app is a starting point for building PWAs. Out of the box, the template
-gives you the following features:
-- all the PWA goodness (manifest, service worker)
-- a responsive layout
-- application theming
-- example of using Redux for state management
-- offline UI
-- simple routing solution
-- fast time-to-interactive and first-paint through the PRPL pattern
-- easy deployment to prpl-server or static hosting
-- unit and integrating testing starting points
-- documentation about other advanced patterns.
+The app is available as https://change.elf.org.
 
-### 📖Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki) for more details!
+Built with the https://github.com/Polymer/pwa-starter-kit using https://polymer-project.org.
 
-![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/39715580-a1be5126-51e2-11e8-8440-96b07be03a3c.png)
+To build you'll need to:
+[ ] install nodejs and npm,
+[ ] may need to install polymer-cli as a global npm app
+    consult the pwa-starter for better details
+[ ] run "npm install" in the top level directory
+[ ] install tclsh and make
+    these are my legacy tools, sorry.
+[ ] run (cd resources && make) in the top level directory
+    to construct the javascript sources for the translations
+[ ] at this point you should be able to run "polymer serve"
+    in the top level directory and open the web app in your
+    browser at http://localhost:8081
 
-## Known issues
-These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
-- lit-element and lit-html have IE11 compatibility issues
+To build build, run "npm run build" in the top-level directory
+and static images in build/ and a prpl-server suite of images
+in server/ will be compiled.
 
-## TODOs
-- [ ] setup Safari testing on Travis
-- [ ] update to latest [material-design-web-components](https://github.com/material-components/material-components-web-components)
-- [ ] deploy all templates as demos
