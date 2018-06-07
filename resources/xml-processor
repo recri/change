@@ -64,7 +64,7 @@ proc get-text {doc} {
 		    set lines $attrs
 		    set lines [regsub -all "\n" $lines " "]
 		    set lines [regsub -all "  +" $lines " "]
-		    set lines [regsub -all \" $lines {\&quot;}]
+		    set lines [regsub -all \" $lines {\\"}]
 		    append text " [string trim $lines]"
 		    continue
 		}
@@ -90,7 +90,7 @@ proc get-text-and-tags {doc tags} {
 		    set lines $attrs
 		    set lines [regsub -all "\n" $lines " "]
 		    set lines [regsub -all "  +" $lines " "]
-		    set lines [regsub -all \" $lines {\&quot;}]
+		    set lines [regsub -all \" $lines {\\"}]
 		    append text " [string trim $lines]"
 		    continue
 		}
@@ -465,6 +465,16 @@ array set typos {
     { isto } { is to }
     { Jugendtorheit } { youthful folly }
     {encouragingin } {encouraging in }
+    {magicyour} {magic your}
+    {ofmouth} {of mouth}
+    {roadfrom} {road from}
+    {durationcharacter} {duration character}
+    {theYou} {the You}
+    {seecompanion} {see companion}
+    {yourlike} {your like}
+    {on the Anger} {in the meadow}
+    {A flock of dragons without a head appears. Salvation! A flock of dragons without a head appears. Salvation!}
+    {A flock of dragons without a head appears. Salvation!}
 }
 
 proc line-typo {line} {

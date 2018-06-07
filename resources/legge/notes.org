@@ -76,3 +76,5 @@ appears to mark the first line of non-navigation cruft
 </div>
 * This might be easier if taken from
   http://www.sacred-texts.com/ich/ic03.htm
+  or
+  http://baharna.com/iching/legge/
