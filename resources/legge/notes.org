@@ -68,7 +68,11 @@
 　　　Ji Ji 63.html:24: <title>Book of Changes : Yi Jing : Ji Ji - Chinese Text Project</title>
 　　　Wei Ji 64.html:24: <title>Book of Changes : Yi Jing : Wei Ji - Chinese Text Project</title>
 </provenance>
-<div id="content3"> appears to mark the first line of non-navigation cruft
+<div id="content3">
+appears to mark the first line of non-navigation cruft
 	actually appears to introduce the reference list
 	Ah, the second <table> inside <div id="content3"> is the text and
 	translation and a bunch of interleaved buttons.
+</div>
+* This might be easier if taken from
+  http://www.sacred-texts.com/ich/ic03.htm

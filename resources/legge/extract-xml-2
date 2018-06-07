@@ -1,0 +1,278 @@
+#!/usr/bin/tclsh
+
+package require Tcl 8.2
+package require struct::tree
+package require struct::list
+package require htmlparse 1.2.2
+
+set ::file {}
+
+proc read-file {file} {
+    set ::file $file
+    set fp [open $file r]
+    set data [read $fp]
+    close $fp
+    set data
+}
+
+namespace eval ::scraper {
+
+    proc extract-text {tree nodes} {
+	# should be a simple list of PCDATA (br PCDATA) nodes
+	# but turned out to be more complicated, so took a
+	# puts stderr "extract text from $nodes"
+	set types [lmap n $nodes { $tree get $n type }]
+	set result {}
+	foreach n $nodes {
+	    switch [$tree get $n type] {
+		PCDATA { append result { } [$tree get $n data] }
+		br { append result <br/> }
+		a -
+		abbr -
+		span -
+		blockquote { append result { } [extract-text $tree [$tree children $n]] }
+		default {
+		    puts stderr "$::file: extract-text saw [$tree get $n type]"
+		    append result { } [extract-text $tree [$tree children $n]]
+		}
+	    }
+	}
+	return [list $result]
+    }
+    
+    proc parse-change {html} {
+        set documentTree [::struct::tree]
+
+	set section {}
+	set change {}
+	array set targets {}
+	
+        htmlparse::2tree $html $documentTree
+
+	# puts "raw tree has [llength [$documentTree nodes]] nodes"
+        # htmlparse::removeVisualFluff $documentTree
+	# puts "tree-fluff has [llength [$documentTree nodes]] nodes"
+        # htmlparse::removeFormDefs $documentTree
+	# puts "tree-form has [llength [$documentTree nodes]] nodes"
+	# this gives me lot's of type
+	# puts [$documentTree keys root]
+	# this gives me lot's of root
+	# puts [$documentTree get root type]
+
+	set root [$documentTree rootname]
+
+	# puts "rootname is {$root}"
+	# puts "root keys: {[$documentTree keys $root]}"
+	# puts "root getall: {[$documentTree getall $root]}"
+	# puts "root previous: {[$documentTree previous $root]} next: {[$documentTree next $root]} numchildren: {[$documentTree numchildren $root]}"
+	
+	$documentTree walk $root {action node} {
+	    if {$action eq {enter}} {
+		puts "action = {$action}, node = {$node}, type = {[$documentTree get $node type]}"
+		switch [$documentTree get $node type] {
+		    h4 { 
+			#puts "$node getall: {[$documentTree getall $node]}"
+			#puts "first child getall: {[$documentTree getall [lindex $children 0]]}"
+			set children [$documentTree children $node]
+			if {[llength $children] != 0} {
+			    set child0 [lindex $children 0]
+			    set data0 [$documentTree get $child0 data]
+			    switch -regexp -matchvar m $data0 {
+				{^Die einzelnen Linien$} {
+				    # the marker of the individual lines section
+				    # puts "h4 > individual lines section"
+				}
+				{^(\d+)\. ([^-]+) - ([^-]+)$} {
+				    # the number, name, and name-interpretation 
+				    # puts "h4 > see number [lindex $m 1], name [lindex $m 2], interpretation [lindex $m 3]"
+				    append change "<number>[lindex $m 1]</number>\n"
+				    append change "<name>[lindex $m 2]<interpretation>[lindex $m 3]</interpretation></name>\n"
+				}
+				{^(\d+)\. ([^-]+)$} {
+				    # the number and name-interpretation
+				    # puts "h4 > see number [lindex $m 1], interpretation [lindex $m 2]"
+				}
+			    }
+			}
+		    }
+		    td {
+			set children [$documentTree children $node]
+			if {[llength $children] != 0} {
+			    set child0 [lindex $children 0]
+			    set data0 [$documentTree get $child0 data]
+			    switch -regexp -matchvar m $data0 {
+				{^oben ([^,]+), (.+)$} {
+				    append change "<above>[lindex $m 1]<interpretation>[lindex $m 2]</interpretation></above>\n"
+				}
+				{^unten ([^,]+), (.+)$} {
+				    append change "<below>[lindex $m 1]<interpretation>[lindex $m 2]</interpretation></below>\n"
+				}
+			    }
+			}
+		    }
+		    h5 {
+			# puts "$node getall: {[$documentTree getall $node]}"
+			# puts "h5 first child get data: {[$documentTree get [lindex $children 0] data]}"
+			set children [$documentTree children $node]
+			if {[llength $children] != 0} {
+			    set child0 [lindex $children 0]
+			    set data0 [$documentTree get $child0 data]
+			    switch -regexp -matchvar m $data0 {
+				{^id="(urteil|bild)"} {
+				    # puts "h5 > found [lindex $m 1]"
+				    set section [lindex $m 1]
+				    set target($section) {}
+				    set target($section-comment) {}
+				}
+				{^id="(linie[1-6])"} {
+				    # puts "h5 > found [lindex $m 1]"
+				    set section [lindex $m 1]
+				    set target($section) {}
+				    set target($section-comment) {}
+				    foreach t [extract-text $documentTree [$documentTree children $child0]] {
+					lappend target($section) $t 
+				    }
+				    lappend target($section) <br/>
+				}
+				{^Anmerkung$} {
+				    # puts "h5 > found {$data0}"
+				}
+				default {
+				    # puts "h5 > didn't find anything in $data0"
+				}
+			    }
+			}
+		    }
+		    div {
+			set datan [$documentTree get $node data]
+			switch -regexp $datan {
+			    {^class="pp"$} {
+				set children [$documentTree children $node]
+				set child0 [lindex $children 0]
+				set data0 [$documentTree get $child0 data]
+				if {$section eq {}} {
+				    lappend target(comment) $data0
+				} else {
+				    lappend target($section-comment) $data0
+				}
+			    }
+			    {^class="mLeft ttxt"$} {
+				foreach t [extract-text $documentTree [$documentTree children $node]] {
+				    lappend target($section) $t
+				}
+				# puts "$section = $target($section)"
+			    }
+			    {^id="topMenu" class="us nobr noPrint bcs"$} -
+			    {^id="contentIn"$} -
+			    {^id="extras"$} -
+			    {^id="footIn" class="xxs nobr vam"$} -
+			    {^id="anmerkung" class="shadow bord bbXII"$} {
+				# ignore
+			    }
+			    {^class="group"} {
+				## the piece of html at the "when all lines are nines:"
+				## <div class="group">
+				## <div class="mLeft bold">Wenn lauter Neunen erscheinen, bedeutet das:</div>
+				## <div class="mLeft ttxt">Es erscheint eine Schar von Drachen ohne Haupt. Heil!</div>
+				
+				set section linie7
+				set target($section) {}
+				set target($section-commentary) {}
+				
+				set children [$documentTree children $node]
+				set child0 [lindex $children 0]
+				set data0 [$documentTree get $child0 data]
+				set child1 [lindex $children 1]
+				set data1 [$documentTree get $child1 data]
+				## puts "data0 = $data0, data1 = $data1"
+				foreach t [extract-text $documentTree [$documentTree children $child0]] { lappend target($section) $t }
+				lappend target($section) <br/>
+				foreach t [extract-text $documentTree [$documentTree children $child1]] { lappend target($section) $t }
+			    }
+			    default {
+				# puts "$::file : div with $datan"
+			    }
+			}
+		    }
+		    p {
+			set datan [$documentTree get $node data]
+			switch -regexp $datan {
+			    {^class="pp"$} {
+				# puts "found p with $datan, section $section"
+				foreach t [extract-text $documentTree [$documentTree children $node]] {
+				    lappend target($section-comment) $t
+				}
+			    }
+			    default {
+				# puts "found p with $datan"
+			    }
+			}
+		    }
+		    li {
+			# class="ttxt", children PCDATA (br PCDATA)* is line judgment
+			# followed by (<p class="pp"></p>) with comment
+			set datan [$documentTree get $node data]
+			switch -regexp $datan {
+			    {^class="ttxt"$} {
+				# puts "found li with $datan, section $section"
+				foreach t [extract-text $documentTree [$documentTree children $node]] {
+				    lappend target($section) $t
+				}
+				# puts "$section -> $target($section)"
+			    }
+			    default {
+				# puts "found li with $datan"
+			    }
+			}
+		    }
+		    default {
+			# puts "looked at [$documentTree get $node type]"
+		    }
+		}
+	    }
+	    
+	    
+	    # find the <h5> that marks the hexagram title
+	    # find the <number><name><interpretation>
+	    # find the <above><interpretation>
+	    # find the <below><interpretation>
+	    # find the initial <comment>
+	    # find the <h4><strong id="urteil"> that marks the judgment
+	    # find its <comment>
+	    # find the <h4><strong id="bild"> that marks the image
+	    # find its <comment>
+	    # find the <h5> that marks the individual lines section
+	    # find the <h4><strong id="linie[1-6]"> that mark lines 1-6
+	    # find its <comment>
+	    # figure out how to find the bonus line
+	    # find its <comment>
+	}
+	
+	$documentTree destroy
+	if {0} {
+	    append change "<comment>[string trim [join $target(comment) \n<br/>\n]]</comment>\n"
+	    append change "<judgment>[string trim [join $target(urteil) {}]]\n"
+	    append change "<comment>[string trim [join $target(urteil-comment) \n<br/>\n]]</comment></judgment>\n"
+	    append change "<image>[string trim [join $target(bild) {}]]\n"
+	    append change "<comment>[string trim [join $target(bild-comment) \n<br/>\n]]</comment></image>\n"
+	    for {set i 1} {$i <= 7} {incr i} {
+		if { ! [info exists target(linie$i)]} continue
+		append change "<line n=\"$i\">[string trim [join $target(linie$i) {}]]\n"
+		append change "<comment>[string trim [join $target(linie$i-comment) \n<br/>\n]]</comment></line>\n"
+	    }
+	    return <change>\n$change\n</change>
+	}
+	return {}
+    }
+    
+}
+
+set xml {}
+foreach f $argv {
+    # puts stderr "processing $f"
+    set html [read-file $f]
+    regsub -all {<q>|<q class="q">} $html \u201e html
+    regsub -all {</q>} $html \u201c html
+    append xml [::scraper::parse-change $html]
+}
+puts <changes>\n$xml\n</changes>
