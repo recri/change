@@ -119,7 +119,8 @@ proc get-line {n gov con doc} {
 
 proc traverse {indent doc} {
     foreach {tag attrs body} $doc { 
-	switch $tag {
+	# puts "$indent$tag"
+	switch -exact $tag {
 	    changes {
 		set changes {}
 		foreach item $body { lappend changes [traverse "  $indent" $item] }
@@ -167,6 +168,16 @@ proc traverse {indent doc} {
 		array set myattrs $attrs
 		return [get-line $myattrs(n) $myattrs(governing_ruler) $myattrs(constituting_ruler) $body]
 	    }
+	    name-legge -
+	    judgment-legge -
+	    judgment-tuan - judgment-tuan-legge - 
+	    image-legge -
+	    line-1-legge - line-2-legge - line-3-legge - line-4-legge - line-5-legge - line-6-legge - line-7-legge -
+	    line-1-image - line-2-image - line-3-image - line-4-image - line-5-image - line-6-image - line-7-image -
+	    line-1-image-legge - line-2-image-legge - line-3-image-legge - line-4-image-legge - line-5-image-legge - 
+	    line-6-image-legge - line-7-image-legge {
+		return [list $tag [get-text $body]]
+	    }
 	    default {
 		error "unexpected: $indent$tag $attrs"
 		foreach item $body {
@@ -183,10 +194,7 @@ proc is-comment {tag} { return [expr {[string first comment $tag] >= 0}] }
 
 # option one: filter xml file into javascript source for web app
 proc single-line {string} {
-    if {[regexp \n $string]} {
-	return [regsub -all \n $string "\\n"]
-    }
-    return $string
+    return [regsub -all \n $string "\\n"]
 }
 
 proc process--to-js {myfile changes} {
@@ -211,7 +219,7 @@ proc process--to-js {myfile changes} {
 		    if {$pname in {name above below}} {
 			# keep lookaside table of interpretations
 			if {[keep-tag $pname-$name]} {
-			    puts "    \"$pname-interpretation\" : \"$value\","
+			    puts "    \"$pname\" : \"$value\","
 			}
 		    } else {
 			error "unexpected predecessor of interpretation $pname"
@@ -235,7 +243,11 @@ proc process--to-js {myfile changes} {
 		{line-?} {
 		    if {[keep-tag $name]} {
 			set lname $name
-			puts "    \"$name\" : \"[single-line $value]\","
+			set value [split $value \n]
+			set ordinal [lindex $value 0]
+			set text [join [lrange $value 1 end] \n]
+			puts "    \"$name-ordinal\" : \"$ordinal\","
+			puts "    \"$name-text\" : \"[single-line $text]\","
 		    }
 		}
 		{constituting-ruler} {
@@ -288,6 +300,162 @@ proc process--to-js {myfile changes} {
     puts "}"
 }
 
+proc process--to-yizhou {myfile changes} {
+    set nchanges [traverse {} $changes]
+    # puts "process--to-yizhou $myfile $nchanges"
+    set index 0
+    set lmap {}
+    
+    puts "export class ChangesText {"
+    puts "static get name() { return \"yizhou\" }"
+    puts "static get edition() { return \"$myfile\" }"
+    puts "static get version() { return \"[clock format [clock seconds] -format %Y-%m-%d-%H-%M-%S]\" }"
+    puts "static get changes() { return \["
+    foreach c $nchanges {
+	# puts --------\n$c\n--------
+	set pname {}
+	set nname {}
+	set lname {}
+	puts "  {"
+	foreach {name value} $c {
+	    switch -exact $name {
+		number -
+		name -
+		judgment {
+		    puts "    \"$name\" : \"[single-line $value]\","
+		}
+		line-1 -
+		line-2 -
+		line-3 -
+		line-4 -
+		line-5 -
+		line-6 -
+		line-7 {
+		    set ordinal [string range $value 0 2]
+		    set text [string range $value 3 end]
+		    puts "    \"$name-ordinal\" : \"$ordinal\","
+		    puts "    \"$name-text\" : \"$text\","
+		}
+	    }
+	}
+	puts "  },"
+    }
+    puts "]"
+    puts "}"
+    puts "}"
+}
+
+#	switch (book) {
+#	case 'wilhelm':
+#	case 'wilhelm-baynes':
+#	case 'wilhelm-google':
+#	    return this.book[book].changes[change.lines[hex]][value].split('\n').slice(1).join('\n')
+#	case 'yizhou':
+#	    return this.book[book].changes[change.lines[hex]][value].slice(3);
+#	case 'legge':
+#	    const text = this.book[book].changes[change.lines[hex]][value];
+#	    if ( ! text ) return undefined;
+#		/\(The lines of this hexagram are all strong and undivided, as appears from\) the use of the number NINE. /.test(text)
+#		/\(The lines of this hexagram are all weak and divided, as appears from\) the use of the number six. /.test(text)
+#		/^(In the (first \(or lowest\)|second|third|fourth|fifth|sixth \(or topmost\)) (SIX, |NINE, un)divided,? )/.test(text)
+#	    return this.book[book].changes[change.lines[hex]][value]
+#	default:
+#	    return undefined;
+#	}
+
+#	switch (book) {
+#	case 'wilhelm':
+#	case 'wilhelm-baynes':
+#	case 'wilhelm-google':
+#	    return this.book[book].changes[change.lines[hex]][value].split('\n')[0];
+#	case 'yizhou':
+#	    return this.book[book].changes[change.lines[hex]][value].slice(0,2);
+#	case 'legge':
+#	    return this.book[book].changes[change.lines[hex]][value]
+#	default:
+#	    return undefined;
+#	}
+proc legge-line-split {line} {
+    switch -regexp -matchvar m $line {
+	{^(\(The lines of this hexagram are all strong and undivided, as appears from\) the use of the number NINE. )(.*)$} {
+	    return [lrange $m 1 2]
+	}
+	{^(\(The lines of this hexagram are all weak and divided, as appears from\) the use of the number six. )(.*)$} {
+	    return [lrange $m 1 2]
+	}
+	{^(In the .* (?:SIX, |NINE, un)divided,? )(.*)$} {
+	    return [lrange $m 1 2]
+	}
+	{^(The (?:first|second|third|fourth|fifth|sixth|topmost) (?:SIX|six|NINE), (?:un)?divided,? )(.*)$} {
+	    return [lrange $m 1 2]
+	}
+	{^(From the first SIX, divided, )(.*)$} {
+	    return [lrange $m 1 2]
+	}
+	{^(\(To the subject of\) the fourth NINE, undivided, )(.*)$} {
+	    return [lrange $m 1 2]
+	}
+	default {
+	    error "failed to legge-line-split: $line"
+	}
+    }
+}
+
+proc legge-line-text {line} {
+    foreach {ordinal text} [legge-line-split $line] break
+    return $text
+}
+proc legge-line-ordinal {line} {
+    foreach {ordinal text} [legge-line-split $line] break
+    return $ordinal
+}
+proc process--to-legge {myfile changes} {
+    set nchanges [traverse {} $changes]
+    # puts "process--to-yizhou $myfile $nchanges"
+    set index 0
+    set lmap {}
+    
+    puts "export class ChangesText {"
+    puts "static get name() { return \"yizhou\" }"
+    puts "static get edition() { return \"$myfile\" }"
+    puts "static get version() { return \"[clock format [clock seconds] -format %Y-%m-%d-%H-%M-%S]\" }"
+    puts "static get changes() { return \["
+    foreach c $nchanges {
+	# puts --------\n$c\n--------
+	set pname {}
+	set nname {}
+	set lname {}
+	puts "  {"
+	foreach {name value} $c {
+	    switch -exact $name {
+		number {
+		    puts "    \"$name\" : \"[single-line $value]\","
+		}
+		name-legge -
+		judgment-legge {
+		    puts "    \"[string range $name 0 end-6]\" : \"[single-line $value]\","
+		}
+
+		line-1-legge -
+		line-2-legge -
+		line-3-legge -
+		line-4-legge -
+		line-5-legge -
+		line-6-legge -
+		line-7-legge {
+		    # split into text and ordinal
+		    puts "    \"[string range $name 0 end-6]-text\" : \"[legge-line-text $value]\","
+		    puts "    \"[string range $name 0 end-6]-ordinal\" : \"[legge-line-ordinal $value]\","
+		}
+	    }
+	}
+	puts "  },"
+    }
+    puts "]"
+    puts "}"
+    puts "}"
+}
+
 # option two - process xml to the set of reduced xml used by web app
 proc process--to-xml {myfile changes} {
     set nchanges [traverse {} $changes]
@@ -306,7 +474,7 @@ proc process--to-xml {myfile changes} {
 		    if {$pname in {name above below}} {
 			# keep lookaside table of interpretations
 			if {[keep-tag $pname-$name]} {
-			    puts "    <$pname-interpretation>$value</$pname-interpretation>"
+			    puts "    <$pname>$value</$pname>"
 			}
 		    } else {
 			error "unexpected predecessor of interpretation $pname"
@@ -606,7 +774,7 @@ proc process--from-txt {myfile data} {
     for {set i 1} {$i <= 64} {incr i} {
 	puts "  <change>"
 	puts "    <number>$i</number>"
-	puts "    <name-interpretation>[lindex $entry($i) 1]</name-interpretation>"
+	puts "    <name>[lindex $entry($i) 1]</name>"
 	puts "    <judgment>[lindex $entry($i) 2]</judgment>"
 	puts "    <line-1>[lindex $entry($i) 3]</line-1>"
 	puts "    <line-2>[lindex $entry($i) 4]</line-2>"
@@ -630,6 +798,8 @@ set myproc process--to-js
 
 foreach arg $argv {
     switch -- $arg {
+	--to-legge -
+	--to-yizhou -
 	--to-js -
 	--to-xml -
 	--to-txt -
@@ -639,6 +809,14 @@ foreach arg $argv {
 	    set mydata [read-file $myfile]
 	    switch -- $myproc {
 		process--to-js {
+		    # output option one, generate the javascript for the web app
+		    $myproc $myfile [xml2list [string trim $mydata]]
+		}
+		process--to-yizhou {
+		    # output option one, generate the javascript for the web app
+		    $myproc $myfile [xml2list [string trim $mydata]]
+		}
+		process--to-legge {
 		    # output option one, generate the javascript for the web app
 		    $myproc $myfile [xml2list [string trim $mydata]]
 		}

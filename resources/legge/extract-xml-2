@@ -17,6 +17,16 @@ proc read-file {file} {
 
 namespace eval ::scraper {
 
+    ## initialize per file counters
+    proc init-parse {} {
+	set ::ntable 0
+	set ::ntr 0
+	set ::ntd 0
+	set ::maxntr 0
+	array unset ::found
+	array unset ::data
+    }
+    
     proc extract-text {tree nodes} {
 	# should be a simple list of PCDATA (br PCDATA) nodes
 	# but turned out to be more complicated, so took a
@@ -39,8 +49,14 @@ namespace eval ::scraper {
 	}
 	return [list $result]
     }
-    
-    proc parse-change {html} {
+    proc set-line-data {l t} {
+	set ::data(line-$l) $::data($t,3);		# judgment
+	set ::data(line-$l-legge) $::data([incr t],3);	# judgment translation
+	set ::data(line-$l-image) $::data([incr t],3);	# image
+	set ::data(line-$l-image-legge) $::data([incr t],3);	# image translation
+    }
+	
+    proc parse-change {n html} {
         set documentTree [::struct::tree]
 
 	set section {}
@@ -66,186 +82,58 @@ namespace eval ::scraper {
 	# puts "root getall: {[$documentTree getall $root]}"
 	# puts "root previous: {[$documentTree previous $root]} next: {[$documentTree next $root]} numchildren: {[$documentTree numchildren $root]}"
 	
-	$documentTree walk $root {action node} {
+	$documentTree walk $root -order both {action node} {
+	    set type [$documentTree get $node type]
 	    if {$action eq {enter}} {
-		puts "action = {$action}, node = {$node}, type = {[$documentTree get $node type]}"
-		switch [$documentTree get $node type] {
-		    h4 { 
-			#puts "$node getall: {[$documentTree getall $node]}"
-			#puts "first child getall: {[$documentTree getall [lindex $children 0]]}"
-			set children [$documentTree children $node]
-			if {[llength $children] != 0} {
-			    set child0 [lindex $children 0]
-			    set data0 [$documentTree get $child0 data]
-			    switch -regexp -matchvar m $data0 {
-				{^Die einzelnen Linien$} {
-				    # the marker of the individual lines section
-				    # puts "h4 > individual lines section"
-				}
-				{^(\d+)\. ([^-]+) - ([^-]+)$} {
-				    # the number, name, and name-interpretation 
-				    # puts "h4 > see number [lindex $m 1], name [lindex $m 2], interpretation [lindex $m 3]"
-				    append change "<number>[lindex $m 1]</number>\n"
-				    append change "<name>[lindex $m 2]<interpretation>[lindex $m 3]</interpretation></name>\n"
-				}
-				{^(\d+)\. ([^-]+)$} {
-				    # the number and name-interpretation
-				    # puts "h4 > see number [lindex $m 1], interpretation [lindex $m 2]"
-				}
-			    }
-			}
+		switch $type {
+		    table {
+			incr ::ntable
+			set ::ntr 0
+			# puts "enter table $::ntable"
+		    } 
+		}
+		if {$::ntable != 4} continue
+		switch $type {
+		    tr {
+			incr ::ntr
+			set ::maxntr $::ntr
+			set ::ntd 0
+			# maximum ntr is 66 for 1, 46 for 2, and 30 for all the rest
 		    }
 		    td {
-			set children [$documentTree children $node]
-			if {[llength $children] != 0} {
-			    set child0 [lindex $children 0]
-			    set data0 [$documentTree get $child0 data]
-			    switch -regexp -matchvar m $data0 {
-				{^oben ([^,]+), (.+)$} {
-				    append change "<above>[lindex $m 1]<interpretation>[lindex $m 2]</interpretation></above>\n"
-				}
-				{^unten ([^,]+), (.+)$} {
-				    append change "<below>[lindex $m 1]<interpretation>[lindex $m 2]</interpretation></below>\n"
-				}
-			    }
-			}
+			incr ::ntd
 		    }
-		    h5 {
-			# puts "$node getall: {[$documentTree getall $node]}"
-			# puts "h5 first child get data: {[$documentTree get [lindex $children 0] data]}"
-			set children [$documentTree children $node]
-			if {[llength $children] != 0} {
-			    set child0 [lindex $children 0]
-			    set data0 [$documentTree get $child0 data]
-			    switch -regexp -matchvar m $data0 {
-				{^id="(urteil|bild)"} {
-				    # puts "h5 > found [lindex $m 1]"
-				    set section [lindex $m 1]
-				    set target($section) {}
-				    set target($section-comment) {}
-				}
-				{^id="(linie[1-6])"} {
-				    # puts "h5 > found [lindex $m 1]"
-				    set section [lindex $m 1]
-				    set target($section) {}
-				    set target($section-comment) {}
-				    foreach t [extract-text $documentTree [$documentTree children $child0]] {
-					lappend target($section) $t 
-				    }
-				    lappend target($section) <br/>
-				}
-				{^Anmerkung$} {
-				    # puts "h5 > found {$data0}"
-				}
-				default {
-				    # puts "h5 > didn't find anything in $data0"
-				}
-			    }
-			}
+		    br {
+		    } 
+		    p {
+		    } 
+		    style {
+		    }
+		    PCDATA {
+			append ::data($::ntr,$::ntd) [$documentTree get $node data]
+		    }
+		    a {
+		    }
+		    hr {
+		    }
+		    span {
 		    }
 		    div {
-			set datan [$documentTree get $node data]
-			switch -regexp $datan {
-			    {^class="pp"$} {
-				set children [$documentTree children $node]
-				set child0 [lindex $children 0]
-				set data0 [$documentTree get $child0 data]
-				if {$section eq {}} {
-				    lappend target(comment) $data0
-				} else {
-				    lappend target($section-comment) $data0
-				}
-			    }
-			    {^class="mLeft ttxt"$} {
-				foreach t [extract-text $documentTree [$documentTree children $node]] {
-				    lappend target($section) $t
-				}
-				# puts "$section = $target($section)"
-			    }
-			    {^id="topMenu" class="us nobr noPrint bcs"$} -
-			    {^id="contentIn"$} -
-			    {^id="extras"$} -
-			    {^id="footIn" class="xxs nobr vam"$} -
-			    {^id="anmerkung" class="shadow bord bbXII"$} {
-				# ignore
-			    }
-			    {^class="group"} {
-				## the piece of html at the "when all lines are nines:"
-				## <div class="group">
-				## <div class="mLeft bold">Wenn lauter Neunen erscheinen, bedeutet das:</div>
-				## <div class="mLeft ttxt">Es erscheint eine Schar von Drachen ohne Haupt. Heil!</div>
-				
-				set section linie7
-				set target($section) {}
-				set target($section-commentary) {}
-				
-				set children [$documentTree children $node]
-				set child0 [lindex $children 0]
-				set data0 [$documentTree get $child0 data]
-				set child1 [lindex $children 1]
-				set data1 [$documentTree get $child1 data]
-				## puts "data0 = $data0, data1 = $data1"
-				foreach t [extract-text $documentTree [$documentTree children $child0]] { lappend target($section) $t }
-				lappend target($section) <br/>
-				foreach t [extract-text $documentTree [$documentTree children $child1]] { lappend target($section) $t }
-			    }
-			    default {
-				# puts "$::file : div with $datan"
-			    }
-			}
-		    }
-		    p {
-			set datan [$documentTree get $node data]
-			switch -regexp $datan {
-			    {^class="pp"$} {
-				# puts "found p with $datan, section $section"
-				foreach t [extract-text $documentTree [$documentTree children $node]] {
-				    lappend target($section-comment) $t
-				}
-			    }
-			    default {
-				# puts "found p with $datan"
-			    }
-			}
-		    }
-		    li {
-			# class="ttxt", children PCDATA (br PCDATA)* is line judgment
-			# followed by (<p class="pp"></p>) with comment
-			set datan [$documentTree get $node data]
-			switch -regexp $datan {
-			    {^class="ttxt"$} {
-				# puts "found li with $datan, section $section"
-				foreach t [extract-text $documentTree [$documentTree children $node]] {
-				    lappend target($section) $t
-				}
-				# puts "$section -> $target($section)"
-			    }
-			    default {
-				# puts "found li with $datan"
-			    }
-			}
 		    }
 		    default {
-			# puts "looked at [$documentTree get $node type]"
+			if {$::ntable != 4} continue
+			if { ! [info exists ::found($type)]} { set ::found($type) 0 }
+			incr ::found($type)
 		    }
 		}
 	    }
-	    
-	    
-	    # find the <h5> that marks the hexagram title
-	    # find the <number><name><interpretation>
-	    # find the <above><interpretation>
-	    # find the <below><interpretation>
-	    # find the initial <comment>
-	    # find the <h4><strong id="urteil"> that marks the judgment
-	    # find its <comment>
-	    # find the <h4><strong id="bild"> that marks the image
-	    # find its <comment>
-	    # find the <h5> that marks the individual lines section
-	    # find the <h4><strong id="linie[1-6]"> that mark lines 1-6
-	    # find its <comment>
-	    # figure out how to find the bonus line
-	    # find its <comment>
+	    if {$action eq {leave}} {
+		if {$type eq {table}} {
+		    # puts "leave table $::ntable"
+		    set ::ntr 0
+		    set ::ntd 0
+		}
+	    }
 	}
 	
 	$documentTree destroy
@@ -262,17 +150,92 @@ namespace eval ::scraper {
 	    }
 	    return <change>\n$change\n</change>
 	}
-	return {}
+	# puts $::data(1,1) boring, just the row number and some links
+	# puts $::data(1,2);	# hexagram and chinese name
+	set ::data(hexagram) [string index $::data(1,2) 0]
+	set ::data(name) [string range $::data(1,2) 1 end-1]
+	set ::data(colon) [string index $::data(1,2) end]
+	# puts $::data(name)$::data(colon)
+	# puts $::data(1,3);	# looks like $name: $judgment
+	set nname [string length $::data(name)]
+	set ::data(colon2) [string index $::data(1,3) $nname]
+	set ::data(judgment) [string range $::data(1,3) $nname+1 end]
+	# if {[info exists ::data(2,1)]} { puts $::data(2,1); };	# no such entry
+	# puts $::data(2,2)
+	# legge never translates the names of the hexagrams, used an old romanization, 
+	# which ctext.org updated to uninflected pinyin, I think
+	set ::data(name-legge) [string range $::data(2,2) 0 end-1]
+	# puts $::data(2,3)
+	set ::data(judgment-legge) $::data(2,3)
+	# puts $::data(3,1);	# links
+	# puts $::data(3,2);	# source in chinese followed by colon [fix.me]
+	# puts $::data(3,3);	# chinese commentary [fix.me]
+	set ::data(judgment-tuan) $::data(3,3)
+	# if {[info exists ::data(4,1)]} { puts $::data(4,1); };	# no such entry
+	# puts $::data(4,2);	# Tuan Zhuan (pinyin for ::data(3,2) [fix.me]
+	# puts $::data(4,3);	# Legge translation for ::data(3,3) [fix.me]
+	set ::data(judgment-tuan-legge) $::data(4,3)
+	# puts $::data(5,1);	# links
+	# puts $::data(5,2);	# source in chinese followed by colon [fix.me]
+	# puts $::data(5,3);	# chinese commentary, the image [fix.me]
+	set ::data(image) $::data(5,3)
+	# if {[info exists ::data(6,1)]} { puts $::data(6,1) }; # no such entry
+	# puts $::data(6,2);	# Xiang Zhuan (Images) [fix.me]
+	# puts $::data(6,3);	# Legge for ::data(5,3) 
+	set ::data(image-legge) $::data(6,3)
+	# puts $::data(7,1);	# links
+	# puts $::data(7,2);	# hexagram name colon, again
+	# puts $::data(7,3);	# first line judgment, first three characters location (6|9) :
+	set-line-data 1 7
+	set-line-data 2 11
+	set-line-data 3 15
+	set-line-data 4 19
+	set-line-data 5 23
+	set-line-data 6 27;	# the image translations have some junk in them on this line
+	if {[info exists ::data(31,3)]} {
+	    set-line-data 7 31
+	}
+	for {set i 35} {$i <= $::maxntr} {incr i} {
+	    #puts "$::data(35,2) $::data(35,3)";	# another commentary in Qian and Kun
+	    #puts "$::data(36,2) $::data(36,3)"
+	    #puts "$::data(37,2) $::data(37,3)";	# first line
+	    #puts "$::data(38,2) $::data(38,3)"
+	    #puts "$::data(39,2) $::data(39,3)";	# second line
+	    #puts "$::data(40,2) $::data(40,3)"
+	    #puts "$::data(41,2) $::data(41,3)";	# third line
+	    #puts "$::data(42,2) $::data(42,3)"
+	    #puts "$::data(43,2) $::data(43,3)";	# fourth line 
+	    #puts "$::data(44,2) $::data(44,3)"
+	    #puts "$::data(45,2) $::data(45,3)";	# fifth line
+	    #puts "$::data(46,2) $::data(46,3)"
+	    #puts "$::data(47,2) $::data(47,3)";	# sixth line, only for Qian
+	    #puts "$::data(48,2) $::data(48,3)"
+	    for {set j 1} {$j <= 3} {incr j} {
+		# if {[info exists ::data($i,$j)]} { puts "$n,$i,$j: $::data($i,$j)" }
+	    }
+	}
+	set change {}
+	append change "<number>$n</number>\n"; # must come from file name or be earlier than table 4
+	foreach name {hexagram name judgment name-legge judgment-legge judgment-tuan judgment-tuan-legge image image-legge} {
+	    append change "  <$name>$::data($name)</$name>\n"
+	}
+	foreach line {1 2 3 4 5 6 7} {
+	    foreach name {line-%d line-%d-legge line-%d-image line-%d-image-legge} {
+		set name [format $name $line]
+		if {[info exists ::data($name)]} {
+		    append change "  <$name>$::data($name)</$name>\n"
+		}
+	    }
+	}
+	return <change>\n$change</change>\n
     }
-    
 }
 
 set xml {}
 foreach f $argv {
+    ::scraper::init-parse
     # puts stderr "processing $f"
     set html [read-file $f]
-    regsub -all {<q>|<q class="q">} $html \u201e html
-    regsub -all {</q>} $html \u201c html
-    append xml [::scraper::parse-change $html]
+    append xml [::scraper::parse-change [file root $f] $html]
 }
 puts <changes>\n$xml\n</changes>

@@ -81,8 +81,8 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	<form on-submit="${(e) => e.preventDefault()}">
 	<p title="${title.book}">Translation:</p>
 	  <div>
-	    ${book('yizhou', 'Yizhou', true)}
-	    ${book('legge', 'Legge', true)}
+	    ${book('yizhou', 'Yizhou', false)}
+	    ${book('legge', 'Legge', false)}
 	    ${book('wilhelm', 'Wilhelm', false)}
 	    ${book('wilhelm-baynes', 'Wilhelm/Baynes', false)}
 	    ${book('wilhelm-google', 'Wilhelm/Google', false)}

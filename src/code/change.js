@@ -103,8 +103,7 @@ export class Change extends Random {
 	    this.book[book].changes[Change.lines[hex]][value] :
 	    '';
     }
-    
-    getBoolean(book, hex, value) {
+    getBookBoolean(book, hex, value) {
 	if (this.book[book]) {
 	    const entry = this.book[book].changes[Change.lines[hex]]
 	    return entry.hasOwnProperty(value) && entry[value]
@@ -118,11 +117,11 @@ export class Change extends Random {
 	return '';
     }
     
-    getText(hex, value) { return this.getBookText(this.bookName, hex, value); }
+    // getText(hex, value) { return this.getBookText(this.bookName, hex, value); }
 
-    getBoolean(hex, value) { return this.getBookBoolean(this.bookName, hex, value); }
+    // getBoolean(hex, value) { return this.getBookBoolean(this.bookName, hex, value); }
 
-    getCommentary(hex, value) { return getBookCommentary(this.bookName, hex, value); }
+    // getCommentary(hex, value) { return getBookCommentary(this.bookName, hex, value); }
     
 
     // make a line from a distribution

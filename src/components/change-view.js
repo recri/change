@@ -28,7 +28,7 @@ export class ChangeView extends connect(store)(LitElement) {
 
     _render({_iching, _change, _book}) {
 	const breakAtNewlines = (str, skipFirst) => str ?
-	      str.split('\n').slice(skipFirst ? 1 : 0).map((x) => html`${x}<br/>\n`) : undefined;
+	      str.split('\n').map((x) => html`${x}<br/>\n`) : undefined;
 	const getText = (hex,value) => _iching.getBookText(_book, hex, value);
 	const getBoolean = (hex,value) => _iching.getBookBoolean(_book, hex, value);
 	const getCommentary = (hex,value) => _iching.getCommentary(hex, value);
@@ -37,16 +37,12 @@ export class ChangeView extends connect(store)(LitElement) {
 	// const getHexagram = (hex) => getText(hex,"hexagram");
 	const getHexagram = (hex) => kua(hex);
 	// const getName = (hex) => getText(hex,"name");
-	const getNameInterpretation = (hex) => getText(hex,"name-interpretation");
+	const getName = (hex) => getText(hex,"name");
 	// const getPinyin = (hex) => getText(hex,"pinyin");
-	// const getAbove = (hex) => getText(hex,"above");
-	// const getAboveInterpretation = (hex) => getText(hex,"above-interpretation");
-	// const getBelow = (hex) => getText(hex,"below");
-	// const getBelowInterpretation = (hex) => getText(hex,"below-interpretation");
-	const getJudgment = (hex) => breakAtNewlines(getText(hex,"judgment"), false);
-	// const getImage = (hex) => breakAtNewlines(getText(hex,"image"), false);
-	const getLine = (hex,line) => breakAtNewlines(getText(hex,`line-${line}`), true);
-	const getLineOrdinal = (hex,line) => getText(hex,`line-${line}`).split('\n')[0];
+	const getJudgment = (hex) => breakAtNewlines(getText(hex,"judgment"));
+	// const getImage = (hex) => breakAtNewlines(getText(hex,"image"));
+	const getLine = (hex,line) => breakAtNewlines(getText(hex,`line-${line}-text`));
+	const getLineOrdinal = (hex,line) => getText(hex,`line-${line}-ordinal`);
 	// const getLineGoverning = (hex,line) => getBoolean(hex, `line-${line}-governing-ruler`)
 	// const getLineConstituting = (hex,line) => getBoolean(hex, `line-${line}-constituting-ruler`)
 	
@@ -55,7 +51,7 @@ export class ChangeView extends connect(store)(LitElement) {
 	const renderHex = (hex) => {
 	    /* <div class="image" title="Image">${getImage(hex)}</div> */
 	    return html`
-		<div class="hexagram" title="${getNumber(hex)}. ${getNameInterpretation(hex)}">
+		<div class="hexagram" title="${getNumber(hex)}. ${getName(hex)}">
 		${getHexagram(hex)}
 		<div class="judgment ${_book}" title="Judgment">${getJudgment(hex)}</div>
 		</div>
@@ -73,8 +69,8 @@ export class ChangeView extends connect(store)(LitElement) {
 	    const finis = isLast ? renderHex(finisHex) : html``;
 	    const startNumber = getNumber(hex);
 	    const finisNumber = getNumber(finisHex);
-	    const startName = getNameInterpretation(hex);
-	    const finisName = getNameInterpretation(finisHex);
+	    const startName = getName(hex);
+	    const finisName = getName(finisHex);
 	    const bonus = allMoving && getLine(hex,7) !== undefined ?
 		  html`<div class="line" title="${getLineOrdinal(hex, 7)}">${getLine(hex, 7)}</div>` :
 		  html``;

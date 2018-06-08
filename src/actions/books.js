@@ -34,11 +34,11 @@ const fetchBook = (book) => async (dispatch, getState) => {
 	module = await import('../text/wilhelm-google.js');
 	break;
     case 'legge':
-	// result = import('../text/legge.js');
-	// break;
+	module = await import('../text/legge.js');
+	break;
     case 'yizhou':
-	// result = import('../text/yizhou.js');
-	// break;
+	module = await import('../text/yizhou.js');
+	break;
     default:
 	console.log(`unknown book in fetchBook(${book})`);
     }
