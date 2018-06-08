@@ -131,8 +131,8 @@
 	drawer rather than taking a page
 [ ] maybe do the Show URL with a dialog box.
 [x] get Wilhelm's translation entered
-[ ] get Legge's translation entered
-[ ] get the original Chinese entered
+[x] get Legge's translation entered
+[x] get the original Chinese entered
 [x] get Google's translation of Wilhelm's translation
 [ ] set up translations so that swiping left/right moves
 	between the tranlations pointed at the same
