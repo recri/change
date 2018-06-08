@@ -139,3 +139,5 @@
 	book location or reading.
 [ ] set up text selection as a checkbox collection, keep
 	the selected collection ready to render in parallel.
+[ ] 63 3rd line in Legge is missing characters, the name is
+	not rendered in Wilhelm.
