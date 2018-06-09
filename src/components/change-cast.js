@@ -121,7 +121,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	case 'three-per-line':
 	    this._stalks = this._iching.castStalks(this._stalks);
 	    this._partial = this._iching.translateStalks(this._stalks)
-	    console.log(`castTap three-per-line ${this._partial} <- ${this._stalks}`);
+	    // console.log(`castTap three-per-line ${this._partial} <- ${this._stalks}`);
 	    if (this._stalks.length === 18) {
 		this._finishCast();
 	    }
@@ -130,7 +130,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
     }
 
     _finishCast() {
-	console.log(`_finishCast() partial = ${this._partial} format = ${this._format}`);
+	// console.log(`_finishCast() partial = ${this._partial} format = ${this._format}`);
 	const partial = this._partial
 	const change = this._change
 	this._in_cast = false;
