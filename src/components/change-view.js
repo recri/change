@@ -87,8 +87,10 @@ export class ChangeView extends connect(store)(LitElement) {
 			${bonus}
 			</div>`;
 	    return html`
+		<section>
 		${ allStationary ? start : ''}
-		${ ! allStationary ? moving : ''}`;
+		${ ! allStationary ? moving : ''}
+		</section>`;
 	}
 
 	const links = _change.split(',');
@@ -103,9 +105,7 @@ export class ChangeView extends connect(store)(LitElement) {
 		  svg.kua .kua-line { stroke: black; }
 		  svg.kua .kua-mark { stroke: black; }
 		</style>
-		<section>
-		  ${links.length > 0 && links[0].length > 0 ? links.map(renderLink) : ''}
-		</section>`;
+		${links.length > 0 && links[0].length > 0 ? links.map(renderLink) : ''}`;
     }
 
     _stateChanged(state) {

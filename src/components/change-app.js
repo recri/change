@@ -69,7 +69,7 @@ class ChangeApp extends connect(store)(LitElement) {
         --app-secondary-color: #293237;
         --app-dark-text-color: var(--app-secondary-color);
         --app-light-text-color: white;
-        --app-section-even-color: #f7f7f7;
+        --app-section-even-color: #f0f0f0;
         --app-section-odd-color: white;
 
         --app-header-background-color: white;

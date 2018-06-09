@@ -27,7 +27,18 @@ export class GestureButton extends GestureEventListeners(PageViewElement) {
     }
     
     _render(props) {
-	return html`<style></style><button><slot></slot></button>`;
+	return html`
+		<style>
+		  button {
+		    background: none;
+		    border: none;
+		    fill: var(--app-header-text-color);
+		    cursor: pointer;
+		    height: 44px;
+		    width: 44px;
+		  }
+		</style>
+		<button><slot></slot></button>`;
     }
 
     tapHandler(e) { }

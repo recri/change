@@ -23,9 +23,7 @@ export class ChangeBook extends connect(store)(PageViewElement) {
     _render({_iching, _book}) {
 	return html`
 		${SharedStyles}
-		<section>
-		  <change-view _change="${_iching.wholeBook()}" _iching="${_iching}" _book="${_book}"></change-view>
-		</section>`;
+		<change-view _change="${_iching.wholeBook()}" _iching="${_iching}" _book="${_book}"></change-view>`;
     }
 
     _stateChanged(state) {

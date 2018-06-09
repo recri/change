@@ -124,9 +124,13 @@ export class Change extends Random {
     // getCommentary(hex, value) { return getBookCommentary(this.bookName, hex, value); }
     
 
-    // make a line from a distribution
-    getLines() { return this.choosen(this._hist, 6); }
+    // make a line from the current distribution
+    getLine() { return this.choose(this._hist); }
 
+    // make a whole hexagram from the current distribution
+    getLines() { return this.choosen(this._hist, 6); }
+    
+    // return the set of dists which we recognize by name
     static get dists() {
 	return {
 	    // choose or age a hexagram using the yarrow stalk oracle
@@ -193,6 +197,36 @@ export class Change extends Random {
 
     // cast a new change, append onto previous 
     cast(str) { return str.length === 0 ? this.getLines() : str+','+this.getLines(); }
+
+    castLine(str) { return str+this.getLine(); }
+
+    castStalks(str) {
+	switch (str.length % 3) {
+	case 0:
+	    switch (this._dist) {
+	    case '1573': return str+this.choose('5559');
+	    case '3751': return str+this.choose('5999');
+	    case '0484': return str+'4';
+	    case '4840': return str+'8';
+	    default: return str+this.choose('4488');
+	    }
+	case 1: return str+this.choose('4488');
+	case 2: return str+this.choose('4488');
+	}
+    }
+
+    // translate a stalk casting from division counts to 6789
+    translateStalks(str) {
+	return str.replace(/[89]/g, '2').replace(/[45]/g, '3').match(/[23]{1,3}/g).map((x) => {
+	    switch(x) {
+	    case '222': return '6';
+	    case '322': case '232': case '223': return '7';
+	    case '233': case '323': case '332': return '8';
+	    case '333': return '9';
+	    default: return '';
+	    }
+	}).join('');
+    }
 
     // undo the last cast or link
     undo(str) { return this.head(str); }

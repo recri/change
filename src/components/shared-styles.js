@@ -18,7 +18,7 @@ export const SharedStyles = html`
   }
 
   section {
-    padding: 24px;
+    /* padding: 24px; */
     background: var(--app-section-odd-color);
   }
 

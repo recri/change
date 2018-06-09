@@ -176,13 +176,13 @@ proc test-cast-line {stalks} {
 	incr lhist($l)
     }
     foreach x [lsort [array names hist]] {
-	 puts [format {%5d %5.3f %s} $hist($x) [expr {$hist($x)/double($n)}] $x]
+	puts [format {%6d %5.1f %s} $hist($x) [expr {100*$hist($x)/double($n)}] $x]
     }
     foreach t [lsort [array names thist]] {
-	# puts [format {%5d %5.3f %s} $thist($t) [expr {$thist($t)/double($n)}] $t]
+	puts [format {%6d %5.1f %s} $thist($t) [expr {100*$thist($t)/double($n)}] $t]
     }
     foreach d [lsort [array names dhist]] {
-	# puts [format {%5d %5.3f %s} $dhist($d) [expr {$dhist($d)/double($n)}] $d]
+	puts [format {%6d %5.1f %s} $dhist($d) [expr {100*$dhist($d)/double($n)}] $d]
     }
     foreach l [lsort [array names lhist]] {
 	puts [format {%6d %5.1f %s} $lhist($l) [expr {$lhist($l)/double($n)/(1.0/16)}] $l]
@@ -193,7 +193,7 @@ proc dummy {} {
 }    
 # test-random-in-range
 # test-cast-stalks
-for {set i 49} {$i > 45} {incr i -1} {
+for {set i 49} {$i > 48} {incr i -1} {
     puts "test-cast-line $i"
     test-cast-line $i
 }

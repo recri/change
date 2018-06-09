@@ -95,8 +95,8 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	<p title="${title.protocol}">Clicks per cast:</p>
 	<div>
 	  ${protocol('one-per-cast', '1', false)}
-	  ${protocol('one-per-line', '6', true)}
-	  ${protocol('three-per-cast', '18', true)}
+	  ${protocol('one-per-line', '6', false)}
+	  ${protocol('three-per-line', '18', false)}
 	  ${protocol('manual', 'Manual entry', true)}
 	</div>
 	<p title="${title.distribution}">Line distribution:</p>

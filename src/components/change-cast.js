@@ -20,6 +20,7 @@ import { changeUpdate } from '../actions/change.js';
 import { ChangeView } from './change-view.js';
 import { GestureButton } from './gesture-button.js';
 
+import { gestureIcon, backspaceIcon, clearIcon } from './change-icons.js';
 import { kua } from '../code/kua.js';
 
 export class ChangeCast extends connect(store)(PageViewElement) {
@@ -31,22 +32,26 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	    _custom: String,	// /^[1-9]{4}$/
 	    _format: String,	// /^(single|multiple)$/
 	    _protocol: String,	// /^(one-per-cast|one-per-line|three-per-line)$/
-	    _book: String	// 
+	    _book: String,	// text to pull reading from
+	    _in_cast: Boolean,	// in a cast
+	    _partial: String,	// partially cast hexagram
+	    _stalks: String	// stalk counts for partially cast hexagram
 	}
     }
 
-    _render({_iching, _change, _dist, _custom, _format, _protocol, _book}) {
+    _render({_iching, _change, _dist, _custom, _format, _protocol, _book, _in_cast, _partial, _stalks}) {
 	// cast button becomes conditional on protocol
 	const cast_down = this._castDown.bind(this);
 	const cast_tap = this._castTap.bind(this);
-	const cast_button = () => html`<gesture-button active on-down="${cast_down}" on-tap="${cast_tap}">Cast</gesture-button>`;
+	const cast_button = () => html`<gesture-button active on-down="${cast_down}" on-tap="${cast_tap}" title="Cast">${gestureIcon}</gesture-button>`;
 	const clear_button = () => _change === '' || _format === 'single' || _change.length < 13 ? 
 	      html`` : 
-	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(''))}">Clear</gesture-button>`;
+	      html`<gesture-button active "button" on-tap="${_ => this._clear.bind(this)()}" title="Clear reading">${clearIcon}</gesture-button>`;
 	const undo_change = _iching.undo(_change)
-	const undo_button = () => _change === '' || undo_change === '' || _format === 'single' ? 
+	const undo_button = () => _change === '' || _format === 'single' ? 
 	      html`` : 
-	      html`<gesture-button active "button" on-tap="${_ => store.dispatch(changeUpdate(undo_change))}">Undo</gesture-button>`;
+	      html`<gesture-button active "button" on-tap="${_ => this._undo.bind(this)()}" title="Undo reading">${backspaceIcon}</gesture-button>`;
+	const partial_hexagram = () => _in_cast ? html`${kua(_partial)}` : html``;
 
 	if (_iching.getCustom() !== _custom) _iching.setCustom(_custom);
 	if (_iching.getDist() !== _dist) _iching.setDist(_dist);
@@ -55,17 +60,31 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	return html`
 		${SharedStyles}
 		<style>
-		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px }
+		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px; }
 		  div.action { text-align: right; }
+		  svg.kua { width: 44px; height: 44px; }
+		  svg.kua .kua-line { stroke: black; }
+		  svg.kua .kua-mark { stroke: black; }
+		  gesture-button { height: 44px; width: 44px }
 		</style>
+		<change-view id="top" _change="${_change}" _iching="${_iching}" _book="${_book}"></change-view>
 		<section>
-		  <div class="action">
+		  <div id="cast" class="action">
+		    ${partial_hexagram()}
+		    ${_partial} ${_stalks}
 		    ${clear_button()}
 		    ${undo_button()}
 		    ${cast_button()}
 		  </div>
-		  <change-view _change="${_change}" _iching="${_iching}" _book="${_book}"></change-view>
-		</section>`;
+		</section>
+		`;
+    }
+
+    _didRender(props, changedProps, prevProps) {
+	// this.shadowRoot.scrollTop(0)
+	// this, by itself, doesn't work when the cast button
+	// pops back to the top after the reading is cleared
+	// this.shadowRoot.getElementById('cast').scrollIntoView();
     }
 
     _stateChanged(state) {
@@ -80,15 +99,55 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 
     _castDown() {
 	this._downtime = Date.now();
+	// start animation of 
     }
 
     _castTap() {
 	const taptime = Date.now();
-	this._iching.srandom(taptime+(taptime-this._downtime));
-	switch (this._format) {
-	case 'single': store.dispatch(changeUpdate(this._iching.cast(''))); break;
-	case 'multiple': store.dispatch(changeUpdate(this._iching.cast(this._change))); break;
+	if ( ! this._in_cast) {
+	    this._in_cast = true;
+	    this._partial = '';
+	    this._stalks = '';
 	}
+	this._iching.srandom(taptime+(taptime-this._downtime));
+	switch (this._protocol) {
+	case 'one-per-cast':
+	    this._partial = this._iching.cast('');
+	    this._finishCast();
+	    break;
+	case 'one-per-line':
+	    this._partial = this._iching.castLine(this._partial); 
+	    if (this._partial.length === 6) this._finishCast();
+	    break;
+	case 'three-per-line':
+	    this._stalks = this._iching.castStalks(this._stalks);
+	    this._partial = this._iching.translateStalks(this._stalks)
+	    console.log(`castTap three-per-line ${this._partial} <- ${this._stalks}`);
+	    if (this._stalks.length === 18) {
+		this._finishCast();
+	    }
+	    break;
+	}
+    }
+
+    _finishCast() {
+	console.log(`_finishCast() partial = ${this._partial} format = ${this._format}`);
+	const partial = this._partial
+	const change = this._change
+	this._in_cast = false;
+	this._partial = '';
+	this._stalks = '';
+	if (change === '' || this._format === 'single')
+	    store.dispatch(changeUpdate(partial));
+	else
+	    store.dispatch(changeUpdate(change+','+partial));
+    }
+    _clear() {
+	store.dispatch(changeUpdate(''));
+    }
+
+    _undo() {
+	store.dispatch(changeUpdate(this._iching.undo(this._change)));
     }
 }
 
