@@ -81,7 +81,6 @@ export class ChangeCast extends connect(store)(PageViewElement) {
     }
 
     _didRender(props, changedProps, prevProps) {
-	// this.shadowRoot.scrollTop(0)
 	// this, by itself, doesn't work when the cast button
 	// pops back to the top after the reading is cleared
 	// this.shadowRoot.getElementById('cast').scrollIntoView();

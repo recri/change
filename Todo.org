@@ -110,9 +110,14 @@
 * Todo list as of May 31
 [x] add save restore settings to local storage
 [x] add titles to tests histogram bars
-[ ] Make the cast-view window scroll to end after each
+[x] Make the cast-view window scroll to end after each
 	appended cast
-[ ] implement six-per-cast and eighteen-per-cast
+	tried to do this with
+	// this.shadowRoot.getElementById('cast').scrollIntoView();
+	but it didn't always show the cast button, sometimes the
+	header or footer would roll over the content screen
+[x] implement six-per-cast and eighteen-per-cast
+	needs to be in a modal dialog, cannot change settings
 [ ] animate the superposition of possible outcomes
 	during on-down
 [ ] Optionally add commentary
@@ -139,5 +144,6 @@
 	book location or reading.
 [ ] set up text selection as a checkbox collection, keep
 	the selected collection ready to render in parallel.
-[ ] 63 3rd line in Legge is missing characters, the name is
+[x] 63 3rd line in Legge is missing characters, the name is
 	not rendered in Wilhelm.
+	Kâo Žung is the rendering of K?o ?ung in other texts.
