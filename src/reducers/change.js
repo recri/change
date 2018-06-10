@@ -10,7 +10,7 @@ import {
 
 import { store } from '../store.js';
 
-import { ChangesText } from '../text/wilhelm-google.js';
+import { ChangesText } from '../text/wilhelm-baynes.js';
 import { Change } from '../code/change.js';
 
 const iching = new Change(ChangesText);

@@ -27,8 +27,10 @@ const fetchBook = (book) => async (dispatch, getState) => {
     case 'wilhelm':
 	module = await import('../text/wilhelm.js');
 	break;
-    case 'wilhelm-baynes':
-	module = await import('../text/wilhelm-baynes.js');
+    case 'wilhelm-baynes':	// loaded unconditionally in ../reducers/change.js
+	// should never reach here
+	// module = await import('../text/wilhelm-baynes.js');
+	console.log("fetchBook(wilhelm-baynes)?");
 	break;
     case 'wilhelm-google':
 	module = await import('../text/wilhelm-google.js');
@@ -54,17 +56,20 @@ const shouldFetchBook = (state, book) => {
     // console.log(`shouldFetchBook(${state}, ${book})`);
     if ( ! state[book]) return true;
     if (state[book].isFetching) return false;
-    if ( ! state[book].object) return true;
     return false;
 }
 
 export const fetchBookIfNeeded = (book) => (dispatch, getState) => {
     // console.log(`fetchBookIfNeeded(${book})`);
-    if (shouldFetchBook(getState().books, book)) {
-	// Dispatch a thunk from thunk!
-	return dispatch(fetchBook(book))
-    } else {
-	// Let the calling code know there's nothing to wait for.
-	return Promise.resolve()
+    const bookObj = getState().change.iching.getBookObj(book);
+    if (bookObj) {
+	return dispatch(receiveBook(book, bookObj));
     }
+    if (shouldFetchBook(getState().books, book)) {
+	return dispatch(fetchBook(book));
+    }
+    // Let the calling code know there's nothing to wait for.
+    // I think this should wait for a fetch to finish if that's
+    // what we're waiting for
+    return Promise.resolve()
 }

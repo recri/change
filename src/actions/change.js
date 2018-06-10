@@ -13,30 +13,19 @@ export const CHANGE_BOOK = 'CHANGE_BOOK';
 export const changeUpdate = (change) => (dispatch) => dispatch({ type: CHANGE_UPDATE, change });
 
 const persist = (name, value) => {
-    // console.log(`persist(${name},${value}) called`);
-    if (window && window.localStorage) {
+    if (window && window.localStorage)
 	window.localStorage.setItem(name, value);
-	// console.log(`persist(${name}, ${value})`)
-    }
     return value;
 }
 
 const restore = (name, defval) => {
-    // console.log(`restore(${name},${defval}) called`);
-    if (window && window.localStorage) {
-	let s = window.localStorage
-	for (let i = 0; i < s.length; i += 1) {
-	    let sname = s.key(i);
-	    if (name === sname) {
-		// console.log(`restore ${sname} to ${s.getItem(sname)}`);
-		return s.getItem(sname);
-	    }
-	}
-	console.log(`restore defaults ${name} to ${defval}`);
-	return persist(name, defval);
-    } else {
+    if ( ! window || ! window.localStorage)
 	return defval;
-    }
+    const s = window.localStorage
+    for (let i = 0; i < s.length; i += 1)
+	if (name === s.key(i))
+	    return s.getItem(name);
+    return persist(name, defval);
 }
 
 export const changeDist = (dist) => {
@@ -58,8 +47,9 @@ export const changeProtocol = (protocol) => {
 
 import { fetchBookIfNeeded } from '../actions/books.js';
 
-export const changeBook = (book) => (dispatch) => 
+export const changeBook = (book) => (dispatch) =>  {
     dispatch(fetchBookIfNeeded(book));
+}
 
 export const didChangeBook = (book) => {
     persist('book', book);

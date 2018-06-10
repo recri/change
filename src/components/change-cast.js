@@ -20,7 +20,9 @@ import { changeUpdate } from '../actions/change.js';
 import { ChangeView } from './change-view.js';
 import { GestureButton } from './gesture-button.js';
 
-import { gestureIcon, backspaceIcon, clearIcon } from './change-icons.js';
+//import { gestureIcon, backspaceIcon, clearIcon } from './change-icons.js';
+import { plusIcon, minusIcon, clearIcon } from './change-icons.js';
+
 import { kua } from '../code/kua.js';
 
 export class ChangeCast extends connect(store)(PageViewElement) {
@@ -43,14 +45,17 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	// cast button becomes conditional on protocol
 	const cast_down = this._castDown.bind(this);
 	const cast_tap = this._castTap.bind(this);
-	const cast_button = () => html`<gesture-button active on-down="${cast_down}" on-tap="${cast_tap}" title="Cast">${gestureIcon}</gesture-button>`;
-	const clear_button = () => _change === '' || _format === 'single' || _change.length < 13 ? 
+	const cast_button = () => 
+	      html`<gesture-button active on-down="${cast_down}" on-tap="${cast_tap}" title="Cast reading">${plusIcon}</gesture-button>`;
+	const clear_button = () => 
+	      _change === '' || _format === 'single' || _change.length < 13 ? 
 	      html`` : 
 	      html`<gesture-button active "button" on-tap="${_ => this._clear.bind(this)()}" title="Clear reading">${clearIcon}</gesture-button>`;
 	const undo_change = _iching.undo(_change)
-	const undo_button = () => _change === '' || _format === 'single' ? 
+	const undo_button = () => 
+	      _change === '' || _format === 'single' ? 
 	      html`` : 
-	      html`<gesture-button active "button" on-tap="${_ => this._undo.bind(this)()}" title="Undo reading">${backspaceIcon}</gesture-button>`;
+	      html`<gesture-button active "button" on-tap="${_ => this._undo.bind(this)()}" title="Undo reading">${minusIcon}</gesture-button>`;
 	const partial_hexagram = () => _in_cast ? html`${kua(_partial)}` : html``;
 
 	if (_iching.getCustom() !== _custom) _iching.setCustom(_custom);

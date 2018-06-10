@@ -95,7 +95,10 @@ export class Change extends Random {
     getBook() {
 	return this.bookName;
     }
-
+    getBookObj(book) {
+	return this.book[book];
+    }
+    
     setCommentaryObj(commentaryObj) { this.commentary = commentaryObj; }
     
     getBookText(book, hex, value) {
