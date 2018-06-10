@@ -39,6 +39,11 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	    _stalks: String	// stalk counts for partially cast hexagram
 	}
     }
+    constructor() {
+	super();
+	this._partial = '';
+	this._stalks = '';
+    }
 
     _render({_iching, _change, _dist, _format, _protocol, _book, _in_cast, _partial, _stalks}) {
 	// cast button becomes conditional on protocol
@@ -144,6 +149,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	else
 	    store.dispatch(changeUpdate(change+','+partial));
     }
+
     _clear() {
 	store.dispatch(changeUpdate(''));
     }
