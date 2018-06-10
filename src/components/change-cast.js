@@ -55,10 +55,9 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	      _change === '' || _format === 'single' ? 
 	      html`` : 
 	      html`<gesture-button active "button" on-tap="${_ => this._undo.bind(this)()}" title="Undo reading">${minusIcon}</gesture-button>`;
-	const partial_hexagram = () => _in_cast ? html`${kua(_partial)}` : html``;
+	const partial_hexagram = () => html`${kua(_partial)}`;
 
-	// if (_iching.getDist() !== _dist) _iching.setDist(_dist);
-	// if (_iching.getFormat() !== _format) _iching.setFormat(_format);
+	_iching.setDist(_dist);
 
 	return html`
 		${SharedStyles}
@@ -100,7 +99,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 
     _castDown() {
 	this._downtime = Date.now();
-	// start animation of 
+	// start animation of unchosen lines
     }
 
     _castTap() {
@@ -114,16 +113,18 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	switch (this._protocol) {
 	case 'one-per-cast':
 	    this._partial = this._iching.cast('');
+	    // console.log(`castTap ${this._protocol} ${this._partial} <- ${this._stalks}`);
 	    this._finishCast();
 	    break;
 	case 'one-per-line':
 	    this._partial = this._iching.castLine(this._partial); 
+	    // console.log(`castTap ${this._protocol} ${this._partial} <- ${this._stalks}`);
 	    if (this._partial.length === 6) this._finishCast();
 	    break;
 	case 'three-per-line':
 	    this._stalks = this._iching.castStalks(this._stalks);
 	    this._partial = this._iching.translateStalks(this._stalks)
-	    // console.log(`castTap three-per-line ${this._partial} <- ${this._stalks}`);
+	    // console.log(`castTap ${this._protocol} ${this._partial} <- ${this._stalks}`);
 	    if (this._stalks.length === 18) {
 		this._finishCast();
 	    }

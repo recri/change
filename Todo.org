@@ -174,4 +174,5 @@
 	stalks and change every now and then, remove the
 	dist settings
 [ ] start rewriting into typescript?
-
+[x] the one-click-per-cast and one-click-per-line casts are broken.
+	broken by the commented out setDist(_dist)

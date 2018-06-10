@@ -42,8 +42,6 @@ export class Change extends Random {
 	    this._dist = this.dists[dist];
 	else if (/^[1-9]{4}$/.test(dist))
 	    this._dist = dist;
-	else if (dist === 'full')
-	    this._dist = this.dists[this.achoose(this.distNames)]
 	else {
 	    console.log(`change setDist ${dist}??`); 
 	    return this.distName;

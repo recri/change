@@ -101,9 +101,8 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	</div>
 	<p title="${title.distribution}">Line distribution:</p>
 	  <div>
-	    ${distribution('full', 'random')}
-	    ${distribution('yarrow', '1573')}
 	    ${distribution('coins', '1331')}
+	    ${distribution('yarrow', '1573')}
 	    ${distribution('invert', '3751')}
 	    ${distribution('6-scored-as-3', '0484')}
 	    ${distribution('6-scored-as-2', '4840')}
