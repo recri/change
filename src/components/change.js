@@ -32,35 +32,18 @@ export class Change extends Random {
     constructor(bookObj, commentaryObj) {
 	super();
 	this.book = {};
-	// this.setDist('yarrow');	// yarrow, coins, uniform, custom
-	// this.setCustom('3113');	// /[1-9]{4}/
-	// this.setFormat('single'); // single, multiple
 	if (bookObj) this.setBookObj(bookObj.name, bookObj);
 	if (commentaryObj) this.setCommentaryObj(commentaryObj);
     }
     
-    _updateHists() {
-	this._hist = this.hist_for_dist(this._dist, '6789');
-    }
-
-    setCustom(custom) {
-	if (/^[1-9]{4}$/.test(custom))
-	    this._custom = custom;
-	else
-	    this._custom = this.choosen("123456789", 4);
-	if (this._distName === 'custom') this._updateHists();
-	return this._custom;
-    }
-    getCustom() { return this._custom; }
-
     setDist(dist) { 
 	// console.log(`set change dist to ${dist}`)
-	if (Change.dists.hasOwnProperty(dist))
-	    this._dist = Change.dists[dist];
-	else if (dist === 'custom')
-	    this._dist = this._custom;
+	if (this.dists.hasOwnProperty(dist))
+	    this._dist = this.dists[dist];
+	else if (/^[1-9]{4}$/.test(dist))
+	    this._dist = dist;
 	else if (dist === 'full')
-	    this._dist = Change.dists[this.achoose(Change.distNames)]
+	    this._dist = this.dists[this.achoose(this.distNames)]
 	else {
 	    console.log(`change setDist ${dist}??`); 
 	    return this.distName;
@@ -70,14 +53,9 @@ export class Change extends Random {
 	return this.distName;
     }
     getDist() { return this.distName; }
-
-    setFormat(format) {
-	return this.format = format;
+    _updateHists() {
+	this._hist = this.hist_for_dist(this._dist, '6789');
     }
-    getFormat() { return this.format; }
-
-    setProtocol(protocol) { return this.protocol = protocol; }
-    getProtocol() { return this.protocol; }
 
     setBook(book) { 
 	// console.log(`change.setBook(${book})`);
@@ -119,22 +97,15 @@ export class Change extends Random {
 	    return this.commentary[book].changes[Change.lines[hex]][value]
 	return '';
     }
-    
-    // getText(hex, value) { return this.getBookText(this.bookName, hex, value); }
 
-    // getBoolean(hex, value) { return this.getBookBoolean(this.bookName, hex, value); }
-
-    // getCommentary(hex, value) { return getBookCommentary(this.bookName, hex, value); }
-    
-
-    // make a line from the current distribution
+    // choose a line from the current distribution
     getLine() { return this.choose(this._hist); }
 
-    // make a whole hexagram from the current distribution
+    // choose a whole hexagram from the current distribution
     getLines() { return this.choosen(this._hist, 6); }
     
     // return the set of dists which we recognize by name
-    static get dists() {
+    get dists() {
 	return {
 	    // choose or age a hexagram using the yarrow stalk oracle
 	    //	* 6 = old yin:    1 in 16 (0.0625)
@@ -170,9 +141,8 @@ export class Change extends Random {
 	    '6-scored-as-2': '4840',
 	};
     }
-    static get distNames() {
-	return Object.getOwnPropertyNames(Change.dists);
-    }
+    get distNames() { return Object.getOwnPropertyNames(this.dists); }
+    distByName(name) { return this.dists[name] }
 
     //
     // translate an oracle into all moving lines

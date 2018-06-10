@@ -15,45 +15,39 @@ import { html, svg } from 'lit-html/lib/lit-extended.js';
 // 
 // rename to gua and make it an element
 export const kua = (lines) => {
-	const width = 390 // 13*2*3*5
-	const height = 390
-	const margin = width/13
-	const x0 = margin+2, x1 = (width-margin-2)
-	const xm = x0+(x1-x0)/2
-	const sw = margin-4
-	const gap = 2*margin
-	const r = 9*sw/8
-	const yi = (i) => height-(i*2)*margin-margin-margin/2
-	const msw = (margin-4)/3
-	const draw = (l, y) => { // , x0, x1, sw
-	    const line = (cl,x1,y1,x2,y2,sw) =>
-		  svg`<line class$="${cl}" x1$="${x1}" y1$="${y1}" x2$="${x2}" y2$="${y2}" stroke-width$="${sw}"></line>`;
-	    const circle = (cl,cx,cy,r,sw) =>
-		  svg`<circle class$="${cl}" cx$="${cx}" cy$="${cy}" r$="${r}" stroke-width$="${sw}" fill="none"></circle>`;
-	    const youngYin = () => 
-		  svg`${line("kua-line", x0, y, xm-gap, y, sw)}${line("kua-line", xm+gap, y, x1, y, sw)}`;
-	    const youngYang = () =>
-		  svg`${line("kua-line", x0, y, x1, y, sw)}`;
-	    const markYin = () =>
-		  svg`${line("kua-mark", xm-r, y-r, xm+r, y+r, msw)}${line("kua-mark", xm-r, y+r, xm+r, y-r, msw)}`;
-	    const markYang = () =>
-		  svg`${circle("kua-mark", xm,y,r,msw)}`;
-	    const oldYin = () =>
-		  svg`${youngYin()}${markYin()}`;
-	    const oldYang = () =>
-		  svg`${youngYang()}${markYang()}`;
-	    const unknown = () =>
-		  svg``;
-	    switch (l) {
-	    case '6': return svg`${oldYin()}`;    // 6 old yin, broken line, x at the midpoint
-	    case '7': return svg`${youngYang()}`; // 7 young yang, solid line
-	    case '8': return svg`${youngYin()}`;  // 8 young yin, broken line
-	    case '9': return svg`${oldYang()}`;	  // 9 old yang, solid line, circle at the midpoint
-	    case '?': return svg`${unknown()}`;	  // a fuzzy bar, as yet to be determined
-	    }
+    const width = 390;		 // 13*2*3*5 nominal square
+    const height = 390;
+    const margin = width/13;	 // 6 lines + 5 gaps + top + bottom
+    const gap = 2*margin;	 // gap in yin lines
+    const x0 = margin+2;	 // left coordinate of lines
+    const x1 = (width-margin-2); // right coordinate of lines
+    const xm = x0+(x1-x0)/2;	 // middle coordinate of lines
+    const sw = margin-4;	 // stroke width on lines
+    const msw = (margin-4)/4;	 // stroke width on markers
+    const rc = 7*sw/8;		 // radius of circle on old yang (9*sw/8)
+    const rx = 3*sw/4;		 // radius of x on old yin
+    const yi = (i) => height-margin-margin/2-(i*2)*margin;
+    const draw = (l, y) => {
+	const line = (cl,x1,y1,x2,y2,sw) =>
+	      svg`<line class$="${cl}" x1$="${x1}" y1$="${y1}" x2$="${x2}" y2$="${y2}" stroke-width$="${sw}"></line>`;
+	const circle = (cl,cx,cy,r,sw) =>
+	      svg`<circle class$="${cl}" cx$="${cx}" cy$="${cy}" r$="${r}" stroke-width$="${sw}" fill="none"></circle>`;
+	const markYin = () =>
+	      svg`${line("kua-mark", xm-rx, y-rx, xm+rx, y+rx, msw)}${line("kua-mark", xm-rx, y+rx, xm+rx, y-rx, msw)}`;
+	const markYang = () =>
+	      svg`${circle("kua-mark", xm,y,rc,msw)}`;
+	switch (l) {
+	case '6': // old yin, broken line, x at the midpoint
+	    return svg`${draw('8', y)}${markYin()}`;
+	case '7': // young yang, solid line
+	    return svg`${line("kua-line", x0, y, x1, y, sw)}`;
+	case '8': // young yin, broken line
+	    return svg`${line("kua-line", x0, y, xm-gap, y, sw)}${line("kua-line", xm+gap, y, x1, y, sw)}`;
+	case '9': // old yang, solid line, circle at the midpoint
+	    return svg`${draw('7',y)}${markYang()}`;
+	case '?': // a superposition of possibilities, possibly animated
+	    return svg``; 
 	}
-	return html`
-<svg class="kua" viewBox="0 0 390 390">
-  ${lines.split('').map((l,i) => draw(l, yi(i)))}
-</svg>`
     }
+    return html`<svg class="kua" viewBox="0 0 390 390">${lines.split('').map((l,i) => draw(l, yi(i)))}</svg>`
+}

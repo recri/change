@@ -127,6 +127,12 @@
 	not rendered in Wilhelm.
 	Kâo Žung is the rendering of K?o ?ung in other texts.
 * Todo list as of June 10
+[x] trim the x size in the hexagram rendering.
+[x] move src/code into src/components
+[x] fix broken tests
+[x] write tests to cover all the single cast results
+[x] expunge custom distribution, any /[1-9]{4}/ works as
+	a custom distribution
 [ ] animate the superposition of possible outcomes
 	during on-down, compute the probability of
 	outcomes given the partial casting and
@@ -138,9 +144,8 @@
 [ ] add keyboard accelerators to cast/undo/clear buttons
 [ ] focus to the button under normal settings
 [ ] scroll the focused buttons onto screen after cast or clear
-[ ] fix broken tests
-[ ] write tests to cover all the single cast results
 [ ] write tests to verify the full yarrow results
+[ ] write tests to verify the 3 casts per line 
 [ ] add option to save readings to local storage
 [ ] add option to record the questions asked
 [ ] keep a complete history of readings in local store
@@ -151,20 +156,22 @@
 	and the content
 [ ] maybe build the settings menus in the
 	drawer rather than taking a page
+[ ] move cast into its own dialog, if it's using
 [ ] put some of the settings menus into the cast
 	dialog, maybe below the fold
 [ ] maybe do the Show URL with a dialog box.
 [ ] set up translations so that swiping left/right moves
 	between the tranlations pointed at the same
 	book location or reading.
+	hard, chrome owns the left-right-swipe gesture
+	for going forward and back through history
 [ ] set up text selection as a checkbox collection, keep
 	the selected collection ready to render in parallel.
 [ ] need to deal with online/offline
 [ ] need to know which books are available when offline
 	promise to pick them up when you get back online
 [ ] set the dist to randomly choose the number of yarrow
-	stalks and change every now and then
+	stalks and change every now and then, remove the
+	dist settings
 [ ] start rewriting into typescript?
-[ ] trim the x size in the hexagram rendering.
-[x] move src/code into src/components
 
