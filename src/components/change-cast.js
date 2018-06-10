@@ -23,7 +23,7 @@ import { GestureButton } from './gesture-button.js';
 //import { gestureIcon, backspaceIcon, clearIcon } from './change-icons.js';
 import { plusIcon, minusIcon, clearIcon } from './change-icons.js';
 
-import { kua } from '../code/kua.js';
+import { kua } from './kua.js';
 
 export class ChangeCast extends connect(store)(PageViewElement) {
     static get properties() {

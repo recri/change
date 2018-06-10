@@ -15,7 +15,7 @@ import { store } from '../store.js';
 
 import { SharedStyles } from './shared-styles.js';
 
-import { kua } from '../code/kua.js';
+import { kua } from './kua.js';
 
 export class ChangeView extends connect(store)(LitElement) {
     static get properties() {

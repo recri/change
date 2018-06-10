@@ -11,7 +11,7 @@ import {
 import { store } from '../store.js';
 
 import { ChangesText } from '../text/wilhelm-baynes.js';
-import { Change } from '../code/change.js';
+import { Change } from '../components/change.js';
 
 const iching = new Change(ChangesText);
 

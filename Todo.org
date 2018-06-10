@@ -118,11 +118,27 @@
 	header or footer would roll over the content screen
 [x] implement six-per-cast and eighteen-per-cast
 	needs to be in a modal dialog, cannot change settings
-[ ] animate the superposition of possible outcomes
-	during on-down
-[ ] Optionally add commentary
 [x] Optionally add other translations
+[x] get Wilhelm's translation entered
+[x] get Legge's translation entered
+[x] get the original Chinese entered
+[x] get Google's translation of Wilhelm's translation
+[x] 63 3rd line in Legge is missing characters, the name is
+	not rendered in Wilhelm.
+	Kâo Žung is the rendering of K?o ?ung in other texts.
+* Todo list as of June 10
+[ ] animate the superposition of possible outcomes
+	during on-down, compute the probability of
+	outcomes given the partial casting and
+	weight the display of partially/uncast lines
+	appropriately
+[ ] Optionally add commentary
+	requires better management of offline
+	settings and available texts
 [ ] add keyboard accelerators to cast/undo/clear buttons
+[ ] focus to the button under normal settings
+[ ] scroll the focused buttons onto screen after cast or clear
+[ ] fix broken tests
 [ ] write tests to cover all the single cast results
 [ ] write tests to verify the full yarrow results
 [ ] add option to save readings to local storage
@@ -132,18 +148,23 @@
 [ ] redo the app color scheme
 [ ] redo the button styling scheme
 [ ] rethink the ordering of the app menu items
+	and the content
 [ ] maybe build the settings menus in the
 	drawer rather than taking a page
+[ ] put some of the settings menus into the cast
+	dialog, maybe below the fold
 [ ] maybe do the Show URL with a dialog box.
-[x] get Wilhelm's translation entered
-[x] get Legge's translation entered
-[x] get the original Chinese entered
-[x] get Google's translation of Wilhelm's translation
 [ ] set up translations so that swiping left/right moves
 	between the tranlations pointed at the same
 	book location or reading.
 [ ] set up text selection as a checkbox collection, keep
 	the selected collection ready to render in parallel.
-[x] 63 3rd line in Legge is missing characters, the name is
-	not rendered in Wilhelm.
-	Kâo Žung is the rendering of K?o ?ung in other texts.
+[ ] need to deal with online/offline
+[ ] need to know which books are available when offline
+	promise to pick them up when you get back online
+[ ] set the dist to randomly choose the number of yarrow
+	stalks and change every now and then
+[ ] start rewriting into typescript?
+[ ] trim the x size in the hexagram rendering.
+[x] move src/code into src/components
+
