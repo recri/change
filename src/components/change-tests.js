@@ -37,8 +37,8 @@ class ChangeTests extends connect(store)(PageViewElement) {
 		if (fini[f]) fini[f] += 1; else fini[f] = 1;
 	    }
 	    const inits = Object.getOwnPropertyNames(init).sort();
-	    console.log(inits);
-	    console.log(inits.map(x => init[x]));
+	    // console.log(inits);
+	    // console.log(inits.map(x => init[x]));
 	    const drawBar = (x1, ns, s, i) => {
 		const x2 = x1+(8*100*ns/n);
 		return svg`

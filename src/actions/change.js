@@ -5,7 +5,6 @@
 export const CHANGE_UPDATE = 'CHANGE_UPDATE';
 
 export const CHANGE_DIST = 'CHANGE_DIST';
-export const CHANGE_CUSTOM = 'CHANGE_CUSTOM';
 export const CHANGE_FORMAT = 'CHANGE_FORMAT';
 export const CHANGE_PROTOCOL = 'CHANGE_PROTCOL';
 export const CHANGE_BOOK = 'CHANGE_BOOK';
@@ -31,10 +30,6 @@ const restore = (name, defval) => {
 export const changeDist = (dist) => {
     persist('dist', dist);
     return { type: CHANGE_DIST, dist };
-}
-export const changeCustom = (custom) => {
-    persist('custom', custom);
-    return { type: CHANGE_CUSTOM, custom };
 }
 export const changeFormat = (format) => {
     persist('format', format);
@@ -63,12 +58,12 @@ export const didChangeBook = (book) => {
 // saved settings.
 //
 export const changeRestore = () => (dispatch) => {
-    // 'drunken', 'yarrow', 'coins', 'uniform', 'custom'
+    // 'full', 'yarrow', 'invert', 'coins', 'uniform', '6-scored-as-2', '6-scored-as-3', /[1-9]{4}/
     dispatch(changeDist(restore('dist', 'full')));
     // 'single', 'multiple', 'linked', 'threaded'
     dispatch(changeFormat(restore('format', 'single'))),
     // 'one-per-cast', 'six-per-cast', 'eighteen-per-cast'
     dispatch(changeProtocol(restore('protocol', 'one-per-cast')));
-    // wilhelm, wilhelm-google, wilhelm-baynes
+    // wilhelm, wilhelm-google, wilhelm-baynes, yizhou, legge
     dispatch(changeBook(restore('book', 'wilhelm-baynes')));
 }

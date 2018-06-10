@@ -17,7 +17,7 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 
 import { menuIcon } from './change-icons.js';
-
+import { ChangeCast } from './change-cast.js'; // non-lazy import for default page
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';

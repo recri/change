@@ -30,8 +30,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	return {
 	    _iching: Object,
 	    _change: String,	// /^(([6789]{6})(,[6789]{6}))?*$/
-	    _dist: String,	// /^(yarrow|coins|uniform|custom)$/
-	    _custom: String,	// /^[1-9]{4}$/
+	    _dist: String,	// /^(yarrow|coins|uniform)$/
 	    _format: String,	// /^(single|multiple)$/
 	    _protocol: String,	// /^(one-per-cast|one-per-line|three-per-line)$/
 	    _book: String,	// text to pull reading from
@@ -41,7 +40,7 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	}
     }
 
-    _render({_iching, _change, _dist, _custom, _format, _protocol, _book, _in_cast, _partial, _stalks}) {
+    _render({_iching, _change, _dist, _format, _protocol, _book, _in_cast, _partial, _stalks}) {
 	// cast button becomes conditional on protocol
 	const cast_down = this._castDown.bind(this);
 	const cast_tap = this._castTap.bind(this);
@@ -58,9 +57,8 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	      html`<gesture-button active "button" on-tap="${_ => this._undo.bind(this)()}" title="Undo reading">${minusIcon}</gesture-button>`;
 	const partial_hexagram = () => _in_cast ? html`${kua(_partial)}` : html``;
 
-	if (_iching.getCustom() !== _custom) _iching.setCustom(_custom);
-	if (_iching.getDist() !== _dist) _iching.setDist(_dist);
-	if (_iching.getFormat() !== _format) _iching.setFormat(_format);
+	// if (_iching.getDist() !== _dist) _iching.setDist(_dist);
+	// if (_iching.getFormat() !== _format) _iching.setFormat(_format);
 
 	return html`
 		${SharedStyles}
@@ -95,7 +93,6 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	this._iching = state.change.iching;
 	this._change = state.change.change;
 	this._dist = state.change.dist;
-	this._custom = state.change.custom
 	this._format = state.change.format;
 	this._protocol = state.change.protocol;
 	this._book = state.change.book;

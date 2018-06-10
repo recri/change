@@ -36,7 +36,8 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch) => {
     switch(page) {
     case 'cast':
-	await import('../components/change-cast.js');
+	// default page imported aggressively
+	// await import('../components/change-cast.js');
 	break;
     case 'show':
 	await import('../components/change-show.js');
