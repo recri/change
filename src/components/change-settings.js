@@ -32,7 +32,6 @@ class ChangeSettings extends connect(store)(PageViewElement) {
     _render({_dist, _format, _protocol, _book}) {
 	const title = {
 	    'distribution': "The frequencies of the lines of the hexagram depend on the mechanism for casting.",
-	    'distribution-full': "One of the distributions will be used for a while.",
 	    'distribution-yarrow': "A yarrow cast with 4n+2 stalks, 6:7:8:9 :: 1:5:7:3.",
 	    'distribution-coins': "A yarrow cast with 4n+1 stalks, 6:7:8:9 :: 1:3:3:1.",
 	    'distribution-invert': "A yarrow cast with 4n+0 stalks, 6:7:8:9 :: 3:7:5:1.",
@@ -103,15 +102,12 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	</div>
 	<p title="${title.distribution}">Line distribution:</p>
 	  <div>
-	    ${distribution('coins', '1331')}
-	    ${distribution('yarrow', '1573')}
-	    ${distribution('invert', '3751')}
-	    ${distribution('6-scored-as-3', '0484')}
-	    ${distribution('6-scored-as-2', '4840')}
-	    ${distribution('uniform', '1111')}
+	    ${distribution('coins', 'coins')}
+	    ${distribution('yarrow', 'yarrow')}
+	    ${distribution('invert', 'invert')}
 	  </div>
 	<div class="action">
-	  <button title="Reset the settings to the default values." on-click="${_ => this._resetClick.bind(this)()}">Reset</button>
+	  <button title="Reset the settings to the default values." on-click="${_ => this._resetClick()}">Reset</button>
 	</div>
 	</form>
       </section>
@@ -128,10 +124,10 @@ class ChangeSettings extends connect(store)(PageViewElement) {
     
     _resetClick() {
 	// console.log("change-settings _resetClick");
-	store.dispatch(changeDist('yarrow'));
+	store.dispatch(changeDist('coins'));
 	store.dispatch(changeFormat('single'));
 	store.dispatch(changeProtocol('one-per-cast'));
-	store.dispatch(changeBook('wilhelm-google'));
+	store.dispatch(changeBook('wilhelm-baynes'));
     }
 
 }

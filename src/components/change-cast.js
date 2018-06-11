@@ -52,16 +52,16 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	const cast_down = this._castDown.bind(this);
 	const cast_tap = this._castTap.bind(this);
 	const cast_button = () => 
-	      html`<gesture-button active on-down="${cast_down}" on-tap="${cast_tap}" title="Cast reading">${plusIcon}</gesture-button>`;
+	      html`<gesture-button on-down="${cast_down}" on-tap="${cast_tap}" title="Cast reading">${plusIcon}</gesture-button>`;
 	const clear_button = () => 
 	      _change === '' || _format === 'single' || _change.length < 13 ? 
 	      html`` : 
-	      html`<gesture-button active "button" on-tap="${_ => this._clear.bind(this)()}" title="Clear reading">${clearIcon}</gesture-button>`;
+	      html`<gesture-button on-tap="${_ => this._clear.bind(this)()}" title="Clear reading">${clearIcon}</gesture-button>`;
 	const undo_change = _iching.undo(_change)
 	const undo_button = () => 
 	      _change === '' || _format === 'single' ? 
 	      html`` : 
-	      html`<gesture-button active "button" on-tap="${_ => this._undo.bind(this)()}" title="Undo reading">${minusIcon}</gesture-button>`;
+	      html`<gesture-button on-tap="${_ => this._undo.bind(this)()}" title="Undo reading">${minusIcon}</gesture-button>`;
 	const partial_hexagram = () => html`${kua(_partial)}`;
 
 	_iching.setDist(_dist);

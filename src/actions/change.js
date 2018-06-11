@@ -60,9 +60,9 @@ export const didChangeBook = (book) => {
 // saved settings.
 //
 export const changeRestore = () => (dispatch) => {
-    // 'full', 'yarrow', 'invert', 'coins', 'uniform', '6-scored-as-2', '6-scored-as-3', /[1-9]{4}/
-    dispatch(changeDist(restore('dist', 'full')));
-    // 'single', 'multiple', 'linked', 'threaded'
+    // 'yarrow', 'invert', 'coins', 'uniform', '6-scored-as-2', '6-scored-as-3', /[1-9]{4}/
+    dispatch(changeDist(restore('dist', 'coins')));
+    // 'single', 'multiple'
     dispatch(changeFormat(restore('format', 'single'))),
     // 'one-per-cast', 'six-per-cast', 'eighteen-per-cast'
     dispatch(changeProtocol(restore('protocol', 'one-per-cast')));
