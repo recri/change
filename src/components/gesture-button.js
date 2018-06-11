@@ -15,12 +15,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 // isn't clear on whether they're there or not.
 //
 
-import { html } from '@polymer/lit-element';
-import { PageViewElement } from './page-view-element.js';
+import { html, LitElement } from '@polymer/lit-element';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 
-export class GestureButton extends GestureEventListeners(PageViewElement) {
+export class GestureButton extends GestureEventListeners(LitElement) {
 
     static get properties() {
 	return {
