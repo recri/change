@@ -1,3 +1,10 @@
+/**
+@license
+Copyright (c) 2018 Roger E Critchlow Jr.  All rights reserved.
+This code may only be used under the BSD style license found at http://recri.github.io/change/LICENSE.txt
+
+It is also subject to the following conditions from the original authors and adaptors.
+*/
 
 /*
   I've wrapped Makoto Matsumoto and Takuji Nishimura's code in a namespace

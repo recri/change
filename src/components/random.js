@@ -1,3 +1,9 @@
+/**
+@license
+Copyright (c) 2018 Roger E Critchlow Jr.  All rights reserved.
+This code may only be used under the BSD style license found at http://recri.github.io/change/LICENSE.txt
+*/
+
 import { MersenneTwister } from './mersenne-twister.js';
 
 export class Random {

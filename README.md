@@ -21,6 +21,6 @@ To build you'll need to:
     browser at http://localhost:8081
 
 To build build, run "npm run build" in the top-level directory
-and static images in build/ and a prpl-server suite of images
-in server/ will be compiled.
+to make static images in build/ and a prpl-server suite of images
+in server/ for differential serving.
 
