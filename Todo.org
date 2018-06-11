@@ -133,6 +133,16 @@
 [x] write tests to cover all the single cast results
 [x] expunge custom distribution, any /[1-9]{4}/ works as
 	a custom distribution
+[-] set the dist to randomly choose the number of yarrow
+	stalks and change every now and then, remove the
+	dist settings, canned this
+[x] the one-click-per-cast and one-click-per-line casts are broken.
+	broken by the commented out setDist(_dist)
+[x] fix the broken reset to default button in the settings
+	by rewriting all radio buttons into selects, the
+	radio buttons never redrew unless explicitly clicked
+	very strange.
+[x] simplified the distribution settings to coins, yarrow, invert.
 [ ] animate the superposition of possible outcomes
 	during on-down, compute the probability of
 	outcomes given the partial casting and
@@ -157,6 +167,7 @@
 [ ] maybe build the settings menus in the
 	drawer rather than taking a page
 [ ] move cast into its own dialog, if it's using
+	...
 [ ] put some of the settings menus into the cast
 	dialog, maybe below the fold
 [ ] maybe do the Show URL with a dialog box.
@@ -170,9 +181,18 @@
 [ ] need to deal with online/offline
 [ ] need to know which books are available when offline
 	promise to pick them up when you get back online
-[ ] set the dist to randomly choose the number of yarrow
-	stalks and change every now and then, remove the
-	dist settings
 [ ] start rewriting into typescript?
-[x] the one-click-per-cast and one-click-per-line casts are broken.
-	broken by the commented out setDist(_dist)
+[ ]	var start = null;
+	var element = document.getElementById('SomeElementYouWantToAnimate');
+	element.style.position = 'absolute';
+
+	function step(timestamp) {
+	  if (!start) start = timestamp;
+	  var progress = timestamp - start;
+	  element.style.left = Math.min(progress / 10, 200) + 'px';
+	  if (progress < 2000) {
+	    window.requestAnimationFrame(step);
+	  }
+	}
+
+	window.requestAnimationFrame(step);

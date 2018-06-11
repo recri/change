@@ -30,6 +30,7 @@ class ChangeSettings extends connect(store)(PageViewElement) {
     }
 
     _render({_dist, _format, _protocol, _book}) {
+	// console.log(`change-settings _render ${_dist} ${_format} ${_protocol} ${_book}`);
 	const title = {
 	    'distribution': "The frequencies of the lines of the hexagram depend on the mechanism for casting.",
 	    'distribution-yarrow': "A yarrow cast with 4n+2 stalks, 6:7:8:9 :: 1:5:7:3.",
@@ -53,25 +54,9 @@ class ChangeSettings extends connect(store)(PageViewElement) {
 	    'text-legge': "Legge's translation into English from Chinese.",
 	    'text-yizhou': "Original Chinese text."
 	};
-	const input_radio = (id, name, chk, onclick, label, dis) =>
-	      html`
-		<label title="${title[name+'-'+id]}">
-		  <input type="radio" disabled?=${dis} id="${id}" name="${name}" value="${id}" checked?=${chk} on-click="${onclick}"></input>
-		  ${label}</label>
-		`;
-	const distribution = (id, label, disabled) =>
-	      disabled ? html`` :
-	      html`${input_radio(id, 'distribution', _dist===id, _ => store.dispatch(changeDist(id)), label, disabled)}`
-	const format = (id, label, disabled) =>
-	      disabled ? html`` :
-	      html`${input_radio(id, 'format', _format===id, _ => store.dispatch(changeFormat(id)), label, disabled)}`;
-	const protocol = (id, label, disabled) =>
-	      disabled ? html`` :
-	      html`${input_radio(id, 'protocol', _protocol===id, _ => store.dispatch(changeProtocol(id)), label, disabled)}`;
-	const book = (id, label, disabled) =>
-	      disabled ? html`` :
-	      html`${input_radio(id, 'book', _book===id, _ => store.dispatch(changeBook(id)), label, disabled)}`;
-
+	const select_option =(id, lbl, chk, dis) =>
+	      html`<option value="${id}" selected?=${chk} disabled?=${dis}>${lbl}</option>`;
+	// ${select_option('manual', 'Manual entry', _protocol==='manual', true)}
 	return html`
       ${SharedStyles}
       <style>
@@ -79,37 +64,38 @@ class ChangeSettings extends connect(store)(PageViewElement) {
       </style>
       <section>
         <h2>Settings</h2>
-	<form on-submit="${(e) => e.preventDefault()}">
-	<p title="${title.book}">Translation:</p>
-	  <div>
-	    ${book('yizhou', 'Yizhou', false)}
-	    ${book('legge', 'Legge', false)}
-	    ${book('wilhelm', 'Wilhelm', false)}
-	    ${book('wilhelm-baynes', 'Wilhelm/Baynes', false)}
-	    ${book('wilhelm-google', 'Wilhelm/Google', false)}
-	  </div>
-	<p title="${title.format}">Reading format:</p>
-	  <div>
-	    ${format('single', 'Single casts', false)}
-	    ${format('multiple', 'Multiple casts', false)}
-	  </div>
-	<p title="${title.protocol}">Clicks per cast:</p>
-	<div>
-	  ${protocol('one-per-cast', '1', false)}
-	  ${protocol('one-per-line', '6', false)}
-	  ${protocol('three-per-line', '18', false)}
-	  ${protocol('manual', 'Manual entry', true)}
-	</div>
-	<p title="${title.distribution}">Line distribution:</p>
-	  <div>
-	    ${distribution('coins', 'coins')}
-	    ${distribution('yarrow', 'yarrow')}
-	    ${distribution('invert', 'invert')}
-	  </div>
+	<p title="${title.text}">Text: 
+	  <select on-input=${e => store.dispatch(changeBook(e.target.value))} value="${_book}">
+	    ${select_option('yizhou', 'Yizhou', _book==='yizhou')}
+	    ${select_option('legge', 'Legge', _book==='legge')}
+	    ${select_option('wilhelm', 'Wilhelm', _book==='wilhelm')}
+	    ${select_option('wilhelm-baynes', 'Wilhelm/Baynes', _book==='wilhelm-baynes')}
+	    ${select_option('wilhelm-google', 'Wilhelm/Google', _book==='wilhelm-google')}
+          </select>
+	</p>
+	<p title="${title.format}">Reading format:
+	  <select on-input=${e => store.dispatch(changeFormat(e.target.value))} value="${_format}">
+	    ${select_option('single', 'Single casts', _format==='single')}
+	    ${select_option('multiple', 'Multiple casts', _format==='multiple')}
+	  </select>
+	</p>
+	<p title="${title.protocol}">Clicks per cast:
+	  <select on-input=${e => store.dispatch(changeProtocol(e.target.value))} value="${_protocol}">
+	    ${select_option('one-per-cast', '1', _protocol==='one-per-cast')}
+	    ${select_option('one-per-line', '6', _protocol==='one-per-line')}
+	    ${select_option('three-per-line', '18', _protocol==='three-per-line')}
+	  </select>
+	</p>
+	<p title="${title.distribution}">Line distribution:
+	  <select on-input=${e => store.dispatch(changeDist(e.target.value))} value="${_dist}">
+	    ${select_option('coins', 'coins', _dist==='coins')}
+	    ${select_option('yarrow', 'yarrow', _dist==='yarrow')}
+	    ${select_option('invert', 'invert', _dist==='invert')}
+	  </select>
+	</p>
 	<div class="action">
 	  <button title="Reset the settings to the default values." on-click="${_ => this._resetClick()}">Reset</button>
 	</div>
-	</form>
       </section>
     `
     }
