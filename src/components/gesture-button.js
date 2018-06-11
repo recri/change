@@ -48,8 +48,6 @@ export class GestureButton extends GestureEventListeners(PageViewElement) {
 		    border: none;
 		    fill: var(--app-header-text-color);
 		    cursor: pointer;
-		    height: 44px;
-		    width: 44px;
 		  }
 		</style>
 		<button><slot></slot></button>`;

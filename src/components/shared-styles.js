@@ -67,6 +67,9 @@ export const SharedStyles = html`
   button:hover svg {
     fill: var(--app-primary-color);
   }
+  gesture-button:hover svg {
+    fill: var(--app-primary-color);
+  }
 
 </style>
 `;

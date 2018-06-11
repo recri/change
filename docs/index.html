@@ -4,13 +4,57 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
     <title>Change</title>
+    <style>
+      body {
+        margin: 0;
+        /* This is a font-stack that tries to use the system-default sans-serifs first */
+        font-family: Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        line-height: 1.5;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+      section { padding-left:128px; }
+      section > * { max-width: 600px; margin-right: auto; margin-left: auto; }
+      div.icon svg { width:64px; height:64px; position:absolute; top:32px; left:32px; }
+      div.title { font-size: 30px;  margin-right: 44px; }
+      div.content { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px; }
+    </style>
   </head>
   <body>
-    <p>
-      This is a github.io page for https://change.elf.org, a web app for consulting the Book of Changes.
-    </p><p>
-      The license for this project is <a href="./LICENSE.txt">LICENSE.txt</a>.  The software and content
-      may be subject to additional copyrights, patent grants, and property claims.
-    </p>
+    <div class="icon">
+      <svg class="kua" viewBox="0 0 390 390" stroke="black">
+	<rect x="0" y="0" width="390" height="390" stroke="white" fill="white"></rect>
+	<line class="kua-line" x1="32" y1="345" x2="358" y2="345" stroke-width="26"></line>
+	<line class="kua-line" x1="32" y1="285" x2="358" y2="285" stroke-width="26"></line>
+	<line class="kua-line" x1="32" y1="225" x2="135" y2="225" stroke-width="26"></line>
+	<line class="kua-line" x1="255" y1="225" x2="358" y2="225" stroke-width="26"></line>
+	<line class="kua-line" x1="32" y1="165" x2="135" y2="165" stroke-width="26"></line>
+	<line class="kua-line" x1="255" y1="165" x2="358" y2="165" stroke-width="26"></line>
+	<line class="kua-line" x1="32" y1="105" x2="358" y2="105" stroke-width="26"></line>
+	<line class="kua-line" x1="32" y1="45" x2="358" y2="45" stroke-width="26"></line>
+      </svg>
+    </div>
+    <section>
+      <div class="title">
+	Change
+      </div>
+      <div class="content">
+	<p>
+	  This is a github.io page for <a href="https://change.elf.org">Change</a>,
+	  a progressive web app for consulting the Book of Changes.
+	</p><p>
+	  The license for this project is <a href="./LICENSE.txt">LICENSE.txt</a>.  
+	</p><p>
+	  The software is derived from the 
+	  <a href="https://github.com/Polymer/pwa-starter-kit/blob/master/README.md">PWA Starter Kit</a> 
+	  and depends heavily on <a href="">Lit Html</a> 
+	  and <a href="">Lit Element</a>
+	  from Google's <a href="">Polymer Project</a>.
+	</p><p>
+	  The content is derived from many versions of the Book of Changes on the web 
+	  and may be subject to additional copyrights. 
+	</p>
+      </div>
+    </section>
   </body>
 </html>

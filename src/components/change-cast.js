@@ -71,10 +71,11 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 		<style>
 		  div { border-style: solid; border-width: 2px; border-radius: 5px; margin: 5px; padding: 5px; }
 		  div.action { text-align: right; }
-		  svg.kua { width: 44px; height: 44px; }
+		  svg.kua { width: 48px; height: 48px; }
 		  svg.kua .kua-line { stroke: black; }
 		  svg.kua .kua-mark { stroke: black; }
-		  gesture-button { height: 44px; width: 44px }
+		  gesture-button { height:auto; width:auto; }
+		  gesture-button svg { height:48px; width: 48px; }
 		</style>
 		<change-view id="top" _change="${_change}" _iching="${_iching}" _book="${_book}"></change-view>
 		<section>
