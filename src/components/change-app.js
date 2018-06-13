@@ -22,11 +22,12 @@ import { menuIcon } from './change-icons.js';
 import { ChangeCast } from './change-cast.js'; // non-lazy import for default page
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
+import { installOfflineWatcher } from 'pwa-helpers/network.js';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
-import { navigate, updateDrawerState, updateLayout, installPrompt } from '../actions/app.js';
+import { navigate, updateDrawerState, updateLayout, installPrompt, updateOffline } from '../actions/app.js';
 import { changeRestore } from '../actions/change.js';
 
 import { SharedStyles } from './shared-styles.js';
@@ -231,8 +232,8 @@ class ChangeApp extends connect(store)(LitElement) {
 
     _firstRendered() {
 	installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
-	installMediaQueryWatcher(`(min-width: 768px)`,
-				 (matches) => store.dispatch(updateLayout(matches)));
+	installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
+	installMediaQueryWatcher(`(min-width: 768px)`, (matches) => store.dispatch(updateLayout(matches)));
 	store.dispatch(changeRestore());
     }
 
@@ -253,6 +254,8 @@ class ChangeApp extends connect(store)(LitElement) {
 	this._wideLayout = state.app.wideLayout;
 	this._change = state.app.change;
 	this._install = state.app.install;
+	this._offline = state.app.offline;
+	this._snackbarOpened = state.app.snackbarOpened;
     }
 
     _installPrompt(_install) {

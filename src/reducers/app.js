@@ -11,7 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { UPDATE_PAGE, UPDATE_WIDE_LAYOUT, UPDATE_DRAWER_STATE,
-	 INSTALL_PROMPT,
+	 INSTALL_PROMPT, UPDATE_OFFLINE, OPEN_SNACKBAR, CLOSE_SNACKBAR,
+
        } from '../actions/app.js';
 
 const app = (state = { drawerOpened: false, 
@@ -23,6 +24,9 @@ const app = (state = { drawerOpened: false,
     case UPDATE_PAGE: return { ...state, page: action.page };
     case UPDATE_WIDE_LAYOUT: return { ...state, wideLayout: action.wideLayout };
     case UPDATE_DRAWER_STATE: return { ...state, drawerOpened: action.opened }
+    case UPDATE_OFFLINE: return { ...state, offline: action.offline };
+    case OPEN_SNACKBAR: return { ...state, snackbarOpened: true };
+    case CLOSE_SNACKBAR: return { ...state, snackbarOpened: false };
     default: return state;
     }
 }
