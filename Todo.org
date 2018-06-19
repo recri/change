@@ -154,6 +154,7 @@
 [ ] add keyboard accelerators to cast/undo/clear buttons
 [ ] focus to the button under normal settings
 [ ] scroll the focused buttons onto screen after cast or clear
+[ ] Element.scrollIntoView(false) aligns to bottom.
 [ ] write tests to verify the full yarrow results
 [ ] write tests to verify the 3 casts per line 
 [ ] add option to save readings to local storage

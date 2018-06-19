@@ -57,7 +57,7 @@ export const SharedStyles = html`
     line-height: 64px;
   }
 
-  gesture-button, button {
+  .button {
     font-size: inherit;
     vertical-align: middle;
     background: transparent;
@@ -67,7 +67,7 @@ export const SharedStyles = html`
   button:hover svg {
     fill: var(--app-primary-color);
   }
-  gesture-button:hover svg {
+  .button:hover svg {
     fill: var(--app-primary-color);
   }
 

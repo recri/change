@@ -12,6 +12,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 
 import { SharedStyles } from './shared-styles.js';
 
@@ -20,14 +22,13 @@ import { store } from '../store.js';
 import { changeUpdate } from '../actions/change.js';
 
 import { ChangeView } from './change-view.js';
-import { GestureButton } from './gesture-button.js';
 
 //import { gestureIcon, backspaceIcon, clearIcon } from './change-icons.js';
 import { plusIcon, minusIcon, clearIcon } from './change-icons.js';
 
 import { kua } from './kua.js';
 
-export class ChangeCast extends connect(store)(PageViewElement) {
+export class ChangeCast extends connect(store)(GestureEventListeners(PageViewElement)) {
     static get properties() {
 	return {
 	    _iching: Object,
@@ -45,6 +46,16 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	super();
 	this._partial = '';
 	this._stalks = '';
+	this._ignore = _ => true;
+	Gestures.addListener(this, 'tap', this._ignore);
+	Gestures.addListener(this, 'down', this._ignore);
+	Gestures.addListener(this, 'up', this._ignore);
+    }
+    disconnectedCallback() {
+	Gestures.removeListener(this, 'tap', this._ignore);
+	Gestures.removeListener(this, 'down', this._ignore);
+	Gestures.removeListener(this, 'up', this._ignore);
+	super.disconnectedCallback();
     }
 
     _render({_iching, _change, _dist, _format, _protocol, _book, _in_cast, _partial, _stalks}) {
@@ -52,16 +63,16 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 	const cast_down = this._castDown.bind(this);
 	const cast_tap = this._castTap.bind(this);
 	const cast_button = () => 
-	      html`<gesture-button on-down="${cast_down}" on-tap="${cast_tap}" title="Cast reading">${plusIcon}</gesture-button>`;
+	      html`<span role="button" class="button" on-down="${_ => this._castDown()}" on-tap="${_ => this._castTap()}" tabindex="0" title="Cast reading">${plusIcon}</span>`;
 	const clear_button = () => 
 	      _change === '' || _format === 'single' || _change.length < 13 ? 
 	      html`` : 
-	      html`<gesture-button on-tap="${_ => this._clear.bind(this)()}" title="Clear reading">${clearIcon}</gesture-button>`;
+	      html`<span role="button" class="button" on-tap="${_ => this._clear()}" tabindex="0" title="Clear reading">${clearIcon}</span>`;
 	const undo_change = _iching.undo(_change)
 	const undo_button = () => 
 	      _change === '' || _format === 'single' ? 
 	      html`` : 
-	      html`<gesture-button on-tap="${_ => this._undo.bind(this)()}" title="Undo reading">${minusIcon}</gesture-button>`;
+	      html`<span role="button" class="button" on-tap="${_ => this._undo()}" tabindex="0" title="Undo reading">${minusIcon}</span>`;
 	const partial_hexagram = () => html`${kua(_partial)}`;
 
 	_iching.setDist(_dist);
@@ -74,8 +85,8 @@ export class ChangeCast extends connect(store)(PageViewElement) {
 		  svg.kua { width: 48px; height: 48px; }
 		  svg.kua .kua-line { stroke: black; }
 		  svg.kua .kua-mark { stroke: black; }
-		  gesture-button { height:auto; width:auto; }
-		  gesture-button svg { height:48px; width: 48px; }
+		  .button { height:auto; width:auto; }
+		  .button svg { height:48px; width: 48px; }
 		</style>
 		<change-view id="top" _change="${_change}" _iching="${_iching}" _book="${_book}"></change-view>
 		<section>
@@ -91,9 +102,12 @@ export class ChangeCast extends connect(store)(PageViewElement) {
     }
 
     _didRender(props, changedProps, prevProps) {
-	// this, by itself, doesn't work when the cast button
-	// pops back to the top after the reading is cleared
-	// this.shadowRoot.getElementById('cast').scrollIntoView();
+	// this doesn't work, the focus doesn't
+	// appear to work either
+	// console.log(`scrollIntoView`)
+	// const cast = this.shadowRoot.getElementById('cast');
+	// cast.focus();
+	// cast.scrollIntoView(false);
     }
 
     _stateChanged(state) {
