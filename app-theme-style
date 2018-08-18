@@ -1,0 +1,33 @@
+# built at https://www.materialpalette.com/grey/red
+      :root {
+        --dark-primary-color:       #616161;
+        --default-primary-color:    #9E9E9E;
+        --light-primary-color:      #F5F5F5;
+        --text-primary-color:       #212121;
+        --accent-color:             #FF5252;
+        --primary-background-color: #F5F5F5;
+        --primary-text-color:       #212121;
+        --secondary-text-color:     #757575;
+        --disabled-text-color:      #BDBDBD;
+        --divider-color:            #BDBDBD;
+
+
+        /* Components */
+
+        /* paper-drawer-panel */
+        --drawer-menu-color:           #ffffff;
+        --drawer-border-color:         1px solid #ccc;
+        --drawer-toolbar-border-color: 1px solid rgba(0, 0, 0, 0.22);
+
+        /* paper-menu */
+        --paper-menu-background-color: #fff;
+        --menu-link-color:             #111111;
+
+        /* paper-input */
+        --paper-input-container-color:       rgba(255, 255, 255, 0.64);
+        --paper-input-container-focus-color: rgba(255, 255, 255, 1);
+        --paper-input-container-input-color: #fff;
+      }
+
+# also checkout https://material.io/collections/color/# where there's
+# a fine color app with wireframes and accessibility evaluation.
